@@ -80,10 +80,11 @@ import { Agendamento } from '../../../../models/agendamento';
                   a.status === 'FINALIZADO_OFICINA'
                 "
                 type="file"
-                #doc
-                (change)="uploadDocumento(a.id, doc.files[0])"
+                (change)="onFileChange($event, a.id)"
                 accept="application/pdf"
               />
+              <!-- #doc -->
+              <!-- (change)="doc.files?.[0] && uploadDocumento(a.id, doc.files[0])" -->
             </td>
           </tr>
         </tbody>
@@ -140,6 +141,17 @@ export class AgendamentoListComponent implements OnInit {
       .atualizarStatus(id, status)
       .subscribe(() => this.carregarAgendamentos());
   }
+  // novo
+  onFileChange(event: Event, id: string) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (file) {
+      this.uploadDocumento(id, file);
+    }
+  }
+  // novo
+
   uploadDocumento(id: string, file: File) {
     if (file) {
       this.agendamentoService

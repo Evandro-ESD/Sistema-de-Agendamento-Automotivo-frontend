@@ -31,14 +31,14 @@ export const routes: Routes = [
       {
         path: 'agendamentos',
         loadComponent: () =>
-          import('./pages/comando/agendamentos/agendamento-list.component').then(
+          import('../app/pages/comando/agendamentos/agendamento-list/agendamento-list.component').then(
             (m) => m.AgendamentoListComponent,
           ),
       },
       {
         path: 'oficinas',
         loadComponent: () =>
-          import('./pages/comando/oficinas/oficina-list.component').then(
+          import('../app/pages/comando/oficinas/oficina-list/oficina-list.component').then(
             (m) => m.OficinaListComponent,
           ),
         canActivate: [roleGuard(['admin_geral'])],
@@ -46,8 +46,8 @@ export const routes: Routes = [
       {
         path: 'relatorios',
         loadComponent: () =>
-          import('./pages/comando/relatorios/relatorio-agendamentos.component').then(
-            (m) => m.RelatorioAgendamentosComponent,
+          import('../app/pages/comando/relatorios/relatorios-agendamentos/relatorios-agendamentos.component').then(
+            (m) => m.RelatoriosAgendamentosComponent,
           ),
         canActivate: [roleGuard(['admin_geral', 'admin_oficina'])],
       },

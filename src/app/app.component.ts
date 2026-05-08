@@ -12,10 +12,7 @@
 //   title = 'front_agendamento_oficina';
 // }
 import { Component } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
-import { AppComponent } from './app/app.component';
-import { appConfig } from './app/app.config';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +21,3 @@ import { appConfig } from './app/app.config';
   template: `<router-outlet></router-outlet>`,
 })
 export class AppComponent {}
-
-src / main.ts(bootstrapping);
-
-typescript;
-
-bootstrapApplication(AppComponent, appConfig);
