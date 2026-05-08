@@ -20,9 +20,7 @@ import { RouterLink } from '@angular/router';
     <div class="container">
       <h1>AGENDAMENTO AUTOMOTIVO</h1>
       <hr />
-      <p>
-        Sistema industrial de gestão de serviços para oficinas e associados.
-      </p>
+      <p>Sistema de gestão de serviços para oficinas e associados.</p>
       <div style="display: flex; gap: 1rem; margin: 2rem 0;">
         <a routerLink="/login" class="btn">ACESSAR</a>
         <a routerLink="/register" class="btn">CADASTRAR</a>
