@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+@layer components {
+  .input {
+    @apply w-full
+      h-14
+      rounded-xl
+      border
+      border-gray-300
+      px-4
+      text-lg
+      outline-none
+      focus:border-red-400
+      transition;
+  }
+}

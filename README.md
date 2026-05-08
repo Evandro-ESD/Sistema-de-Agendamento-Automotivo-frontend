@@ -57,3 +57,35 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Instalar Tailwind
+
+Instalar e configurar o Angular 19 com o Tailwind CSS v4 do jeito certo e atualizado para 2025!
+
+🔧 Comandos utilizados
+Verificar versão node
+node --version
+
+---
+
+Verificar versão Angular
+ng --version
+
+---
+
+Instalar pacotes Tailwind com POSTCSS
+npm install tailwindcss @tailwindcss/postcss postcss --force
+
+---
+
+Conteúdo do arquivo .postcssrc.json
+{
+"plugins": {
+"@tailwindcss/postcss": {}
+}
+}
+
+---
+
+Importar tailwind no css
+@import "tailwindcss";
