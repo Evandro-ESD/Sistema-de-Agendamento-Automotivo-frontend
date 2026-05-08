@@ -1,0 +1,148 @@
+<div class="min-h-screen bg-gray-100">
+  <!-- HEADER -->
+  <header class="bg-black border-b-2 border-red-500">
+    <div class="h-20 flex items-center px-4">
+      <button class="text-red-500 text-4xl">☰</button>
+
+      <img src="assets/logo.png" class="h-10 mx-auto" />
+    </div>
+  </header>
+
+  <!-- HERO -->
+
+  <section class="bg-[#1a1a1a] px-6 py-10">
+    <h1 class="text-red-500 text-5xl leading-tight font-light md:text-7xl">
+      Oficina Automotiva
+      <br />
+      Agendamento
+    </h1>
+  </section>
+
+  <!-- FORM -->
+
+  <section
+    class="bg-white mx-4 md:max-w-5xl md:mx-auto rounded-2xl shadow-xl overflow-hidden -mt-4 relative"
+  >
+    <!-- HEADER -->
+
+    <div class="bg-primary text-white px-6 py-5 text-xl font-semibold">
+      AGENDE AQUI SEU SERVIÇO
+    </div>
+
+    <!-- TABS -->
+
+    <div class="grid grid-cols-2">
+      <button class="h-16 bg-white text-red-500 font-semibold">
+        PRÉ CADASTRO
+      </button>
+
+      <button class="h-16 bg-gray-100 text-gray-500">
+        JÁ É NOSSO CLIENTE?
+      </button>
+    </div>
+
+    <!-- FORM -->
+
+    <form class="p-5 md:p-10 space-y-5">
+      <!-- CLIENTE -->
+
+      <div class="space-y-5">
+        <h2 class="text-gray-500 uppercase font-semibold text-lg">
+          Dados do cliente
+        </h2>
+
+        <input type="text" placeholder="Nome" class="input" />
+
+        <input type="email" placeholder="E-mail" class="input" />
+
+        <input type="text" placeholder="Telefone" class="input" />
+
+        <input type="text" placeholder="CPF" class="input" />
+      </div>
+
+      <!-- VEÍCULO -->
+
+      <div class="space-y-5 pt-6">
+        <h2 class="text-gray-500 uppercase font-semibold text-lg">
+          Qual o seu veículo?
+        </h2>
+
+        <input type="text" placeholder="Marca" class="input" />
+
+        <input type="text" placeholder="Modelo" class="input" />
+
+        <div class="grid grid-cols-2 gap-4">
+          <input type="text" placeholder="Ano" class="input" />
+
+          <input type="text" placeholder="Placa" class="input" />
+        </div>
+      </div>
+
+      <!-- CHECKBOX -->
+
+      <div class="space-y-3 pt-4">
+        <h2 class="text-gray-500 uppercase font-semibold text-lg">
+          Qual serviço quer agendar?
+        </h2>
+
+        <label class="flex items-center gap-3">
+          <input type="checkbox" />
+          Revisão de fábrica
+        </label>
+
+        <label class="flex items-center gap-3">
+          <input type="checkbox" />
+          Outros serviços
+        </label>
+      </div>
+
+      <!-- HORÁRIO -->
+
+      <div class="border border-red-500 rounded-2xl p-5 space-y-5">
+        <h2 class="text-2xl font-semibold text-gray-700">
+          Preferência de horário
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <select class="input">
+            <option>Selecione data</option>
+          </select>
+
+          <select class="input">
+            <option>Selecione horário</option>
+          </select>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <select class="input">
+            <option>2ª preferência</option>
+          </select>
+
+          <select class="input">
+            <option>Selecione horário</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- OBS -->
+
+      <div class="space-y-3">
+        <h2 class="text-gray-500 uppercase font-semibold text-lg">
+          Observações
+        </h2>
+
+        <textarea rows="6" class="input resize-none h-40">
+Olá, gostaria de agendar um serviço.
+        </textarea>
+      </div>
+
+      <!-- BUTTON -->
+
+      <button
+        class="w-full h-16 rounded-2xl bg-primary text-dark text-2xl font-semibold shadow-lg hover:scale-[1.01] transition"
+      >
+        ENVIAR
+      </button>
+    </form>
+  </section>
+</div>
