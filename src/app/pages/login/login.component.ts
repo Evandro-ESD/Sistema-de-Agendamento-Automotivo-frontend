@@ -1,9 +1,18 @@
+
 import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
-import { Router, RouterLink } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+} from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 
@@ -36,12 +45,26 @@ export class LoginComponent {
 
   private router = inject(Router);
 
+  loading = false;
+
   errorMsg = '';
 
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
+  form = this.fb.nonNullable.group({
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email,
+      ],
+    ],
 
-    password: ['', Validators.required],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6),
+      ],
+    ],
   });
 
   onSubmit() {
@@ -50,21 +73,53 @@ export class LoginComponent {
       return;
     }
 
+    this.loading = true;
+
+    this.errorMsg = '';
+
+    const { email, password } =
+      this.form.getRawValue();
+
     this.auth
-      .login(this.form.value.email!, this.form.value.password!)
+      .login(email, password)
       .subscribe({
-        next: () => this.router.navigate(['/comando']),
+        next: () => {
+          this.router.navigate(['/comando']);
+        },
 
         error: (err) => {
-          this.errorMsg = err.error?.detail || 'Erro no login';
+          console.error(err);
+
+          if (err.status === 401) {
+            this.errorMsg =
+              'E-mail ou senha inválidos.';
+          }
+
+          else if (err.status === 0) {
+            this.errorMsg =
+              'Servidor indisponível.';
+          }
+
+          else {
+            this.errorMsg =
+              err.error?.detail ||
+              'Erro no login';
+          }
+
+          this.loading = false;
+        },
+
+        complete: () => {
+          this.loading = false;
         },
       });
   }
-  get email() {
-  return this.form.controls.email;
-}
 
-get password() {
-  return this.form.controls.password;
-}
+  get email() {
+    return this.form.controls.email;
+  }
+
+  get password() {
+    return this.form.controls.password;
+  }
 }
