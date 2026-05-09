@@ -1,4 +1,4 @@
-
+/*
 import { CommonModule } from '@angular/common';
 
 import { Component, inject } from '@angular/core';
@@ -121,5 +121,63 @@ export class LoginComponent {
 
   get password() {
     return this.form.controls.password;
+  }
+}
+*/
+import { Component, inject } from '@angular/core';
+
+import { Router } from '@angular/router';
+
+import { FormsModule } from '@angular/forms';
+
+import { CommonModule } from '@angular/common';
+
+import { AuthService } from '../../core/services/auth.service';
+
+@Component({
+  selector: 'app-login',
+
+  standalone: true,
+
+  imports: [
+    CommonModule,
+    FormsModule,
+  ],
+
+  templateUrl: './login.component.html',
+})
+export class LoginComponent {
+
+  private auth = inject(AuthService);
+
+  private router = inject(Router);
+
+  email = '';
+
+  password = '';
+
+  error = '';
+
+  onLogin() {
+
+    this.error = '';
+
+    this.auth
+      .login(this.email, this.password)
+      .subscribe({
+
+        next: () => {
+
+          this.router.navigate([
+            '/comando',
+          ]);
+        },
+
+        error: () => {
+
+          this.error =
+            'Login inválido';
+        },
+      });
   }
 }
