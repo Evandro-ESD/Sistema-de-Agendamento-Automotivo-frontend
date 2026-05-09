@@ -55,137 +55,153 @@
       </div>
 
       <!-- INPUTS -->
-        
-      <!-- <div class="space-y-5">
-        <app-input
-          label="E-mail"
-          type="email"
-          placeholder="Digite seu e-mail"
-          formControlName="email"
-        />
-
-        <app-input
-          label="Senha"
-          type="password"
-          placeholder="Digite sua senha"
-          formControlName="password"
-        />
-      </div> -->
-      <!-- INPUTS -->
-      
 
       <div class="space-y-5">
-  <!-- EMAIL -->
+        <!-- EMAIL -->
 
-  <div class="space-y-2">
-    <label
-      class="text-sm font-semibold text-gray-600"
-    >
-      E-mail
-    </label>
+        <div class="space-y-2">
+          <label class="text-sm font-semibold text-gray-600">
+            E-mail
+          </label>
 
-    <input
-      type="email"
-      formControlName="email"
-      placeholder="Digite seu e-mail"
-      class="
-        w-full
-        h-14
-        rounded-xl
-        border
-        px-4
-        text-lg
-        outline-none
-        transition
-      "
-      [class.border-red-500]="
-        email.invalid && email.touched
-      "
-      [class.border-gray-300]="
-        !(email.invalid && email.touched)
-      "
-    />
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Digite seu e-mail"
+            class="
+              w-full
+              h-14
+              rounded-xl
+              border
+              px-4
+              text-lg
+              outline-none
+              transition
+            "
+            [class.border-red-500]="
+              email.invalid && email.touched
+            "
+            [class.border-gray-300]="
+              !(email.invalid && email.touched)
+            "
+          />
 
-    <!-- ERROR -->
+          <!-- ERROR -->
 
-    <p
-      *ngIf="email.hasError('required') && email.touched"
-      class="text-sm text-red-500"
-    >
-      E-mail obrigatório.
-    </p>
+          <p
+            *ngIf="
+              email.hasError('required') &&
+              email.touched
+            "
+            class="text-sm text-red-500"
+          >
+            E-mail obrigatório.
+          </p>
 
-    <p
-      *ngIf="email.hasError('email') && email.touched"
-      class="text-sm text-red-500"
-    >
-      Digite um e-mail válido.
-    </p>
-  </div>
+          <p
+            *ngIf="
+              email.hasError('email') &&
+              email.touched
+            "
+            class="text-sm text-red-500"
+          >
+            Digite um e-mail válido.
+          </p>
+        </div>
 
-  <!-- PASSWORD -->
+        <!-- PASSWORD -->
 
-  <div class="space-y-2">
-    <label
-      class="text-sm font-semibold text-gray-600"
-    >
-      Senha
-    </label>
+        <div class="space-y-2">
+          <label class="text-sm font-semibold text-gray-600">
+            Senha
+          </label>
 
-    <input
-      type="password"
-      formControlName="password"
-      placeholder="Digite sua senha"
-      class="
-        w-full
-        h-14
-        rounded-xl
-        border
-        px-4
-        text-lg
-        outline-none
-        transition
-      "
-      [class.border-red-500]="
-        password.invalid && password.touched
-      "
-      [class.border-gray-300]="
-        !(password.invalid && password.touched)
-      "
-    />
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Digite sua senha"
+            class="
+              w-full
+              h-14
+              rounded-xl
+              border
+              px-4
+              text-lg
+              outline-none
+              transition
+            "
+            [class.border-red-500]="
+              password.invalid &&
+              password.touched
+            "
+            [class.border-gray-300]="
+              !(password.invalid &&
+              password.touched)
+            "
+          />
 
-    <!-- ERROR -->
+          <!-- ERROR -->
 
-    <p
-      *ngIf="
-        password.hasError('required') &&
-        password.touched
-      "
-      class="text-sm text-red-500"
-    >
-      Senha obrigatória.
-    </p>
+          <p
+            *ngIf="
+              password.hasError('required') &&
+              password.touched
+            "
+            class="text-sm text-red-500"
+          >
+            Senha obrigatória.
+          </p>
 
-    <p
-      *ngIf="
-        password.hasError('minlength') &&
-        password.touched
-      "
-      class="text-sm text-red-500"
-    >
-      Mínimo de 6 caracteres.
-    </p>
-  </div>
-</div>
+          <p
+            *ngIf="
+              password.hasError('minlength') &&
+              password.touched
+            "
+            class="text-sm text-red-500"
+          >
+            Mínimo de 6 caracteres.
+          </p>
+        </div>
+      </div>
+
+      <!-- ERROR API -->
+
+      <div
+        *ngIf="errorMsg"
+        class="
+          bg-red-100
+          border
+          border-red-300
+          text-red-600
+          rounded-xl
+          p-4
+        "
+      >
+        {{ errorMsg }}
+      </div>
 
       <!-- BUTTON -->
 
       <button
         type="submit"
-        [disabled]="form.invalid"
-        class="w-full h-16 rounded-2xl bg-red-500 text-white text-2xl font-semibold shadow-lg hover:scale-[1.01] hover:bg-red-600 transition disabled:opacity-50 disabled:hover:scale-100"
+        [disabled]="form.invalid || loading"
+        class="
+          w-full
+          h-16
+          rounded-2xl
+          bg-red-500
+          text-white
+          text-2xl
+          font-semibold
+          shadow-lg
+          hover:scale-[1.01]
+          hover:bg-red-600
+          transition
+          disabled:opacity-50
+          disabled:hover:scale-100
+        "
       >
-        ENTRAR
+        {{ loading ? 'ENTRANDO...' : 'ENTRAR' }}
       </button>
 
       <!-- REGISTER -->
