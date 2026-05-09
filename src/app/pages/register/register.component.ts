@@ -1,4 +1,4 @@
-    import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import { Component, inject } from '@angular/core';
 
@@ -104,4 +104,35 @@ export class RegisterComponent {
 
           else if (err.status === 0) {
             this.errorMsg =
-              'Servidor
+              'Servidor indisponível.';
+          }
+
+          else {
+            this.errorMsg =
+              err.error?.detail ||
+              'Erro no cadastro.';
+          }
+
+          this.loading = false;
+        },
+
+        complete: () => {
+          this.loading = false;
+        },
+      });
+  }
+
+  get nome() {
+    return this.form.controls.nome;
+  }
+
+  get email() {
+    return this.form.controls.email;
+  }
+
+  get password() {
+    return this.form.controls.password;
+  }
+}
+
+            
