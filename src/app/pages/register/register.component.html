@@ -1,3 +1,4 @@
+
 <div class="min-h-screen bg-gray-100">
   <!-- HEADER -->
 
@@ -50,181 +51,210 @@
         </h2>
 
         <p class="text-gray-500">
-          Crie sua conta para acessar os serviços automotivos.
+          Preencha os dados abaixo para criar sua conta.
         </p>
       </div>
 
       <!-- INPUTS -->
 
       <div class="space-y-5">
-      <div class="space-y-5">
-  <!-- NOME -->
+        <!-- NOME -->
 
-  <div class="space-y-2">
-    <label
-      class="text-sm font-semibold text-gray-600"
-    >
-      Nome
-    </label>
+        <div class="space-y-2">
+          <label class="text-sm font-semibold text-gray-600">
+            Nome
+          </label>
 
-    <input
-      type="text"
-      formControlName="nome"
-      placeholder="Digite seu nome"
-      class="
-        w-full
-        h-14
-        rounded-xl
-        border
-        px-4
-        text-lg
-        outline-none
-        transition
-      "
-      [class.border-red-500]="
-        nome.invalid && nome.touched
-      "
-      [class.border-gray-300]="
-        !(nome.invalid && nome.touched)
-      "
-    />
+          <input
+            type="text"
+            formControlName="nome"
+            placeholder="Digite seu nome"
+            class="
+              w-full
+              h-14
+              rounded-xl
+              border
+              px-4
+              text-lg
+              outline-none
+              transition
+            "
+            [class.border-red-500]="
+              nome.invalid && nome.touched
+            "
+            [class.border-gray-300]="
+              !(nome.invalid && nome.touched)
+            "
+          />
 
-    <p
-      *ngIf="
-        nome.hasError('required') &&
-        nome.touched
-      "
-      class="text-sm text-red-500"
-    >
-      Nome obrigatório.
-    </p>
+          <!-- ERROR -->
 
-    <p
-      *ngIf="
-        nome.hasError('minlength') &&
-        nome.touched
-      "
-      class="text-sm text-red-500"
-    >
-      Mínimo de 3 caracteres.
-    </p>
-  </div>
+          <p
+            *ngIf="
+              nome.hasError('required') &&
+              nome.touched
+            "
+            class="text-sm text-red-500"
+          >
+            Nome obrigatório.
+          </p>
 
-  <!-- EMAIL -->
+          <p
+            *ngIf="
+              nome.hasError('minlength') &&
+              nome.touched
+            "
+            class="text-sm text-red-500"
+          >
+            Mínimo de 3 caracteres.
+          </p>
+        </div>
 
-  <div class="space-y-2">
-    <label
-      class="text-sm font-semibold text-gray-600"
-    >
-      E-mail
-    </label>
+        <!-- EMAIL -->
 
-    <input
-      type="email"
-      formControlName="email"
-      placeholder="Digite seu e-mail"
-      class="
-        w-full
-        h-14
-        rounded-xl
-        border
-        px-4
-        text-lg
-        outline-none
-        transition
-      "
-      [class.border-red-500]="
-        email.invalid && email.touched
-      "
-      [class.border-gray-300]="
-        !(email.invalid && email.touched)
-      "
-    />
+        <div class="space-y-2">
+          <label class="text-sm font-semibold text-gray-600">
+            E-mail
+          </label>
 
-    <p
-      *ngIf="
-        email.hasError('required') &&
-        email.touched
-      "
-      class="text-sm text-red-500"
-    >
-      E-mail obrigatório.
-    </p>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Digite seu e-mail"
+            class="
+              w-full
+              h-14
+              rounded-xl
+              border
+              px-4
+              text-lg
+              outline-none
+              transition
+            "
+            [class.border-red-500]="
+              email.invalid && email.touched
+            "
+            [class.border-gray-300]="
+              !(email.invalid && email.touched)
+            "
+          />
 
-    <p
-      *ngIf="
-        email.hasError('email') &&
-        email.touched
-      "
-      class="text-sm text-red-500"
-    >
-      Digite um e-mail válido.
-    </p>
-  </div>
+          <!-- ERROR -->
 
-  <!-- PASSWORD -->
+          <p
+            *ngIf="
+              email.hasError('required') &&
+              email.touched
+            "
+            class="text-sm text-red-500"
+          >
+            E-mail obrigatório.
+          </p>
 
-  <div class="space-y-2">
-    <label
-      class="text-sm font-semibold text-gray-600"
-    >
-      Senha
-    </label>
+          <p
+            *ngIf="
+              email.hasError('email') &&
+              email.touched
+            "
+            class="text-sm text-red-500"
+          >
+            Digite um e-mail válido.
+          </p>
+        </div>
 
-    <input
-      type="password"
-      formControlName="password"
-      placeholder="Crie uma senha"
-      class="
-        w-full
-        h-14
-        rounded-xl
-        border
-        px-4
-        text-lg
-        outline-none
-        transition
-      "
-      [class.border-red-500]="
-        password.invalid &&
-        password.touched
-      "
-      [class.border-gray-300]="
-        !(password.invalid &&
-        password.touched)
-      "
-    />
+        <!-- PASSWORD -->
 
-    <p
-      *ngIf="
-        password.hasError('required') &&
-        password.touched
-      "
-      class="text-sm text-red-500"
-    >
-      Senha obrigatória.
-    </p>
+        <div class="space-y-2">
+          <label class="text-sm font-semibold text-gray-600">
+            Senha
+          </label>
 
-    <p
-      *ngIf="
-        password.hasError('minlength') &&
-        password.touched
-      "
-      class="text-sm text-red-500"
-    >
-      Mínimo de 6 caracteres.
-    </p>
-  </div>
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Crie uma senha"
+            class="
+              w-full
+              h-14
+              rounded-xl
+              border
+              px-4
+              text-lg
+              outline-none
+              transition
+            "
+            [class.border-red-500]="
+              password.invalid &&
+              password.touched
+            "
+            [class.border-gray-300]="
+              !(password.invalid &&
+              password.touched)
+            "
+          />
+
+          <!-- ERROR -->
+
+          <p
+            *ngIf="
+              password.hasError('required') &&
+              password.touched
+            "
+            class="text-sm text-red-500"
+          >
+            Senha obrigatória.
+          </p>
+
+          <p
+            *ngIf="
+              password.hasError('minlength') &&
+              password.touched
+            "
+            class="text-sm text-red-500"
+          >
+            Mínimo de 6 caracteres.
+          </p>
+        </div>
+      </div>
+
+      <!-- ERROR API -->
+
+      <div
+        *ngIf="errorMsg"
+        class="
+          bg-red-100
+          border
+          border-red-300
+          text-red-600
+          rounded-xl
+          p-4
+        "
+      >
+        {{ errorMsg }}
       </div>
 
       <!-- BUTTON -->
 
       <button
         type="submit"
-        [disabled]="form.invalid"
-        class="w-full h-16 rounded-2xl bg-red-500 text-white text-2xl font-semibold shadow-lg hover:scale-[1.01] hover:bg-red-600 transition disabled:opacity-50 disabled:hover:scale-100"
+        [disabled]="form.invalid || loading"
+        class="
+          w-full
+          h-16
+          rounded-2xl
+          bg-red-500
+          text-white
+          text-2xl
+          font-semibold
+          shadow-lg
+          hover:scale-[1.01]
+          hover:bg-red-600
+          transition
+          disabled:opacity-50
+          disabled:hover:scale-100
+        "
       >
-        REGISTRAR
+        {{ loading ? 'CADASTRANDO...' : 'REGISTRAR' }}
       </button>
 
       <!-- LOGIN -->
