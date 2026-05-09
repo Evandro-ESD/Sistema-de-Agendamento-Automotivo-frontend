@@ -7,11 +7,11 @@ import { Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 
-import { HeaderComponent } from '../../shared/componets/header/header.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
 
-import { HeroComponent } from '../../shared/componets/hero/hero.component';
+import { HeroComponent } from '../../shared/components/hero/hero.component';
 
-import { FooterComponent } from '../../shared/componets/footer/footer.component';
+import { FooterComponent } from '../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-login',
