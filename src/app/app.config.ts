@@ -9,7 +9,7 @@
 import {
   HTTP_INTERCEPTORS,
   provideHttpClient,
-  withInterceptorsFromDi,
+  //withInterceptorsFromDi,
 } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
@@ -19,7 +19,7 @@ import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()),
+    //provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
 };
