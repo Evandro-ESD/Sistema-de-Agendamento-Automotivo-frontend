@@ -201,6 +201,14 @@ export class LoginComponent {
 
     this.error = '';
 
+    loginAdminGeral() {
+  this.form.patchValue({
+    email: 'admin@email.com',
+    password: 'admin123',
+  });
+  this.onSubmit();
+    }
+
     const { email, password } =
       this.form.getRawValue();
 
