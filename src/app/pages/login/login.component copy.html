@@ -71,8 +71,6 @@
           formControlName="password"
         />
       </div> -->
-      <!-- INPUTS -->
-
       <div class="space-y-5">
         <!-- EMAIL -->
 
@@ -83,42 +81,8 @@
             type="email"
             formControlName="email"
             placeholder="Digite seu e-mail"
-            class="w-full h-14 rounded-xl border px-4 text-lg outline-none transition"
-            [class.border-gray-300]="
-              !form.controls.email.invalid || !form.controls.email.touched
-            "
-            [class.focus:border-red-400]="
-              !form.controls.email.invalid || !form.controls.email.touched
-            "
-            [class.border-red-400]="
-              form.controls.email.invalid && form.controls.email.touched
-            "
-            [class.bg-red-50]="
-              form.controls.email.invalid && form.controls.email.touched
-            "
+            class="w-full h-14 rounded-xl border border-gray-300 px-4 text-lg outline-none focus:border-red-400 transition"
           />
-
-          <!-- ERROR -->
-
-          <p
-            *ngIf="
-              form.controls.email.touched &&
-              form.controls.email.errors?.['required']
-            "
-            class="text-sm text-red-500"
-          >
-            O e-mail é obrigatório.
-          </p>
-
-          <p
-            *ngIf="
-              form.controls.email.touched &&
-              form.controls.email.errors?.['email']
-            "
-            class="text-sm text-red-500"
-          >
-            Digite um e-mail válido.
-          </p>
         </div>
 
         <!-- PASSWORD -->
@@ -130,32 +94,8 @@
             type="password"
             formControlName="password"
             placeholder="Digite sua senha"
-            class="w-full h-14 rounded-xl border px-4 text-lg outline-none transition"
-            [class.border-gray-300]="
-              !form.controls.password.invalid || !form.controls.password.touched
-            "
-            [class.focus:border-red-400]="
-              !form.controls.password.invalid || !form.controls.password.touched
-            "
-            [class.border-red-400]="
-              form.controls.password.invalid && form.controls.password.touched
-            "
-            [class.bg-red-50]="
-              form.controls.password.invalid && form.controls.password.touched
-            "
+            class="w-full h-14 rounded-xl border border-gray-300 px-4 text-lg outline-none focus:border-red-400 transition"
           />
-
-          <!-- ERROR -->
-
-          <p
-            *ngIf="
-              form.controls.password.touched &&
-              form.controls.password.errors?.['required']
-            "
-            class="text-sm text-red-500"
-          >
-            A senha é obrigatória.
-          </p>
         </div>
       </div>
 
