@@ -79,6 +79,14 @@ export class AuthService {
   public currentUser$ = this.currentUserSubject.asObservable();
 
   private mockUsers = [
+    // No AuthService, adicione no array mockUsers:
+{
+  id: '3',
+  nome: 'AdminGeral',
+  email: 'admin@email.com',
+  password: 'admin123',
+  role: 'admin_geral',  // perfil admin_geral
+},
     {
       id: '1',
       nome: 'Gerente123',
