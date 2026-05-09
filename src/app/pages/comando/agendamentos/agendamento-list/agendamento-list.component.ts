@@ -9,6 +9,7 @@
 // export class AgendamentoListComponent {
 
 // }
+/*
 thead>
          Event, id: string) {
     const input = event.target as HTMLInputElement;
@@ -18,6 +19,7 @@ thead>
       this.uploadDocumento(id, file);
     }
   }
+  */
   // novo
 
   import { CommonModule } from '@angular/common';
