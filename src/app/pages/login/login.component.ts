@@ -125,6 +125,7 @@ export class LoginComponent {
 }
 */
 
+  
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
@@ -139,47 +140,31 @@ import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterLink,
+    // Se os componentes <app-header>, <app-hero> e <app-footer> forem standalone,
+    // importe-os aqui também:
+    // AppHeaderComponent, AppHeroComponent, AppFooterComponent
   ],
-
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-
   private fb = inject(FormBuilder);
-
   private auth = inject(AuthService);
-
   private router = inject(Router);
 
   loading = false;
-
   error = '';
 
   form = this.fb.group({
-    email: [
-      '',
-      [
-        Validators.required,
-        Validators.email,
-      ],
-    ],
-
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-      ],
-    ],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  // GETTERS
+  // Getters para facilitar o acesso no template
   get email() {
     return this.form.get('email');
   }
@@ -189,106 +174,67 @@ export class LoginComponent {
   }
 
   onSubmit() {
-
     if (this.form.invalid) {
-
       this.form.markAllAsTouched();
-
       return;
     }
 
     this.loading = true;
-
     this.error = '';
 
-    loginAdminGeral() {
-  this.form.patchValue({
-    email: 'admin@email.com',
-    password: 'admin123',
-  });
-  this.onSubmit();
-    }
+    const { email, password } = this.form.getRawValue();
 
-    const { email, password } =
-      this.form.getRawValue();
+    this.auth.login(email!, password!).subscribe({
+      next: (res) => {
+        this.loading = false;
+        console.log('Usuário logado:', res.user);
 
-    this.auth
-      .login(email!, password!)
-      .subscribe({
-
-        next: (res) => {
-
-          this.loading = false;
-
-          console.log('Usuário logado:', res.user);
-
-          // REDIRECIONAMENTO POR PERFIL
-
-          switch (res.user.role) {
-
-            case 'admin_geral':
-
-              this.router.navigate([
-                '/comando/relatorios',
-              ]);
-
-              break;
-
-            case 'admin_oficina':
-
-              this.router.navigate([
-                '/comando/agendamentos',
-              ]);
-
-              break;
-
-            case 'associado':
-
-              this.router.navigate([
-                '/comando/agendamentos',
-              ]);
-
-              break;
-
-            default:
-
-              this.router.navigate([
-                '/comando',
-              ]);
-          }
-        },
-
-        error: (err) => {
-
-          this.loading = false;
-
-          console.error(err);
-
-          this.error =
-            'Email ou senha inválidos';
-        },
-      });
+        // Redirecionamento baseado no perfil
+        switch (res.user.role) {
+          case 'admin_geral':
+            this.router.navigate(['/comando/relatorios']);
+            break;
+          case 'admin_oficina':
+            this.router.navigate(['/comando/agendamentos']);
+            break;
+          case 'associado':
+            this.router.navigate(['/comando/agendamentos']);
+            break;
+          default:
+            this.router.navigate(['/comando']);
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error(err);
+        this.error = 'Email ou senha inválidos.';
+      },
+    });
   }
 
-  // LOGIN RÁPIDO PARA TESTES
-
+  // Métodos de login rápido para testes
   loginGerente() {
-
     this.form.patchValue({
       email: 'gerente123@email.com',
       password: 'gerente123',
     });
-
     this.onSubmit();
   }
 
   loginAssociado() {
-
     this.form.patchValue({
       email: 'associado123@email.com',
       password: 'associado123',
     });
+    this.onSubmit();
+  }
 
+  // Caso queira também testar o admin_geral
+  loginAdminGeral() {
+    this.form.patchValue({
+      email: 'admin@email.com',
+      password: 'admin123',
+    });
     this.onSubmit();
   }
 }
