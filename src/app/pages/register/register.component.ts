@@ -2,9 +2,16 @@ import { CommonModule } from '@angular/common';
 
 import { Component, inject } from '@angular/core';
 
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
-import { Router, RouterLink } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+} from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 
@@ -37,14 +44,34 @@ export class RegisterComponent {
 
   private router = inject(Router);
 
+  loading = false;
+
   errorMsg = '';
 
-  form = this.fb.group({
-    nome: ['', Validators.required],
+  form = this.fb.nonNullable.group({
+    nome: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+      ],
+    ],
 
-    email: ['', [Validators.required, Validators.email]],
+    email: [
+      '',
+      [
+        Validators.required,
+        Validators.email,
+      ],
+    ],
 
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(6),
+      ],
+    ],
   });
 
   onSubmit() {
@@ -53,18 +80,57 @@ export class RegisterComponent {
       return;
     }
 
+    this.loading = true;
+
+    this.errorMsg = '';
+
+    const { nome, email, password } =
+      this.form.getRawValue();
+
     this.auth
-      .register(
-        this.form.value.nome!,
-        this.form.value.email!,
-        this.form.value.password!,
-      )
+      .register(nome, email, password)
       .subscribe({
-        next: () => this.router.navigate(['/login']),
+        next: () => {
+          this.router.navigate(['/login']);
+        },
 
         error: (err) => {
-          this.errorMsg = err.error?.detail || 'Erro no cadastro';
+          console.error(err);
+
+          if (err.status === 409) {
+            this.errorMsg =
+              'Usuário já cadastrado.';
+          }
+
+          else if (err.status === 0) {
+            this.errorMsg =
+              'Servidor indisponível.';
+          }
+
+          else {
+            this.errorMsg =
+              err.error?.detail ||
+              'Erro no cadastro.';
+          }
+
+          this.loading = false;
+        },
+
+        complete: () => {
+          this.loading = false;
         },
       });
+  }
+
+  get nome() {
+    return this.form.controls.nome;
+  }
+
+  get email() {
+    return this.form.controls.email;
+  }
+
+  get password() {
+    return this.form.controls.password;
   }
 }
