@@ -3,16 +3,25 @@ export type AgendamentoStatus =
   | 'EM_ANDAMENTO'
   | 'FINALIZADO_ASSOCIADO'
   | 'FINALIZADO_OFICINA'
-  | 'CONCLUIDO';
+  | 'CONCLUIDO'
+  | 'CANCELADO';
 
 export interface Agendamento {
   id: string;
   associado_id: string;
   oficina_id: string;
+
+  servico_id: string;
+
+  veiculo_id: string;
+
+  // data_hora: string;
   data: string; // YYYY-MM-DD
   hora: string; // HH:MM:SS
   servico: string;
   status: AgendamentoStatus;
+
+  observacoes?: string;
   documento_assinado_url?: string;
   created_at: string;
   updated_at: string;
