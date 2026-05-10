@@ -9,15 +9,17 @@
 // export class AgendamentoListComponent {
 
 // }
-// thead>
-//          Event, id: string) {
-//     const input = event.target as HTMLInputElement;
-//     const file = input.files?.[0];
+/*
+thead>
+         Event, id: string) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
 
-//     if (file) {
-//       this.uploadDocumento(id, file);
-//     }
-//   }
+    if (file) {
+      this.uploadDocumento(id, file);
+    }
+  }
+  */
 // novo
 
 import { CommonModule } from '@angular/common';
