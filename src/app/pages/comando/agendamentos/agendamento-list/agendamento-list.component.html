@@ -1,123 +1,51 @@
-
 <div class="space-y-6">
   <!-- HEADER -->
 
   <div>
-    <h1
-      class="
-        text-3xl
-        font-bold
-        text-gray-800
-      "
-    >
-      AGENDAMENTOS
-    </h1>
+    <h1 class="text-3xl font-bold text-gray-800">AGENDAMENTOS</h1>
 
-    <p class="text-gray-500 mt-1">
-      Gerencie os serviços e horários.
-    </p>
+    <p class="text-gray-500 mt-1">Gerencie os serviços e horários.</p>
   </div>
 
   <!-- FORM -->
 
   <section
     *ngIf="user?.role === 'associado'"
-    class="
-      bg-white
-      rounded-2xl
-      shadow-sm
-      border
-      border-gray-200
-      overflow-hidden
-    "
+    class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
   >
-    <div
-      class="
-        bg-red-500
-        text-white
-        px-6
-        py-4
-        font-semibold
-        text-lg
-      "
-    >
+    <div class="bg-red-500 text-white px-6 py-4 font-semibold text-lg">
       NOVO AGENDAMENTO
     </div>
 
     <form
       [formGroup]="form"
       (ngSubmit)="criar()"
-      class="
-        p-6
-        grid
-        md:grid-cols-2
-        gap-5
-      "
+      class="p-6 grid md:grid-cols-2 gap-5"
     >
       <div class="space-y-2">
-        <label
-          class="
-            text-sm
-            font-semibold
-            text-gray-600
-          "
-        >
-          Oficina
-        </label>
+        <label class="text-sm font-semibold text-gray-600"> Oficina </label>
 
         <input
           formControlName="oficina_id"
-          placeholder="ID da oficina"
+          placeholder="Nome da oficina"
           class="input"
         />
       </div>
 
       <div class="space-y-2">
-        <label
-          class="
-            text-sm
-            font-semibold
-            text-gray-600
-          "
-        >
-          Data
-        </label>
+        <label class="text-sm font-semibold text-gray-600"> Data </label>
 
-        <input
-          type="date"
-          formControlName="data"
-          class="input"
-        />
+        <input type="date" formControlName="data" class="input" />
       </div>
 
       <div class="space-y-2">
-        <label
-          class="
-            text-sm
-            font-semibold
-            text-gray-600
-          "
-        >
-          Horário
-        </label>
+        <label class="text-sm font-semibold text-gray-600"> Horário </label>
 
-        <input
-          type="time"
-          formControlName="hora"
-          class="input"
-        />
+        <input type="time" formControlName="hora" class="input" />
       </div>
 
       <div class="space-y-2">
-        <label
-          class="
-            text-sm
-            font-semibold
-            text-gray-600
-          "
-        >
-          Serviço
-        </label>
+        <label class="text-sm font-semibold text-gray-600"> Serviço </label>
 
         <input
           formControlName="servico"
@@ -129,16 +57,7 @@
       <div class="md:col-span-2">
         <button
           type="submit"
-          class="
-            w-full
-            h-14
-            rounded-xl
-            bg-red-500
-            text-white
-            font-semibold
-            hover:bg-red-600
-            transition
-          "
+          class="w-full h-14 rounded-xl bg-red-500 text-white font-semibold hover:bg-red-600 transition"
         >
           AGENDAR
         </button>
@@ -146,15 +65,7 @@
 
       <div
         *ngIf="erro"
-        class="
-          md:col-span-2
-          bg-red-100
-          border
-          border-red-300
-          text-red-600
-          rounded-xl
-          p-4
-        "
+        class="md:col-span-2 bg-red-100 border border-red-300 text-red-600 rounded-xl p-4"
       >
         {{ erro }}
       </div>
@@ -164,74 +75,30 @@
   <!-- TABLE -->
 
   <section
-    class="
-      bg-white
-      rounded-2xl
-      shadow-sm
-      border
-      border-gray-200
-      overflow-hidden
-    "
+    class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
   >
-    <div
-      class="
-        px-6
-        py-5
-        border-b
-        border-gray-200
-      "
-    >
-      <h2
-        class="
-          text-xl
-          font-semibold
-          text-gray-700
-        "
-      >
-        LISTA DE SERVIÇOS
-      </h2>
+    <div class="px-6 py-5 border-b border-gray-200">
+      <h2 class="text-xl font-semibold text-gray-700">LISTA DE SERVIÇOS</h2>
     </div>
 
     <div class="overflow-x-auto">
       <table class="w-full">
         <thead class="bg-gray-100">
           <tr>
-            <th
-              class="text-left px-6 py-4"
-            >
-              Data/Hora
-            </th>
+            <th class="text-left px-6 py-4">Data/Hora</th>
 
-            <th
-              class="text-left px-6 py-4"
-            >
-              Serviço
-            </th>
+            <th class="text-left px-6 py-4">Serviço</th>
 
-            <th
-              class="text-left px-6 py-4"
-            >
-              Status
-            </th>
+            <th class="text-left px-6 py-4">Status</th>
 
-            <th
-              class="text-left px-6 py-4"
-            >
-              Ações
-            </th>
+            <th class="text-left px-6 py-4">Ações</th>
           </tr>
         </thead>
 
         <tbody>
           <tr
-            *ngFor="
-              let a of agendamentos
-            "
-            class="
-              border-t
-              border-gray-100
-              hover:bg-gray-50
-            "
+            *ngFor="let a of agendamentos"
+            class="border-t border-gray-100 hover:bg-gray-50"
           >
             <td class="px-6 py-4">
               {{ a.data }}
@@ -244,114 +111,52 @@
 
             <td class="px-6 py-4">
               <span
-                class="
-                  px-3
-                  py-1
-                  rounded-full
-                  text-sm
-                  bg-red-100
-                  text-red-600
-                "
+                class="px-3 py-1 rounded-full text-sm bg-red-100 text-red-600"
               >
                 {{ a.status }}
               </span>
             </td>
 
             <td class="px-6 py-4">
-              <div
-                class="
-                  flex
-                  flex-wrap
-                  gap-2
-                "
-              >
+              <div class="flex flex-wrap gap-2">
                 <button
-                  *ngIf="
-                    a.status ===
-                    'AGENDADO'
-                  "
+                  *ngIf="a.status === 'AGENDADO'"
                   (click)="cancelar(a.id)"
-                  class="
-                    px-4
-                    py-2
-                    rounded-lg
-                    bg-gray-200
-                    hover:bg-gray-300
-                    transition
-                  "
+                  class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
                 >
                   Cancelar
                 </button>
 
                 <button
                   *ngIf="
-                    user?.role ===
-                      'associado' &&
-                    a.status ===
-                      'EM_ANDAMENTO'
+                    user?.role === 'associado' && a.status === 'EM_ANDAMENTO'
                   "
-                  (click)="
-                    finalizar(
-                      a.id,
-                      'FINALIZADO_ASSOCIADO'
-                    )
-                  "
-                  class="
-                    px-4
-                    py-2
-                    rounded-lg
-                    bg-green-500
-                    text-white
-                  "
+                  (click)="finalizar(a.id, 'FINALIZADO_ASSOCIADO')"
+                  class="px-4 py-2 rounded-lg bg-green-500 text-white"
                 >
                   Finalizar
                 </button>
 
                 <button
                   *ngIf="
-                    user?.role ===
-                      'admin_oficina' &&
-                    a.status ===
-                      'EM_ANDAMENTO'
+                    user?.role === 'admin_oficina' &&
+                    a.status === 'EM_ANDAMENTO'
                   "
-                  (click)="
-                    finalizar(
-                      a.id,
-                      'FINALIZADO_OFICINA'
-                    )
-                  "
-                  class="
-                    px-4
-                    py-2
-                    rounded-lg
-                    bg-blue-500
-                    text-white
-                  "
+                  (click)="finalizar(a.id, 'FINALIZADO_OFICINA')"
+                  class="px-4 py-2 rounded-lg bg-blue-500 text-white"
                 >
                   Concluir
                 </button>
 
                 <input
                   *ngIf="
-                    user?.role ===
-                      'admin_oficina' &&
-                    a.status ===
-                      'FINALIZADO_OFICINA'
+                    user?.role === 'admin_oficina' &&
+                    a.status === 'FINALIZADO_OFICINA'
                   "
                   type="file"
                   accept="application/pdf"
-                  (change)="
-                    onFileChange(
-                      $event,
-                      a.id
-                    )
-                  "
-                  class="
-                    text-sm
-                    border
-                    rounded-lg
-                    p-2
-                  "
+                  (change)="onFileChange($event, a.id)"
+                  class="text-sm border rounded-lg p-2"
                 />
               </div>
             </td>
