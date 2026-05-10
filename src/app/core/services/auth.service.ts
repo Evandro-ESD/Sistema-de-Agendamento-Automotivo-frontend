@@ -73,20 +73,46 @@ import { AuthResponse, User } from '../../models/user';
   providedIn: 'root',
 })
 export class AuthService {
-
   private currentUserSubject = new BehaviorSubject<User | null>(null);
 
   public currentUser$ = this.currentUserSubject.asObservable();
 
+  register(nome: string, email: string, password: string): Observable<any> {
+    const userExists = this.mockUsers.some((u) => u.email === email);
+
+    if (userExists) {
+      return throwError(() => ({
+        status: 409,
+        error: {
+          detail: 'Usuário já cadastrado',
+        },
+      }));
+    }
+
+    const newUser = {
+      id: String(this.mockUsers.length + 1),
+      nome,
+      email,
+      password,
+      role: 'associado',
+    };
+
+    this.mockUsers.push(newUser);
+
+    return of({
+      message: 'Usuário cadastrado com sucesso',
+    }).pipe(delay(500));
+  }
+
   private mockUsers = [
     // No AuthService, adicione no array mockUsers:
-{
-  id: '3',
-  nome: 'AdminGeral',
-  email: 'admin@email.com',
-  password: 'admin123',
-  role: 'admin_geral',  // perfil admin_geral
-},
+    {
+      id: '3',
+      nome: 'AdminGeral',
+      email: 'admin@email.com',
+      password: 'admin123',
+      role: 'admin_geral', // perfil admin_geral
+    },
     {
       id: '1',
       nome: 'Gerente123',
@@ -106,7 +132,6 @@ export class AuthService {
   ];
 
   constructor() {
-
     const stored = localStorage.getItem('user');
 
     if (stored) {
@@ -115,11 +140,8 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<AuthResponse> {
-
     const user = this.mockUsers.find(
-      (u) =>
-        u.email === email &&
-        u.password === password
+      (u) => u.email === email && u.password === password,
     );
 
     if (!user) {
@@ -143,16 +165,9 @@ export class AuthService {
       delay(500),
 
       tap((res) => {
+        localStorage.setItem('token', res.access_token);
 
-        localStorage.setItem(
-          'token',
-          res.access_token
-        );
-
-        localStorage.setItem(
-          'user',
-          JSON.stringify(res.user)
-        );
+        localStorage.setItem('user', JSON.stringify(res.user));
 
         this.currentUserSubject.next(res.user);
       }),
@@ -160,7 +175,6 @@ export class AuthService {
   }
 
   logout() {
-
     localStorage.removeItem('token');
 
     localStorage.removeItem('user');

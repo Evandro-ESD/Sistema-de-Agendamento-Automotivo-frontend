@@ -9,30 +9,22 @@
 // export class AgendamentoListComponent {
 
 // }
-thead>
-         Event, id: string) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
+// thead>
+//          Event, id: string) {
+//     const input = event.target as HTMLInputElement;
+//     const file = input.files?.[0];
 
-    if (file) {
-      this.uploadDocumento(id, file);
-    }
-  }
-  // novo
+//     if (file) {
+//       this.uploadDocumento(id, file);
+//     }
+//   }
+// novo
 
-  import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AgendamentoService } from '../../../../core/services/agendamento.service';
 
@@ -43,26 +35,16 @@ import { Agendamento } from '../../../../models/agendamento';
 
   standalone: true,
 
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
 
-  templateUrl:
-    './agendamento-list.component.html',
+  templateUrl: './agendamento-list.component.html',
 })
-export class AgendamentoListComponent
-  implements OnInit
-{
-  private agendamentoService =
-    inject(AgendamentoService);
+export class AgendamentoListComponent implements OnInit {
+  private agendamentoService = inject(AgendamentoService);
 
   private fb = inject(FormBuilder);
 
-  user = JSON.parse(
-    localStorage.getItem('user') ||
-      '{}',
-  );
+  user = JSON.parse(localStorage.getItem('user') || '{}');
 
   agendamentos: Agendamento[] = [];
 
@@ -71,19 +53,13 @@ export class AgendamentoListComponent
   loading = false;
 
   form = this.fb.nonNullable.group({
-    oficina_id: [
-      '',
-      Validators.required,
-    ],
+    oficina_id: ['', Validators.required],
 
     data: ['', Validators.required],
 
     hora: ['', Validators.required],
 
-    servico: [
-      '',
-      Validators.required,
-    ],
+    servico: ['', Validators.required],
   });
 
   ngOnInit() {
@@ -93,21 +69,19 @@ export class AgendamentoListComponent
   carregarAgendamentos() {
     this.loading = true;
 
-    this.agendamentoService
-      .listar()
-      .subscribe({
-        next: (data) => {
-          this.agendamentos = data;
-        },
+    this.agendamentoService.listar().subscribe({
+      next: (data) => {
+        this.agendamentos = data;
+      },
 
-        error: (err) => {
-          console.error(err);
-        },
+      error: (err) => {
+        console.error(err);
+      },
 
-        complete: () => {
-          this.loading = false;
-        },
-      });
+      complete: () => {
+        this.loading = false;
+      },
+    });
   }
 
   criar() {
@@ -116,65 +90,44 @@ export class AgendamentoListComponent
       return;
     }
 
-    this.agendamentoService
-      .criar(this.form.getRawValue())
-      .subscribe({
-        next: () => {
-          this.carregarAgendamentos();
+    this.agendamentoService.criar(this.form.getRawValue()).subscribe({
+      next: () => {
+        this.carregarAgendamentos();
 
-          this.form.reset();
-        },
+        this.form.reset();
+      },
 
-        error: (err) => {
-          this.erro =
-            err.error?.detail ||
-            'Erro ao agendar.';
-        },
-      });
+      error: (err) => {
+        this.erro = err.error?.detail || 'Erro ao agendar.';
+      },
+    });
   }
 
   cancelar(id: string) {
     this.agendamentoService
       .cancelar(id)
-      .subscribe(() =>
-        this.carregarAgendamentos(),
-      );
+      .subscribe(() => this.carregarAgendamentos());
   }
 
-  finalizar(
-    id: string,
-    status: string,
-  ) {
+  finalizar(id: string, status: string) {
     this.agendamentoService
       .atualizarStatus(id, status)
-      .subscribe(() =>
-        this.carregarAgendamentos(),
-      );
+      .subscribe(() => this.carregarAgendamentos());
   }
 
-  onFileChange(
-    event: Event,
-    id: string,
-  ) {
-    const input =
-      event.target as HTMLInputElement;
+  onFileChange(event: Event, id: string) {
+    const input = event.target as HTMLInputElement;
 
-    const file =
-      input.files?.[0];
+    const file = input.files?.[0];
 
     if (file) {
       this.uploadDocumento(id, file);
     }
   }
 
-  uploadDocumento(
-    id: string,
-    file: File,
-  ) {
+  uploadDocumento(id: string, file: File) {
     this.agendamentoService
       .enviarDocumento(id, file)
-      .subscribe(() =>
-        this.carregarAgendamentos(),
-      );
+      .subscribe(() => this.carregarAgendamentos());
   }
 }

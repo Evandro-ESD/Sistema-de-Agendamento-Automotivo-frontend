@@ -60,49 +60,28 @@
         <!-- EMAIL -->
 
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-gray-600">
-            E-mail
-          </label>
+          <label class="text-sm font-semibold text-gray-600"> E-mail </label>
 
           <input
             type="email"
             formControlName="email"
             placeholder="Digite seu e-mail"
-            class="
-              w-full
-              h-14
-              rounded-xl
-              border
-              px-4
-              text-lg
-              outline-none
-              transition
-            "
-            [class.border-red-500]="
-              email.invalid && email.touched
-            "
-            [class.border-gray-300]="
-              !(email.invalid && email.touched)
-            "
+            class="w-full h-14 rounded-xl border px-4 text-lg outline-none transition"
+            [class.border-red-500]="email!.invalid && email!.touched"
+            [class.border-gray-300]="!(email!.invalid && email!.touched)"
           />
 
           <!-- ERROR -->
 
           <p
-            *ngIf="
-              email.hasError('required') &&
-              email.touched
-            "
+            *ngIf="email!.hasError('required') && email!.touched"
             class="text-sm text-red-500"
           >
             E-mail obrigatório.
           </p>
 
           <p
-            *ngIf="
-              email.hasError('email') &&
-              email.touched
-            "
+            *ngIf="email!.hasError('email') && email!.touched"
             class="text-sm text-red-500"
           >
             Digite um e-mail válido.
@@ -112,51 +91,28 @@
         <!-- PASSWORD -->
 
         <div class="space-y-2">
-          <label class="text-sm font-semibold text-gray-600">
-            Senha
-          </label>
+          <label class="text-sm font-semibold text-gray-600"> Senha </label>
 
           <input
             type="password"
             formControlName="password"
             placeholder="Digite sua senha"
-            class="
-              w-full
-              h-14
-              rounded-xl
-              border
-              px-4
-              text-lg
-              outline-none
-              transition
-            "
-            [class.border-red-500]="
-              password.invalid &&
-              password.touched
-            "
-            [class.border-gray-300]="
-              !(password.invalid &&
-              password.touched)
-            "
+            class="w-full h-14 rounded-xl border px-4 text-lg outline-none transition"
+            [class.border-red-500]="password!.invalid && password!.touched"
+            [class.border-gray-300]="!(password!.invalid && password!.touched)"
           />
 
           <!-- ERROR -->
 
           <p
-            *ngIf="
-              password.hasError('required') &&
-              password.touched
-            "
+            *ngIf="password!.hasError('required') && password!.touched"
             class="text-sm text-red-500"
           >
             Senha obrigatória.
           </p>
 
           <p
-            *ngIf="
-              password.hasError('minlength') &&
-              password.touched
-            "
+            *ngIf="password!.hasError('minlength') && password!.touched"
             class="text-sm text-red-500"
           >
             Mínimo de 6 caracteres.
@@ -168,14 +124,7 @@
 
       <div
         *ngIf="error"
-        class="
-          bg-red-100
-          border
-          border-red-300
-          text-red-600
-          rounded-xl
-          p-4
-        "
+        class="bg-red-100 border border-red-300 text-red-600 rounded-xl p-4"
       >
         {{ error }}
       </div>
@@ -185,23 +134,9 @@
       <button
         type="submit"
         [disabled]="form.invalid || loading"
-        class="
-          w-full
-          h-16
-          rounded-2xl
-          bg-red-500
-          text-white
-          text-2xl
-          font-semibold
-          shadow-lg
-          hover:scale-[1.01]
-          hover:bg-red-600
-          transition
-          disabled:opacity-50
-          disabled:hover:scale-100
-        "
+        class="w-full h-16 rounded-2xl bg-red-500 text-white text-2xl font-semibold shadow-lg hover:scale-[1.01] hover:bg-red-600 transition disabled:opacity-50 disabled:hover:scale-100"
       >
-        {{ loading ? 'ENTRANDO...' : 'ENTRAR' }}
+        {{ loading ? "ENTRANDO..." : "ENTRAR" }}
       </button>
 
       <!-- REGISTER -->
@@ -218,6 +153,20 @@
       </div>
     </form>
   </section>
+
+  <div class="mt-4 text-sm">
+    <p>Usuários de teste:</p>
+
+    <p>Admin Oficina: gerente123&#64;email.com</p>
+
+    <p>Senha: gerente123</p>
+
+    <hr />
+
+    <p>Associado: associado123&#64;email.com</p>
+
+    <p>Senha: associado123</p>
+  </div>
 
   <!-- FOOTER -->
 

@@ -125,17 +125,15 @@ export class LoginComponent {
 }
 */
 
-  
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
+import { FooterComponent } from '../../shared/components/footer/footer.component';
+import { HeaderComponent } from '../../shared/components/header/header.component';
+import { HeroComponent } from '../../shared/components/hero/hero.component';
 
 @Component({
   selector: 'app-login',
@@ -144,6 +142,10 @@ import { AuthService } from '../../core/services/auth.service';
     CommonModule,
     ReactiveFormsModule,
     RouterLink,
+    HeaderComponent,
+    HeroComponent,
+    FooterComponent,
+
     // Se os componentes <app-header>, <app-hero> e <app-footer> forem standalone,
     // importe-os aqui também:
     // AppHeaderComponent, AppHeroComponent, AppFooterComponent
