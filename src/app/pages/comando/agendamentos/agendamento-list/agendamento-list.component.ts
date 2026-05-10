@@ -55,7 +55,10 @@ export class AgendamentoListComponent implements OnInit {
   loading = false;
 
   form = this.fb.nonNullable.group({
-    oficina_id: ['Fake Oficina', Validators.required],
+    oficina_id: [
+      { value: 'Fake Oficina', disabled: true },
+      Validators.required,
+    ],
 
     data: ['', Validators.required],
 
