@@ -38,17 +38,29 @@
       <div class="space-y-2">
         <label class="text-sm font-semibold text-gray-600"> Horário </label>
 
-        <input type="time" formControlName="hora" class="input" />
+        <select formControlName="hora" class="input">
+          <option value="">Selecione um horário</option>
+
+          @for (hora of horarios; track hora) {
+            <option [value]="hora">
+              {{ hora }}
+            </option>
+          }
+        </select>
       </div>
 
       <div class="space-y-2">
         <label class="text-sm font-semibold text-gray-600"> Serviço </label>
 
-        <input
-          formControlName="servico"
-          placeholder="Troca de óleo"
-          class="input"
-        />
+        <select formControlName="servico" class="input">
+          <option value="">Selecione um serviço</option>
+
+          @for (servico of servicos; track servico) {
+            <option [value]="servico">
+              {{ servico }}
+            </option>
+          }
+        </select>
       </div>
 
       <div class="md:col-span-2">

@@ -54,6 +54,29 @@ export class AgendamentoListComponent implements OnInit {
 
   loading = false;
 
+  horarios = [
+    '08:00',
+    '09:00',
+    '10:00',
+    '11:00',
+    '12:00',
+    '13:00',
+    '14:00',
+    '15:00',
+    '16:00',
+    '17:00',
+  ];
+  servicos = [
+    'Troca de óleo',
+    'Alinhamento',
+    'Balanceamento',
+    'Troca de pneus',
+    'Revisão',
+    'Freios',
+    'Suspensão',
+    'Diagnóstico',
+  ];
+
   form = this.fb.nonNullable.group({
     oficina_id: [
       { value: 'Fake Oficina', disabled: true },
@@ -62,10 +85,41 @@ export class AgendamentoListComponent implements OnInit {
 
     data: ['', Validators.required],
 
-    hora: ['', Validators.required],
+    hora: [
+      '',
+      [
+        Validators.required,
+        // Validators.pattern(/^(08|09|1[0-6]|16):[0-5][0-9]$/),
+        this.validarHorario,
+      ],
+    ],
 
     servico: ['', Validators.required],
   });
+
+  // Validador de houras
+  validarHorario(control: any) {
+    const valor = control.value;
+
+    if (!valor) return null;
+
+    const [hora, minuto] = valor.split(':').map(Number);
+
+    const totalMinutos = hora * 60 + minuto;
+
+    const minimo = 8 * 60; // 08:00
+    const maximo = 17 * 60; // 17:00
+
+    if (totalMinutos < minimo || totalMinutos > maximo) {
+      return {
+        horarioInvalido: true,
+      };
+    }
+
+    return null;
+  }
+
+  // Validador de houras
 
   ngOnInit() {
     this.carregarAgendamentos();

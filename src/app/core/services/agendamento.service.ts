@@ -34,10 +34,15 @@ export class AgendamentoService {
   listar(): Observable<any[]> {
     return of(this.agendamentos).pipe(
       map((lista) =>
-        lista.sort(
-          (a, b) => new Date(a.data).getTime() - new Date(b.data).getTime(),
-        ),
+        lista.sort((a, b) => {
+          const dataHoraA = new Date(`${a.data}T${a.hora}`);
+
+          const dataHoraB = new Date(`${b.data}T${b.hora}`);
+
+          return dataHoraA.getTime() - dataHoraB.getTime();
+        }),
       ),
+
       delay(300),
     );
   }
