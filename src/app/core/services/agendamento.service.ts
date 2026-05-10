@@ -63,7 +63,7 @@ export class AgendamentoService {
 
       ...dados,
 
-      status: 'pendente',
+      status: 'AGENDADO',
 
       criado_em: new Date(),
     };
