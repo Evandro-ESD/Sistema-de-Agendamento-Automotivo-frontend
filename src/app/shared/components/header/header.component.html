@@ -1,7 +1,20 @@
-<header class="bg-black border-b-2 border-red-500">
-  <div class="h-20 flex items-center px-4">
-    <button class="text-red-500 text-4xl">☰</button>
+<header class="bg-black border-b border-zinc-300 shadow-sm">
+  <div
+    class="h-20 mx-4 md:max-w-5xl md:mx-auto flex items-center justify-between px-6"
+  >
+    <!-- ESQUERDA -->
+    <div class="w-1/6 flex items-center">
+      <img src="assets/logo.png" class="h-12 object-contain" />
+    </div>
 
-    <img src="assets/logo.png" class="h-10 mx-auto" />
+    <!-- CENTRO -->
+    <app-hero></app-hero>
+
+    <!-- DIREITA -->
+    <div class="w-1/6 flex justify-end">
+      <button class="text-zinc-600 text-4xl hover:text-red-700 transition">
+        ☰
+      </button>
+    </div>
   </div>
 </header>

@@ -18,6 +18,9 @@ export class WelcomeCardComponent implements OnInit {
   getLogin() {
     this.router.navigate(['/login']);
   }
+  getRegister() {
+    this.router.navigate(['/register']);
+  }
 
   features = [
     {

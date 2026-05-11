@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+import { agendamentosMock } from '../../mocks/database';
 import { Agendamento, AgendamentoCreate } from '../../models/agendamento';
+import { LocalStorageService } from './localStorage.service';
 
 @Injectable({ providedIn: 'root' })
 export class AgendamentoService {
@@ -19,30 +21,35 @@ export class AgendamentoService {
 
   private agendamentos: any[] = [];
 
-  constructor() {
-    const dados = localStorage.getItem(this.storageKey);
+  private localStorageService = inject(LocalStorageService);
 
-    if (dados) {
-      this.agendamentos = JSON.parse(dados);
-    }
+  constructor() {
+    const stored = this.localStorageService.get<Agendamento>(this.storageKey);
+    this.agendamentos = this.storageKey ? stored : agendamentosMock;
+
+    // const dados = localStorage.getItem(this.storageKey);
+
+    // if (dados) {
+    //   this.agendamentos = JSON.parse(dados);
+    // }
   }
 
   private salvar() {
+    this.localStorageService.set(this.storageKey, this.agendamentos);
+  }
+
+  private _salvar() {
     localStorage.setItem(this.storageKey, JSON.stringify(this.agendamentos));
   }
 
-  listar(): Observable<any[]> {
+  listar(): Observable<Agendamento[]> {
     return of(this.agendamentos).pipe(
       map((lista) =>
-        lista.sort((a, b) => {
-          const dataHoraA = new Date(`${a.data}T${a.hora}`);
-
-          const dataHoraB = new Date(`${b.data}T${b.hora}`);
-
-          return dataHoraA.getTime() - dataHoraB.getTime();
-        }),
+        [...lista].sort(
+          (a, b) =>
+            new Date(a.data_hora).getTime() - new Date(b.data_hora).getTime(),
+        ),
       ),
-
       delay(300),
     );
   }
@@ -57,22 +64,22 @@ export class AgendamentoService {
     return this.http.get<Agendamento[]>(this.apiUrl, { params });
   }
 
-  criar(dados: any): Observable<any> {
-    const novoAgendamento = {
+  criar(dados: Partial<Agendamento>): Observable<Agendamento> {
+    const novo: Agendamento = {
       id: crypto.randomUUID(),
-
-      ...dados,
-
-      status: 'pendente',
-
-      criado_em: new Date(),
+      associado_id: dados.associado_id!,
+      oficina_id: dados.oficina_id!,
+      servico_id: dados.servico_id!,
+      veiculo_id: dados.veiculo_id!,
+      data_hora: dados.data_hora!,
+      status: 'AGENDADO',
+      observacoes: dados.observacoes || '',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     };
-
-    this.agendamentos.push(novoAgendamento);
-
+    this.agendamentos.push(novo);
     this.salvar();
-
-    return of(novoAgendamento).pipe(delay(300));
+    return of(novo).pipe(delay(300));
   }
 
   _criar(dados: AgendamentoCreate): Observable<Agendamento> {
@@ -80,14 +87,12 @@ export class AgendamentoService {
   }
 
   atualizarStatus(id: string, status: string): Observable<any> {
-    const agendamento = this.agendamentos.find((a) => a.id === id);
-
-    if (agendamento) {
-      agendamento.status = status;
-
+    const ag = this.agendamentos.find((a) => a.id === id);
+    if (ag) {
+      ag.status = status as any;
+      ag.updated_at = new Date().toISOString();
       this.salvar();
     }
-
     return of(true).pipe(delay(300));
   }
 
@@ -97,9 +102,7 @@ export class AgendamentoService {
 
   cancelar(id: string): Observable<any> {
     this.agendamentos = this.agendamentos.filter((a) => a.id !== id);
-
     this.salvar();
-
     return of(true).pipe(delay(300));
   }
 
@@ -108,14 +111,12 @@ export class AgendamentoService {
   }
 
   enviarDocumento(id: string, file: File): Observable<any> {
-    const agendamento = this.agendamentos.find((a) => a.id === id);
-
-    if (agendamento) {
-      agendamento.documento = file.name;
-
+    const ag = this.agendamentos.find((a) => a.id === id);
+    if (ag) {
+      // Simula armazenamento do nome do arquivo
+      (ag as any).documento = file.name;
       this.salvar();
     }
-
     return of(true).pipe(delay(300));
   }
 

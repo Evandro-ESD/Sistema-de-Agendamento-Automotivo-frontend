@@ -77,7 +77,15 @@ export class AuthService {
 
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  register(nome: string, email: string, password: string): Observable<any> {
+  constructor() {
+    const stored = localStorage.getItem('user');
+
+    if (stored) {
+      this.currentUserSubject.next(JSON.parse(stored));
+    }
+  }
+
+  register(nome: string, email: string, senha: string): Observable<any> {
     const userExists = this.mockUsers.some((u) => u.email === email);
 
     if (userExists) {
@@ -89,12 +97,13 @@ export class AuthService {
       }));
     }
 
-    const newUser = {
-      id: String(this.mockUsers.length + 1),
+    const newUser: User = {
+      id: `u_${this.mockUsers.length + 1}`,
       nome,
       email,
-      password,
+      senha,
       role: 'associado',
+      created_at: new Date().toISOString(),
     };
 
     this.mockUsers.push(newUser);
@@ -104,60 +113,90 @@ export class AuthService {
     }).pipe(delay(500));
   }
 
-  private mockUsers = [
+  private mockUsers: User[] = [
     // No AuthService, adicione no array mockUsers:
     {
-      id: '3',
-      nome: 'AdminGeral',
-      email: 'admin@email.com',
-      password: 'admin123',
-      role: 'admin_geral', // perfil admin_geral
-    },
-    {
-      id: '1',
-      nome: 'Gerente123',
-      email: 'gerente123@email.com',
-      password: 'gerente123',
-      role: 'admin_oficina',
-      oficina_id: 'oficina_123',
+      id: 'u_1',
+      nome: 'Evandro',
+      email: 'admin@site.com',
+      senha: '123456',
+      role: 'admin_geral',
+      created_at: new Date().toISOString(),
     },
 
     {
-      id: '2',
+      id: 'u_2',
+      nome: 'Rodrigo',
+      email: 'rodrigo@oficina.com',
+      senha: '123456',
+      role: 'admin_oficina',
+      oficina_id: 'of_1',
+      created_at: new Date().toISOString(),
+    },
+
+    {
+      id: 'u_3',
+      nome: 'João',
+      email: 'joao@gmail.com',
+      senha: '123456',
+      role: 'associado',
+      oficina_id: 'of_1',
+      created_at: new Date().toISOString(),
+    },
+
+    {
+      id: 'u_4',
+      nome: 'Carlos',
+      email: 'carlos@gmail.com',
+      senha: '123456',
+      role: 'associado',
+      oficina_id: 'of_1',
+      created_at: new Date().toISOString(),
+    },
+    {
+      id: 'u_5',
+      nome: 'Gerente123',
+      email: 'gerente123@email.com',
+      senha: 'gerente123',
+      role: 'admin_oficina',
+      oficina_id: 'oficina_123',
+      created_at: new Date().toISOString(),
+    },
+
+    {
+      id: 'u_6',
       nome: 'Associado123',
       email: 'associado123@email.com',
-      password: 'associado123',
+      senha: 'associado123',
       role: 'associado',
+      oficina_id: 'of_2',
+      created_at: new Date().toISOString(),
     },
   ];
 
-  constructor() {
-    const stored = localStorage.getItem('user');
-
-    if (stored) {
-      this.currentUserSubject.next(JSON.parse(stored));
-    }
-  }
-
-  login(email: string, password: string): Observable<AuthResponse> {
+  login(email: string, senha: string): Observable<AuthResponse> {
     const user = this.mockUsers.find(
-      (u) => u.email === email && u.password === password,
+      (u) => u.email === email && u.senha === senha,
     );
 
     if (!user) {
       return throwError(() => new Error('Email ou senha inválidos'));
     }
 
+    // const response: AuthResponse = {
     const response: AuthResponse = {
-      access_token: 'fake-jwt-token-123',
+      access_token: 'fake-token',
       token_type: 'bearer',
 
       user: {
         id: user.id,
         nome: user.nome,
+        senha: user.senha,
         email: user.email,
-        role: user.role as any,
+        role: user.role,
         oficina_id: user.oficina_id,
+        plano_id: user.plano_id,
+        created_at: user.created_at,
       },
     };
 

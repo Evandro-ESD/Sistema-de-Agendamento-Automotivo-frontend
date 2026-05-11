@@ -25,7 +25,13 @@
       <div class="space-y-2">
         <label class="text-sm font-semibold text-gray-600"> Oficina</label>
 
-        <input type="text" formControlName="oficina_id" class="input" />
+        <select formControlName="oficina_id" class="input">
+          <option value="">Selecione uma oficina</option>
+          @for (oficina of lista_oficinas; track oficina.id) {
+            <option [value]="oficina.id">{{ oficina.nome }}</option>
+          }
+        </select>
+        <!-- <input type="text" formControlName="oficina_id" class="input" /> -->
         <!-- placeholder="Nome da oficina" -->
       </div>
 
@@ -52,16 +58,34 @@
       <div class="space-y-2">
         <label class="text-sm font-semibold text-gray-600"> Serviço </label>
 
-        <select formControlName="servico" class="input">
+        <select
+          formControlName="servico_id"
+          class="input"
+          [disabled]="!form.get('oficina_id')?.value"
+        >
           <option value="">Selecione um serviço</option>
-
-          @for (servico of servicos; track servico) {
-            <option [value]="servico">
-              {{ servico }}
+          @for (serv of servicosDisponiveis; track serv.id) {
+            <option [value]="serv.id">
+              {{ serv.nome }} - R$ {{ serv.valor }}
             </option>
           }
         </select>
       </div>
+
+      <!-- <div class="space-y-2">
+        <select
+          formControlName="veiculo_id"
+          class="input"
+          *ngIf="user?.role === 'associado'"
+        >
+          <option value="">Selecione o veículo</option>
+          @for (veic of veiculosDoAssociado; track veic.id) {
+            <option [value]="veic.id">
+              {{ veic.marca }} {{ veic.modelo }} - {{ veic.placa }}
+            </option>
+          }
+        </select>
+      </div> -->
 
       <div class="md:col-span-2">
         <button
@@ -110,12 +134,15 @@
             class="border-t border-gray-100 hover:bg-gray-50"
           >
             <td class="px-6 py-4">
-              {{ a.data }}
-              {{ a.hora }}
+              {{ a.data_hora | date: "dd/MM/yyyy HH:mm" }}
             </td>
 
             <td class="px-6 py-4">
-              {{ a.servico }}
+              {{ a.servico_nome }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ a.oficina_nome }}
             </td>
 
             <td class="px-6 py-4">

@@ -1,27 +1,3 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-agendamento-list',
-//   imports: [],
-//   templateUrl: './agendamento-list.component.html',
-//   styleUrl: './agendamento-list.component.css'
-// })
-// export class AgendamentoListComponent {
-
-// }
-/*
-thead>
-         Event, id: string) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-
-    if (file) {
-      this.uploadDocumento(id, file);
-    }
-  }
-  */
-// novo
-
 import { CommonModule } from '@angular/common';
 
 import { Component, OnInit, inject } from '@angular/core';
@@ -30,7 +6,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AgendamentoService } from '../../../../core/services/agendamento.service';
 
-import { Agendamento } from '../../../../models/agendamento';
+import {
+  oficinasMock,
+  servicosMock,
+  veiculosMock,
+} from '../../../../mocks/database';
+
+import { Servico } from '../../../../models/servico';
 
 @Component({
   selector: 'app-agendamento-list',
@@ -48,7 +30,16 @@ export class AgendamentoListComponent implements OnInit {
 
   user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  agendamentos: Agendamento[] = [];
+  // agendamentos: Agendamento[] = [];
+  agendamentos: any[] = [];
+
+  lista_oficinas = oficinasMock;
+
+  servicosDisponiveis: Servico[] = [];
+
+  veiculosDoAssociado: any[] = [];
+
+  // oficinas: Oficina[] = [];
 
   erro = '';
 
@@ -78,67 +69,77 @@ export class AgendamentoListComponent implements OnInit {
   ];
 
   form = this.fb.nonNullable.group({
-    oficina_id: [
-      { value: 'Fake Oficina', disabled: true },
-      Validators.required,
-    ],
+    oficina_id: ['', Validators.required],
 
     data: ['', Validators.required],
 
-    hora: [
-      '',
-      [
-        Validators.required,
-        // Validators.pattern(/^(08|09|1[0-6]|16):[0-5][0-9]$/),
-        this.validarHorario,
-      ],
-    ],
+    hora: ['', [Validators.required, this.validarHorario]],
 
-    servico: ['', Validators.required],
+    servico_id: ['', Validators.required],
+
+    veiculo_id: ['', Validators.required],
   });
 
-  // Validador de houras
+  // Validador de horas
   validarHorario(control: any) {
-    const valor = control.value;
-
-    if (!valor) return null;
-
-    const [hora, minuto] = valor.split(':').map(Number);
-
-    const totalMinutos = hora * 60 + minuto;
-
-    const minimo = 8 * 60; // 08:00
-    const maximo = 17 * 60; // 17:00
-
-    if (totalMinutos < minimo || totalMinutos > maximo) {
-      return {
-        horarioInvalido: true,
-      };
-    }
-
-    return null;
+    const [h, m] = control.value?.split(':').map(Number) || [];
+    const minutos = h * 60 + m;
+    return minutos >= 8 * 60 && minutos <= 17 * 60
+      ? null
+      : { horarioInvalido: true };
   }
-
-  // Validador de houras
 
   ngOnInit() {
     this.carregarAgendamentos();
+    this.carregarVeiculosDoAssociado();
+    // Quando a oficina mudar, carrega os serviços dela
+    this.form.get('oficina_id')?.valueChanges.subscribe((oficinaId) => {
+      if (oficinaId) {
+        this.servicosDisponiveis = servicosMock.filter(
+          (s) => s.oficina_id === oficinaId && s.ativo,
+        );
+        this.form.get('servico_id')?.enable();
+      } else {
+        this.servicosDisponiveis = [];
+        this.form.get('servico_id')?.disable();
+      }
+    });
+    console.table(this.lista_oficinas);
+  }
+
+  carregarVeiculosDoAssociado() {
+    if (this.user?.role === 'associado') {
+      this.veiculosDoAssociado = veiculosMock.filter(
+        (v) => v.associado_id === this.user.id,
+      );
+      if (this.veiculosDoAssociado.length === 1) {
+        this.form.patchValue({ veiculo_id: this.veiculosDoAssociado[0].id });
+      }
+    }
   }
 
   carregarAgendamentos() {
     this.loading = true;
+    this.erro = '';
 
     this.agendamentoService.listar().subscribe({
       next: (data) => {
-        this.agendamentos = data;
-        console.log(data);
+        this.agendamentos = data.map((ag) => ({
+          ...ag,
+          servico_nome:
+            servicosMock.find((s) => s.id === ag.servico_id)?.nome ||
+            ag.servico_id,
+
+          oficina_nome: oficinasMock.find((o) => o.id === ag.oficina_id)?.nome,
+        }));
+
+        this.loading = false;
       },
 
       error: (err) => {
         console.error(err);
-      },
 
-      complete: () => {
+        this.erro = 'Erro ao carregar agendamentos';
         this.loading = false;
       },
     });
@@ -150,16 +151,22 @@ export class AgendamentoListComponent implements OnInit {
       return;
     }
 
-    this.agendamentoService.criar(this.form.getRawValue()).subscribe({
+    const { oficina_id, data, hora, servico_id, veiculo_id } =
+      this.form.getRawValue();
+    const data_hora = `${data}T${hora}:00`;
+    const payload = {
+      oficina_id,
+      servico_id,
+      veiculo_id,
+      associado_id: this.user.id,
+      data_hora,
+    };
+    this.agendamentoService.criar(payload).subscribe({
       next: () => {
         this.carregarAgendamentos();
-
         this.form.reset();
       },
-
-      error: (err) => {
-        this.erro = err.error?.detail || 'Erro ao agendar.';
-      },
+      error: (err) => (this.erro = err.error?.detail || 'Erro ao agendar.'),
     });
   }
 
@@ -176,13 +183,8 @@ export class AgendamentoListComponent implements OnInit {
   }
 
   onFileChange(event: Event, id: string) {
-    const input = event.target as HTMLInputElement;
-
-    const file = input.files?.[0];
-
-    if (file) {
-      this.uploadDocumento(id, file);
-    }
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) this.agendamentoService.enviarDocumento(id, file).subscribe();
   }
 
   uploadDocumento(id: string, file: File) {
