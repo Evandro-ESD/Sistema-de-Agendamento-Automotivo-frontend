@@ -67,15 +67,12 @@ export class AgendamentoService {
   criar(dados: Partial<Agendamento>): Observable<Agendamento> {
     const novo: Agendamento = {
       id: crypto.randomUUID(),
-      associado_id: dados.associado_id!,
-      oficina_id: dados.oficina_id!,
-      servico_id: dados.servico_id!,
-      veiculo_id: dados.veiculo_id!,
-      data_hora: dados.data_hora!,
+
+      ...dados,
+
       status: 'AGENDADO',
-      observacoes: dados.observacoes || '',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+
+      criado_em: new Date(),
     };
     this.agendamentos.push(novo);
     this.salvar();
