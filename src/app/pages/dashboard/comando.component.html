@@ -1,0 +1,184 @@
+<div class="min-h-screen bg-[#F4F7FC] flex">
+  <!-- SIDEBAR -->
+
+  <aside
+    class="fixed md:static z-50 top-0 left-0 h-screen w-72 bg-[#0A2647] border-r border-white/5 transform transition-transform duration-300 flex flex-col shadow-xl"
+    [class.translate-x-0]="sidebarOpen"
+    [class.-translate-x-full]="!sidebarOpen"
+    [class.md:translate-x-0]="true"
+  >
+    <!-- HEADER -->
+
+    <div
+      class="h-20 border-b border-white/5 flex items-center justify-between px-6"
+    >
+      <div class="flex items-center gap-3">
+        <div
+          class="w-11 h-11 rounded-xl bg-[#163b7362] flex items-center justify-center text-white text-lg font-bold"
+        >
+          🚘
+        </div>
+
+        <div>
+          <h1 class="text-xl font-bold text-white tracking-wide">COMANDO</h1>
+
+          <p class="text-xs text-slate-400">Painel Administrativo</p>
+        </div>
+      </div>
+
+      <!-- CLOSE MOBILE -->
+
+      <button
+        class="md:hidden text-slate-300 text-3xl"
+        (click)="toggleSidebar()"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- USER -->
+
+    <div class="p-6 border-b border-white/5">
+      <p class="text-slate-400 text-sm">Usuário logado</p>
+
+      <h2 class="text-white font-semibold text-lg mt-1">
+        {{ user?.nome }}
+      </h2>
+
+      <span
+        class="inline-flex mt-3 px-3 py-1 rounded-sm bg-[#163b7362] text-slate-200 text-xs font-medium uppercase tracking-wide"
+      >
+        {{ user?.role }}
+      </span>
+    </div>
+
+    <!-- MENU -->
+
+    <nav class="flex-1 p-4 space-y-2">
+      <!-- AGENDAMENTOS -->
+
+      <a
+        routerLink="agendamentos"
+        routerLinkActive="bg-[#163b7362] text-white"
+        class="flex items-center gap-4 h-13 px-4 rounded-xl text-slate-300 hover:bg-[#163b7362] hover:text-white transition-all duration-300 font-medium"
+      >
+        <span class="text-lg">📍</span>
+
+        <span>AGENDAMENTOS</span>
+      </a>
+
+      <!-- OFICINAS -->
+
+      <a
+        *ngIf="isAdminGeral()"
+        routerLink="oficinas"
+        routerLinkActive="bg-[#163b7362] text-white"
+        class="flex items-center gap-4 h-13 px-4 rounded-xl text-slate-300 hover:bg-[#163b7362] hover:text-white transition-all duration-300 font-medium"
+      >
+        <span class="text-lg">🏢</span>
+
+        <span>OFICINAS</span>
+      </a>
+
+      <!-- OPERACOES -->
+
+      <a
+        *ngIf="isAdminOficina()"
+        routerLink="operacoes"
+        routerLinkActive="bg-[#163b7362] text-white"
+        class="flex items-center gap-4 h-13 px-4 rounded-xl text-slate-300 hover:bg-[#163b7362] hover:text-white transition-all duration-300 font-medium"
+      >
+        <span class="text-lg">🔧</span>
+
+        <span>OPERAÇÕES</span>
+      </a>
+
+      <!-- RELATORIOS -->
+
+      <a
+        *ngIf="isAdminGeral() || isAdminOficina()"
+        routerLink="relatorios"
+        routerLinkActive="bg-[#163b7362] text-white"
+        class="flex items-center gap-4 h-13 px-4 rounded-xl text-slate-300 hover:bg-[#163b7362] hover:text-white transition-all duration-300 font-medium"
+      >
+        <span class="text-lg">📊</span>
+
+        <span>RELATÓRIOS</span>
+      </a>
+    </nav>
+
+    <!-- FOOTER -->
+
+    <div class="p-4 border-t border-white/5">
+      <button
+        (click)="logout()"
+        class="w-full h-13 rounded-xl bg-[#163b7362] text-white font-semibold hover:bg-[#1E4B91] transition"
+      >
+        SAIR DO SISTEMA
+      </button>
+    </div>
+  </aside>
+
+  <!-- OVERLAY MOBILE -->
+
+  <div
+    *ngIf="sidebarOpen"
+    class="fixed inset-0 bg-black/50 z-40 md:hidden"
+    (click)="toggleSidebar()"
+  ></div>
+
+  <!-- CONTENT -->
+
+  <div class="flex-1 flex flex-col min-h-screen">
+    <!-- TOPBAR -->
+
+    <header
+      class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8"
+    >
+      <!-- MOBILE BUTTON -->
+
+      <button
+        class="md:hidden w-11 h-11 rounded-xl bg-[#0A2647] text-white text-2xl flex items-center justify-center"
+        (click)="toggleSidebar()"
+      >
+        ☰
+      </button>
+
+      <!-- TITLE -->
+
+      <div class="hidden md:block">
+        <h2 class="text-2xl font-bold text-[#0A2647]">Painel Administrativo</h2>
+
+        <p class="text-sm text-slate-500">Gestão de oficinas e agendamentos</p>
+      </div>
+
+      <!-- USER -->
+
+      <div class="ml-auto flex items-center gap-4">
+        <div class="text-right">
+          <p class="text-sm text-slate-500">Bem-vindo</p>
+
+          <h2 class="text-lg font-semibold text-[#0A2647]">
+            {{ user?.nome }}
+          </h2>
+        </div>
+
+        <div
+          class="w-11 h-11 rounded-xl bg-[#163b7362] text-white flex items-center justify-center font-semibold"
+        >
+          {{ user?.nome?.charAt(0) }}
+        </div>
+      </div>
+    </header>
+
+    <!-- PAGE -->
+
+    <main class="p-4 md:p-6 flex-1">
+      <div
+        class="bg-white border border-slate-200 rounded-2xl shadow-sm min-h-full p-5 md:p-7"
+      >
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>

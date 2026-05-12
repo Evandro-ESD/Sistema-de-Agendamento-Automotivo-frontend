@@ -1,0 +1,37 @@
+<div
+  class="min-w-[320px] bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all"
+>
+  <!-- IMAGE -->
+  <div class="h-52 overflow-hidden">
+    <img
+      [src]="workshop.image"
+      [alt]="workshop.name"
+      class="w-full h-full object-cover hover:scale-105 transition duration-500"
+    />
+  </div>
+
+  <!-- CONTENT -->
+  <div class="p-6 space-y-4">
+    <div>
+      <h3 class="text-xl font-bold text-[#0A2647]">
+        {{ workshop.name }}
+      </h3>
+
+      <p class="text-sm text-gray-500">
+        {{ workshop.neighborhood }}
+      </p>
+    </div>
+
+    <div
+      class="inline-flex px-4 py-2 rounded-full bg-[#87CEEB]/20 text-[#0A2647] text-sm font-medium"
+    >
+      {{ workshop.specialty }}
+    </div>
+
+    <button
+      class="w-full h-12 rounded-xl bg-[#0A2647] text-white hover:bg-[#163B73] transition"
+    >
+      Ver oficina
+    </button>
+  </div>
+</div>

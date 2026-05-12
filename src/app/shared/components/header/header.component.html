@@ -1,20 +1,75 @@
-<header class="bg-black border-b border-zinc-300 shadow-sm">
-  <div
-    class="h-20 mx-4 md:max-w-5xl md:mx-auto flex items-center justify-between px-6"
-  >
-    <!-- ESQUERDA -->
-    <div class="w-1/6 flex items-center">
-      <img src="assets/logo.png" class="h-12 object-contain" />
-    </div>
+<header
+  class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm"
+>
+  <div class="h-20 max-w-7xl mx-auto px-6 flex items-center justify-between">
+    <!-- MOBILE -->
+    <button
+      class="lg:hidden w-11 h-11 rounded-xl border border-slate-200 flex items-center justify-center text-[#0A2647] hover:bg-slate-100 transition"
+    >
+      ☰
+    </button>
 
-    <!-- CENTRO -->
-    <app-hero></app-hero>
+    <!-- LOGO -->
+    <a routerLink="/" class="flex items-center gap-3">
+      <img src="assets/logo.png" alt="Logo" class="h-11 object-contain" />
 
-    <!-- DIREITA -->
-    <div class="w-1/6 flex justify-end">
-      <button class="text-zinc-600 text-4xl hover:text-red-700 transition">
-        ☰
-      </button>
+      <div class="hidden sm:flex flex-col">
+        <span class="text-[#0A2647] font-bold text-lg leading-none">
+          Auto Gestão
+        </span>
+
+        <span class="text-xs text-gray-500"> Plataforma Automotiva </span>
+      </div>
+    </a>
+
+    <!-- NAV DESKTOP -->
+    <nav class="hidden lg:flex items-center gap-8">
+      <a
+        href="#beneficios"
+        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
+      >
+        Benefícios
+      </a>
+
+      <a
+        href="#servicos"
+        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
+      >
+        Agende seu serviço
+      </a>
+
+      <a
+        href="#oficinas"
+        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
+      >
+        Oficinas
+      </a>
+
+      <a
+        href="#contato"
+        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
+      >
+        Contato
+      </a>
+    </nav>
+
+    <!-- ACTIONS -->
+    <div class="flex items-center gap-3">
+      <!-- LOGIN -->
+      <a
+        routerLink="/login"
+        class="hidden md:flex h-11 px-5 items-center justify-center rounded-xl border border-slate-300 text-[#0A2647] font-medium hover:bg-slate-100 transition"
+      >
+        Entrar
+      </a>
+
+      <!-- CTA -->
+      <a
+        routerLink="/register"
+        class="hidden md:flex h-11 px-5 items-center justify-center rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold hover:brightness-105 transition"
+      >
+        Credenciar Oficina
+      </a>
     </div>
   </div>
 </header>

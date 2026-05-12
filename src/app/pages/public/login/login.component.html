@@ -1,0 +1,201 @@
+<div
+  class="min-h-screen bg-linear-to-br from-[#F5F7FA] via-white to-[#EAF4FB] px-4 py-10"
+>
+  <!-- CARD -->
+  <section
+    class="bg-white max-w-xl mx-auto rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+  >
+    <!-- TOP -->
+    <div
+      class="bg-[#0A2647] text-white px-8 py-6 flex items-center justify-between"
+    >
+      <div>
+        <h1 class="text-2xl font-bold">Acessar Sistema</h1>
+
+        <p class="text-sm text-slate-300 mt-1">
+          Plataforma inteligente para oficinas e associados
+        </p>
+      </div>
+
+      <div
+        class="w-14 h-14 rounded-2xl bg-[#D4AF37] flex items-center justify-center text-[#0A2647] text-2xl font-bold"
+      >
+        🚘
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="grid grid-cols-2 bg-slate-100">
+      <button
+        class="h-16 bg-white text-[#0A2647] font-semibold border-b-4 border-[#D4AF37] text-lg"
+      >
+        LOGIN
+      </button>
+
+      <a
+        routerLink="/register"
+        class="h-16 flex items-center justify-center text-slate-500 font-semibold hover:bg-slate-200 transition text-lg"
+      >
+        CADASTRO
+      </a>
+    </div>
+
+    <!-- FORM -->
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="p-6 md:p-10 space-y-8"
+    >
+      <!-- TITLE -->
+      <div class="space-y-3">
+        <span
+          class="inline-flex px-4 py-2 rounded-full bg-[#0A2647]/5 text-[#0A2647] text-sm font-semibold"
+        >
+          Área do Associado
+        </span>
+
+        <h2 class="text-3xl font-bold text-[#0A2647]">Faça seu login</h2>
+
+        <p class="text-slate-500 leading-relaxed">
+          Entre com suas credenciais para acessar agendamentos, oficinas
+          credenciadas e serviços automotivos.
+        </p>
+      </div>
+
+      <!-- INPUTS -->
+      <div class="space-y-6">
+        <!-- EMAIL -->
+        <div class="space-y-2">
+          <label class="text-sm font-semibold text-slate-700"> E-mail </label>
+
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="Digite seu e-mail"
+            class="w-full h-14 rounded-2xl border border-slate-300 bg-white px-5 text-lg outline-none transition focus:border-[#87CEEB] focus:ring-4 focus:ring-[#87CEEB]/20"
+            [class.border-red-500]="email!.invalid && email!.touched"
+          />
+
+          <!-- ERROR -->
+          <p
+            *ngIf="email!.hasError('required') && email!.touched"
+            class="text-sm text-red-500"
+          >
+            E-mail obrigatório.
+          </p>
+
+          <p
+            *ngIf="email!.hasError('email') && email!.touched"
+            class="text-sm text-red-500"
+          >
+            Digite um e-mail válido.
+          </p>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="space-y-2">
+          <label class="text-sm font-semibold text-slate-700"> Senha </label>
+
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Digite sua senha"
+            class="w-full h-14 rounded-2xl border border-slate-300 bg-white px-5 text-lg outline-none transition focus:border-[#87CEEB] focus:ring-4 focus:ring-[#87CEEB]/20"
+            [class.border-red-500]="password!.invalid && password!.touched"
+          />
+
+          <!-- ERROR -->
+          <p
+            *ngIf="password!.hasError('required') && password!.touched"
+            class="text-sm text-red-500"
+          >
+            Senha obrigatória.
+          </p>
+
+          <p
+            *ngIf="password!.hasError('minlength') && password!.touched"
+            class="text-sm text-red-500"
+          >
+            Mínimo de 6 caracteres.
+          </p>
+        </div>
+      </div>
+
+      <!-- ERROR API -->
+      <div
+        *ngIf="error"
+        class="rounded-2xl border border-red-200 bg-red-50 p-4 text-red-600"
+      >
+        {{ error }}
+      </div>
+
+      <!-- BUTTON -->
+      <button
+        type="submit"
+        [disabled]="form.invalid || loading"
+        class="w-full h-16 rounded-2xl bg-[#0A2647] text-white text-xl font-semibold shadow-xl transition hover:-translate-y-0.5 hover:bg-[#163B73] disabled:opacity-50 disabled:hover:translate-y-0"
+      >
+        {{ loading ? "ENTRANDO..." : "ENTRAR NO SISTEMA" }}
+      </button>
+
+      <!-- REGISTER -->
+      <div class="text-center text-slate-500">
+        Não possui conta?
+
+        <a
+          routerLink="/register"
+          class="font-semibold text-[#0A2647] hover:text-[#D4AF37] transition"
+        >
+          Cadastre-se
+        </a>
+      </div>
+    </form>
+  </section>
+
+  <!-- TEST USERS -->
+  <div
+    class="max-w-xl mx-auto mt-8 rounded-3xl bg-white border border-slate-200 shadow-lg p-6"
+  >
+    <div class="flex items-center gap-3 mb-5">
+      <div
+        class="w-10 h-10 rounded-xl bg-[#0A2647] text-white flex items-center justify-center"
+      >
+        🔐
+      </div>
+
+      <div>
+        <h3 class="font-bold text-[#0A2647]">Usuários de teste</h3>
+
+        <p class="text-sm text-slate-500">
+          Credenciais para ambiente de desenvolvimento
+        </p>
+      </div>
+    </div>
+
+    <div class="space-y-4 text-sm">
+      <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4">
+        <p class="font-semibold text-[#0A2647]">Admin Oficina</p>
+
+        <p class="text-slate-600">gerente123&#64;email.com</p>
+
+        <p class="text-slate-600">Senha: gerente123</p>
+      </div>
+
+      <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4">
+        <p class="font-semibold text-[#0A2647]">Admin Oficina</p>
+
+        <p class="text-slate-600">rodrigo&#64;oficina.com</p>
+
+        <p class="text-slate-600">Senha: 123456</p>
+      </div>
+
+      <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4">
+        <p class="font-semibold text-[#0A2647]">Associado</p>
+
+        <p class="text-slate-600">associado123&#64;email.com</p>
+
+        <p class="text-slate-600">Senha: associado123</p>
+      </div>
+    </div>
+  </div>
+</div>

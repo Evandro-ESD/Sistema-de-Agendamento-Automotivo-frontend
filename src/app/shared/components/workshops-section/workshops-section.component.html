@@ -1,0 +1,26 @@
+<section id="oficinas" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <!-- HEADER -->
+    <div class="mb-14">
+      <span class="text-[#D4AF37] font-semibold uppercase tracking-wider">
+        Oficinas Parceiras
+      </span>
+
+      <h2 class="text-4xl md:text-5xl font-bold text-[#0A2647] mt-4">
+        Rede credenciada de alta qualidade
+      </h2>
+
+      <p class="text-gray-500 mt-5 max-w-2xl">
+        Oficinas verificadas com atendimento especializado, organização e
+        tecnologia.
+      </p>
+    </div>
+
+    <!-- CAROUSEL -->
+    <div class="flex gap-6 overflow-x-auto pb-4 scroll-smooth scrollbar-hide">
+      @for (workshop of workshops; track workshop.id) {
+        <app-workshop-card [workshop]="workshop" />
+      }
+    </div>
+  </div>
+</section>

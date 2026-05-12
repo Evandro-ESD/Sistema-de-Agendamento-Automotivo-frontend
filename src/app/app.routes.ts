@@ -1,58 +1,122 @@
 import { Routes } from '@angular/router';
+
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
+  /**
+   * =========================================
+   * PUBLIC LAYOUT
+   * =========================================
+   */
   {
     path: '',
     loadComponent: () =>
-      import('./pages/home/home.component').then((m) => m.HomeComponent),
-  },
-  {
-    path: 'login',
-    loadComponent: () =>
-      import('./pages/login/login.component').then((m) => m.LoginComponent),
-  },
-  {
-    path: 'register',
-    loadComponent: () =>
-      import('./pages/register/register.component').then(
-        (m) => m.RegisterComponent,
+      import('./layouts/public-layout/public-layout.component').then(
+        (m) => m.PublicLayoutComponent,
       ),
-  },
-  {
-    path: 'comando',
-    loadComponent: () =>
-      import('./pages/comando/comando.component').then(
-        (m) => m.ComandoComponent,
-      ),
-    canActivate: [authGuard],
+
     children: [
       {
-        path: 'agendamentos',
+        path: '',
         loadComponent: () =>
-          import('../app/pages/comando/agendamentos/agendamento-list/agendamento-list.component').then(
+          import('./pages/public/home/home.component').then(
+            (m) => m.HomeComponent,
+          ),
+      },
+
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('./pages/public/login/login.component').then(
+            (m) => m.LoginComponent,
+          ),
+      },
+
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('./pages/public/register/register.component').then(
+            (m) => m.RegisterComponent,
+          ),
+      },
+    ],
+  },
+
+  /**
+   * =========================================
+   * PRIVATE LAYOUT
+   * =========================================
+   */
+  {
+    path: 'comando',
+
+    canActivate: [authGuard],
+
+    loadComponent: () =>
+      import('./pages/dashboard/comando.component').then(
+        (m) => m.ComandoComponent,
+      ),
+
+    children: [
+      /**
+       * AGENDAMENTOS
+       */
+      {
+        path: 'agendamentos',
+
+        loadComponent: () =>
+          import('./pages/dashboard/agendamentos/agendamento-list/agendamento-list.component').then(
             (m) => m.AgendamentoListComponent,
           ),
       },
+
+      /**
+       * OFICINAS
+       */
       {
         path: 'oficinas',
+
+        canActivate: [roleGuard(['admin_geral'])],
+
         loadComponent: () =>
-          import('../app/pages/comando/oficinas/oficina-list/oficina-list.component').then(
+          import('./pages/dashboard/oficinas/oficina-list/oficina-list.component').then(
             (m) => m.OficinaListComponent,
           ),
-        canActivate: [roleGuard(['admin_geral'])],
       },
+
+      /**
+       * RELATÓRIOS
+       */
       {
         path: 'relatorios',
+
+        canActivate: [roleGuard(['admin_geral', 'admin_oficina'])],
+
         loadComponent: () =>
-          import('../app/pages/comando/relatorios/relatorios-agendamentos/relatorios-agendamentos.component').then(
+          import('./pages/dashboard/relatorios/relatorios-agendamentos/relatorios-agendamentos.component').then(
             (m) => m.RelatoriosAgendamentosComponent,
           ),
-        canActivate: [roleGuard(['admin_geral', 'admin_oficina'])],
       },
-      { path: '', redirectTo: 'agendamentos', pathMatch: 'full' },
+
+      /**
+       * DEFAULT PRIVATE ROUTE
+       */
+      {
+        path: '',
+        redirectTo: 'agendamentos',
+        pathMatch: 'full',
+      },
     ],
   },
-  { path: '**', redirectTo: '' },
+
+  /**
+   * =========================================
+   * NOT FOUND
+   * =========================================
+   */
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

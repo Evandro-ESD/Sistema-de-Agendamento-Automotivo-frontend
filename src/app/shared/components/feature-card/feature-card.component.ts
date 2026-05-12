@@ -13,4 +13,6 @@ export class FeatureCardComponent implements OnInit {
   @Input({ required: true }) title!: string;
 
   @Input({ required: true }) description!: string;
+
+  @Input() icon!: string;
 }
