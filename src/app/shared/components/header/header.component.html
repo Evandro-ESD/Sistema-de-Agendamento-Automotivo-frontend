@@ -32,12 +32,56 @@
         Benefícios
       </a>
 
-      <a
-        href="#servicos"
-        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
-      >
-        Agende seu serviço
-      </a>
+      <div class="relative group">
+        <button
+          class="flex items-center gap-2 text-gray-600 hover:text-[#0A2647] transition font-medium"
+        >
+          Agende seu serviço
+          <span class="text-xs">▼</span>
+        </button>
+
+        <!-- DROPDOWN -->
+        <div
+          class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+        >
+          <div class="p-3">
+            <a
+              href="#troca-oleo"
+              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
+            >
+              Troca de óleo
+            </a>
+
+            <a
+              href="#alinhamento"
+              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
+            >
+              Alinhamento
+            </a>
+
+            <a
+              href="#balanceamento"
+              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
+            >
+              Balanceamento
+            </a>
+
+            <a
+              href="#freios"
+              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
+            >
+              Freios
+            </a>
+
+            <a
+              href="#revisao"
+              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
+            >
+              Revisão completa
+            </a>
+          </div>
+        </div>
+      </div>
 
       <a
         href="#oficinas"
@@ -73,7 +117,6 @@
   </div>
 
   <!-- MOBILE MENU -->
-  <!-- MOBILE MENU -->
   <div
     *ngIf="menuOpen"
     class="lg:hidden fixed top-20 left-0 w-full bg-white border-t border-slate-200 shadow-xl z-50"
@@ -87,14 +130,36 @@
         Benefícios
       </a>
 
-      <a
-        href="#servicos"
-        (click)="closeMenu()"
-        class="block text-gray-700 font-medium hover:text-[#0A2647]"
-      >
-        Agende seu serviço
-      </a>
+      <div class="space-y-2">
+        <button
+          (click)="servicesOpen = !servicesOpen"
+          class="w-full flex items-center justify-between text-gray-700 font-medium"
+        >
+          <span>Agende seu serviço</span>
 
+          <span>
+            {{ servicesOpen ? "▲" : "▼" }}
+          </span>
+        </button>
+
+        <div *ngIf="servicesOpen" class="pl-4 space-y-2">
+          <a href="#" (click)="closeMenu()" class="block text-gray-600">
+            Oficia 1
+          </a>
+
+          <a href="#" (click)="closeMenu()" class="block text-gray-600">
+            Oficia 2
+          </a>
+
+          <a href="#" (click)="closeMenu()" class="block text-gray-600">
+            Oficia 3
+          </a>
+
+          <a href="#" (click)="closeMenu()" class="block text-gray-600">
+            Oficia 4
+          </a>
+        </div>
+      </div>
       <a
         href="#oficinas"
         (click)="closeMenu()"

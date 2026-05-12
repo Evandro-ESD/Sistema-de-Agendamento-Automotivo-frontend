@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   menuOpen = false;
+  servicesOpen = false;
 
   constructor() {}
 
@@ -22,5 +23,6 @@ export class HeaderComponent implements OnInit {
 
   closeMenu(): void {
     this.menuOpen = false;
+    this.servicesOpen = false;
   }
 }
