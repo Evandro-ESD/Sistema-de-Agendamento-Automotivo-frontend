@@ -73,52 +73,61 @@
   </div>
 
   <!-- MOBILE MENU -->
+  <!-- MOBILE MENU -->
   <div
     *ngIf="menuOpen"
-    class="lg:hidden border-t border-slate-200 bg-white px-6 py-5 space-y-4 shadow-md"
+    class="lg:hidden fixed top-20 left-0 w-full bg-white border-t border-slate-200 shadow-xl z-50"
   >
-    <a
-      href="#beneficios"
-      class="block text-gray-700 font-medium hover:text-[#0A2647]"
-    >
-      Benefícios
-    </a>
-
-    <a
-      href="#servicos"
-      class="block text-gray-700 font-medium hover:text-[#0A2647]"
-    >
-      Agende seu serviço
-    </a>
-
-    <a
-      href="#oficinas"
-      class="block text-gray-700 font-medium hover:text-[#0A2647]"
-    >
-      Oficinas
-    </a>
-
-    <a
-      href="#contato"
-      class="block text-gray-700 font-medium hover:text-[#0A2647]"
-    >
-      Contato
-    </a>
-
-    <div class="pt-4 flex flex-col gap-3">
+    <div class="px-6 py-5 space-y-4">
       <a
-        routerLink="/login"
-        class="h-11 flex items-center justify-center rounded-xl border border-slate-300 text-[#0A2647] font-medium"
+        href="#beneficios"
+        (click)="closeMenu()"
+        class="block text-gray-700 font-medium hover:text-[#0A2647]"
       >
-        Entrar
+        Benefícios
       </a>
 
       <a
-        routerLink="/register"
-        class="h-11 flex items-center justify-center rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold"
+        href="#servicos"
+        (click)="closeMenu()"
+        class="block text-gray-700 font-medium hover:text-[#0A2647]"
       >
-        Credenciar Oficina
+        Agende seu serviço
       </a>
+
+      <a
+        href="#oficinas"
+        (click)="closeMenu()"
+        class="block text-gray-700 font-medium hover:text-[#0A2647]"
+      >
+        Oficinas
+      </a>
+
+      <a
+        href="#contato"
+        (click)="closeMenu()"
+        class="block text-gray-700 font-medium hover:text-[#0A2647]"
+      >
+        Contato
+      </a>
+
+      <div class="pt-4 flex flex-col gap-3">
+        <a
+          routerLink="/login"
+          (click)="closeMenu()"
+          class="h-11 flex items-center justify-center rounded-xl border border-slate-300 text-[#0A2647] font-medium"
+        >
+          Entrar
+        </a>
+
+        <a
+          routerLink="/register"
+          (click)="closeMenu()"
+          class="h-11 flex items-center justify-center rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold"
+        >
+          Credenciar Oficina
+        </a>
+      </div>
     </div>
   </div>
 </header>
