@@ -1,6 +1,6 @@
 <div class="hidden lg:flex justify-center w-full px-8">
   <div
-    class="relative w-full max-w-7xl h-175 overflow-hidden rounded-4xl border border-white/10 bg-white/10 backdrop-blur shadow-2xl"
+    class="relative w-full max-w-7xl h-105 overflow-hidden rounded-4xl border border-white/10 bg-linear-to-r from-[#0A2647] to-[#163B73] backdrop-blur shadow-2xl"
   >
     <!-- SLIDES -->
     <div
@@ -15,14 +15,14 @@
       >
         <!-- IMAGEM -->
         <img
-          class="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+          class="w-full h-full object-contain group-hover:scale-105 transition duration-700"
           [src]="workshop.image"
           [alt]="workshop.name"
         />
 
         <!-- OVERLAY -->
         <div
-          class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"
+          class="absolute inset-0 bg-linear-to-t from-black/30 via-black/30 to-transparent"
         ></div>
 
         <!-- CONTEÚDO -->
@@ -54,14 +54,14 @@
 
     <!-- BOTÃO ESQUERDA -->
     <button
-      class="absolute left-6 top-1/2 -translate-y-1/2 z-10 w-14 h-14 rounded-full bg-black/30 backdrop-blur text-white hover:bg-black/50 transition text-xl"
+      class="absolute left-6 top-1/2 -translate-y-1/2 z-10 w-14 h-14 rounded-full bg-yellow-50/10 backdrop-blur text-white hover:bg-black/50 transition text-xl"
     >
       ←
     </button>
 
     <!-- BOTÃO DIREITA -->
     <button
-      class="absolute right-6 top-1/2 -translate-y-1/2 z-10 w-14 h-14 rounded-full bg-black/30 backdrop-blur text-white hover:bg-black/50 transition text-xl"
+      class="absolute right-6 top-1/2 -translate-y-1/2 z-10 w-14 h-14 rounded-full bg-yellow-50/10 backdrop-blur text-white hover:bg-black/50 transition text-xl"
     >
       →
     </button>
