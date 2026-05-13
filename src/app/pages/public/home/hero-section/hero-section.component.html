@@ -1,9 +1,10 @@
 <section
   class="relative overflow-hidden bg-linear-to-r from-[#0A2647] to-[#163B73]"
 >
-  <div
+  <!-- <div
     class="max-w-7xl mx-auto px-6 py-24 lg:py-32 grid lg:grid-cols-2 gap-12 items-center"
-  >
+  > -->
+  <div class="max-w-7xl mx-auto px-6 py-24 lg:py-32 gap-12 items-center">
     <!-- LEFT -->
     <div class="space-y-8">
       <div
@@ -24,12 +25,12 @@
       </div>
 
       <!-- ACTIONS -->
-      <div class="flex flex-col sm:flex-row gap-4">
+      <div class="flex justify-center sm:flex-row gap-4">
         <a
           routerLink="/login"
           class="h-14 px-8 rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold flex items-center justify-center hover:scale-[1.02] transition"
         >
-          COMEÇAR AGORA
+          SEJA UM ASSOCIADO
         </a>
 
         <a
@@ -43,47 +44,46 @@
 
     <!-- RIGHT -->
     <!-- CAROUSEL -->
-    <div class="hidden lg:flex justify-center">
-      <!-- CAROUSEL -->
+    <!-- <div class="hidden lg:flex justify-center">
       <div
         class="relative w-full max-w-lg h-105 overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur shadow-2xl"
-      >
-        <!-- TRACK -->
-        <div
+      > -->
+    <!-- TRACK -->
+    <!-- <div
           class="flex h-full transition-transform duration-700 ease-in-out"
           [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
-        >
-          @for (workshop of workshops; track workshop.id) {
-            <!-- ITEM -->
-            <div class="min-w-full relative group overflow-hidden h-full">
-              <!-- IMAGE -->
-              <img
+        > -->
+    <!-- @for (workshop of workshops; track workshop.id) { -->
+    <!-- ITEM -->
+    <!-- <div class="min-w-full relative group overflow-hidden h-full"> -->
+    <!-- IMAGE -->
+    <!-- <img
                 [src]="workshop.image"
                 [alt]="workshop.name"
                 class="max-w-lg h-60 object-contain group-hover:scale-105 transition duration-700"
-              />
+              /> -->
 
-              <!-- OVERLAY -->
-              <div
+    <!-- OVERLAY -->
+    <!-- <div
                 class="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent"
-              ></div>
+              ></div> -->
 
-              <!-- CONTENT -->
-              <div class="absolute bottom-0 left-0 p-8 text-white space-y-3">
-                <!-- BADGE -->
-                <span
+    <!-- CONTENT -->
+    <!-- <div class="absolute bottom-0 left-0 p-8 text-white space-y-3"> -->
+    <!-- BADGE -->
+    <!-- <span
                   class="inline-flex px-4 py-2 rounded-full bg-[#D4AF37] text-[#0A2647] text-sm font-semibold"
                 >
                   {{ workshop.specialty }}
-                </span>
+                </span> -->
 
-                <!-- TITLE -->
-                <h3 class="text-3xl font-bold">
+    <!-- TITLE -->
+    <!-- <h3 class="text-3xl font-bold">
                   {{ workshop.name }}
-                </h3>
+                </h3> -->
 
-                <!-- DESCRIPTION -->
-                <p class="text-gray-200 leading-relaxed">
+    <!-- DESCRIPTION -->
+    <!-- <p class="text-gray-200 leading-relaxed">
                   Oficina localizada em
                   {{ workshop.neighborhood }}
                   especializada em serviços automotivos premium.
@@ -91,26 +91,26 @@
               </div>
             </div>
           }
-        </div>
+        </div> -->
 
-        <!-- PREV -->
-        <button
-          (click)="prevSlide()"
-          class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur text-white hover:bg-white/40 transition"
-        >
-          ←
-        </button>
+    <!-- PREV -->
+    <!-- <button
+      (click)="prevSlide()"
+      class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur text-white hover:bg-white/40 transition"
+    >
+      ←
+    </button> -->
 
-        <!-- NEXT -->
-        <button
+    <!-- NEXT -->
+    <!-- <button
           (click)="nextSlide()"
           class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white/20 backdrop-blur text-white hover:bg-white/40 transition"
         >
           →
-        </button>
+        </button> -->
 
-        <!-- INDICATORS -->
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
+    <!-- INDICATORS -->
+    <!-- <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
           @for (workshop of workshops; track workshop.id; let i = $index) {
             <button
               class="w-3 h-3 rounded-full transition-all"
@@ -119,10 +119,10 @@
                 'bg-white/40': i !== currentIndex,
               }"
               (click)="currentIndex = i"
-            ></button>
-          }
+            ></button> -->
+    <!-- }
         </div>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
   </div>
 </section>

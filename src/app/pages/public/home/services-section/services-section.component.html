@@ -1,1 +1,80 @@
-<p>services-section works!</p>
+<div class="hidden lg:flex justify-center w-full px-8">
+  <div
+    class="relative w-full max-w-7xl h-175 overflow-hidden rounded-4xl border border-white/10 bg-white/10 backdrop-blur shadow-2xl"
+  >
+    <!-- SLIDES -->
+    <div
+      class="flex h-full transition-transform duration-700 ease-in-out"
+      [style.transform]="'translateX(-' + currentIndex * 100 + '%)'"
+    >
+      <div
+        *ngFor="let workshop of workshops"
+        class="min-w-full relative group overflow-hidden h-full"
+        (mouseenter)="pauseCarousel()"
+        (mouseleave)="resumeCarousel()"
+      >
+        <!-- IMAGEM -->
+        <img
+          class="w-full h-full object-cover group-hover:scale-105 transition duration-700"
+          [src]="workshop.image"
+          [alt]="workshop.name"
+        />
+
+        <!-- OVERLAY -->
+        <div
+          class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"
+        ></div>
+
+        <!-- CONTEÚDO -->
+        <div
+          class="absolute bottom-0 left-0 p-14 text-white max-w-2xl space-y-5"
+        >
+          <span
+            class="inline-flex px-5 py-2 rounded-full bg-[#D4AF37] text-[#0A2647] text-sm font-semibold shadow-lg"
+          >
+            {{ workshop.neighborhood }}
+          </span>
+
+          <h3 class="text-5xl font-bold leading-tight">
+            {{ workshop.name }}
+          </h3>
+
+          <p class="text-lg text-gray-200 leading-relaxed">
+            {{ workshop.specialty }}
+          </p>
+
+          <button
+            class="mt-4 px-8 py-4 rounded-2xl bg-[#D4AF37] text-[#0A2647] font-semibold hover:scale-105 transition duration-300"
+          >
+            Agendar serviço
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTÃO ESQUERDA -->
+    <button
+      class="absolute left-6 top-1/2 -translate-y-1/2 z-10 w-14 h-14 rounded-full bg-black/30 backdrop-blur text-white hover:bg-black/50 transition text-xl"
+    >
+      ←
+    </button>
+
+    <!-- BOTÃO DIREITA -->
+    <button
+      class="absolute right-6 top-1/2 -translate-y-1/2 z-10 w-14 h-14 rounded-full bg-black/30 backdrop-blur text-white hover:bg-black/50 transition text-xl"
+    >
+      →
+    </button>
+
+    <!-- INDICADORES -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+      <button
+        *ngFor="let workshop of workshops; let i = index"
+        class="transition-all rounded-full"
+        [ngClass]="
+          currentIndex === i ? 'w-10 h-3 bg-white' : 'w-3 h-3 bg-white/40'
+        "
+      ></button>
+    </div>
+  </div>
+</div>
