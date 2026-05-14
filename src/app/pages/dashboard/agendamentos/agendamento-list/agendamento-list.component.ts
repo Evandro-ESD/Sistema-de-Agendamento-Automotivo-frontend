@@ -107,6 +107,24 @@ export class AgendamentoListComponent implements OnInit {
         this.form.get('servico_id')?.disable();
       }
     });
+
+    // Se for admin_oficina desabilita oficina_id
+    if (this.user?.role === 'admin_oficina') {
+      this.form.get('oficina_id')?.disable();
+    }
+
+    // Observa mudança da oficina
+    this.form.get('oficina_id')?.valueChanges.subscribe((valor) => {
+      const servicoControl = this.form.get('servico_id');
+
+      if (valor) {
+        servicoControl?.enable();
+      } else {
+        servicoControl?.disable();
+        servicoControl?.setValue('');
+      }
+    });
+
     console.table(this.lista_oficinas);
   }
 
@@ -152,6 +170,7 @@ export class AgendamentoListComponent implements OnInit {
     this.agendamentoService.listar().subscribe({
       next: (data) => {
         let filtrados = data;
+        console.table(filtrados);
 
         // ASSOCIADO
         if (this.user?.role === 'associado') {
@@ -198,13 +217,13 @@ export class AgendamentoListComponent implements OnInit {
 
     const { oficina_id, data, hora, servico_id, veiculo_id } =
       this.form.getRawValue();
-    const data_hora = `${data}T${hora}:00`;
     const payload = {
       oficina_id,
+      data,
+      hora,
       servico_id,
       veiculo_id,
       associado_id: this.user!.id,
-      data_hora,
     };
     this.agendamentoService.criar(payload).subscribe({
       next: () => {

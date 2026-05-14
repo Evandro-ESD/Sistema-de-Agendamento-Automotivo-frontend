@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { seedDatabase } from '../../../core/database.seed';
 // import { HeroComponent } from '../../shared/components/hero/hero.component';
 import { BenefitsSectionComponent } from './benefits-section/benefits-section.component';
-import { CtaSectionComponent } from './cta-section/cta-section.component';
 import { HeroSectionComponent } from './hero-section/hero-section.component';
 import { ServicesSectionComponent } from './services-section/services-section.component';
-import { WorkshopsSectionComponent } from './workshops-section/workshops-section.component';
 
 @Component({
   selector: 'app-home',
@@ -14,8 +12,8 @@ import { WorkshopsSectionComponent } from './workshops-section/workshops-section
     HeroSectionComponent,
     BenefitsSectionComponent,
     ServicesSectionComponent,
-    WorkshopsSectionComponent,
-    CtaSectionComponent,
+    // WorkshopsSectionComponent,
+    // CtaSectionComponent,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],

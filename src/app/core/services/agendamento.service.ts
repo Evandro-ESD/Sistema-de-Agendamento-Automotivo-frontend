@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-import { agendamentosMock } from '../../mocks/database';
 import { Agendamento, AgendamentoCreate } from '../../models/agendamento';
 import { LocalStorageService } from './localStorage.service';
 
@@ -25,7 +24,8 @@ export class AgendamentoService {
 
   constructor() {
     const stored = this.localStorageService.get<Agendamento>(this.storageKey);
-    this.agendamentos = this.storageKey ? stored : agendamentosMock;
+    // this.agendamentos = this.storageKey ? stored : agendamentosMock;
+    this.agendamentos = stored;
 
     // const dados = localStorage.getItem(this.storageKey);
 
@@ -43,11 +43,12 @@ export class AgendamentoService {
   }
 
   listar(): Observable<Agendamento[]> {
+    console.log(this.agendamentos);
+    console.table(this.agendamentos);
     return of(this.agendamentos).pipe(
       map((lista) =>
         [...lista].sort(
-          (a, b) =>
-            new Date(a.data_hora).getTime() - new Date(b.data_hora).getTime(),
+          (a, b) => new Date(a.data).getTime() - new Date(b.data).getTime(),
         ),
       ),
       delay(300),
@@ -71,7 +72,8 @@ export class AgendamentoService {
       oficina_id: dados.oficina_id!,
       servico_id: dados.servico_id!,
       veiculo_id: dados.veiculo_id!,
-      data_hora: dados.data_hora!,
+      data: dados.data!,
+      hora: dados.hora!,
       status: 'AGENDADO',
       observacoes: dados.observacoes || '',
       created_at: new Date().toISOString(),
@@ -84,6 +86,13 @@ export class AgendamentoService {
 
   _criar(dados: AgendamentoCreate): Observable<Agendamento> {
     return this.http.post<Agendamento>(this.apiUrl, dados);
+  }
+
+  remove(key: string) {
+    localStorage.removeItem(key);
+  }
+  clear(): void {
+    localStorage.clear();
   }
 
   atualizarStatus(id: string, status: string): Observable<any> {

@@ -16,9 +16,9 @@ export interface Agendamento {
 
   veiculo_id: string;
 
-  data_hora: string;
-  // data: string; // YYYY-MM-DD
-  // hora: string; // HH:MM:SS
+  // data_hora: string;
+  data: string; // YYYY-MM-DD
+  hora: string; // HH:MM:SS
   // servico: string;
   status: AgendamentoStatus;
 

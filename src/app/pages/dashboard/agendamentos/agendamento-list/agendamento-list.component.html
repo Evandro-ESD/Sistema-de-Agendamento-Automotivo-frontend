@@ -63,11 +63,7 @@
       <div class="space-y-2">
         <label class="text-sm font-medium text-slate-600"> Oficina </label>
 
-        <select
-          formControlName="oficina_id"
-          class="input"
-          [disabled]="user?.role === 'admin_oficina'"
-        >
+        <select formControlName="oficina_id" class="input">
           <option value="">Selecione uma oficina</option>
 
           @for (oficina of lista_oficinas; track oficina.id) {
@@ -107,11 +103,7 @@
       <div class="space-y-2">
         <label class="text-sm font-medium text-slate-600"> Serviço </label>
 
-        <select
-          formControlName="servico_id"
-          class="input"
-          [disabled]="!form.get('oficina_id')?.value"
-        >
+        <select formControlName="servico_id" class="input">
           <option value="">Selecione um serviço</option>
 
           @for (serv of servicosDisponiveis; track serv.id) {
@@ -234,11 +226,11 @@
             <td class="px-6 py-5">
               <div class="space-y-1">
                 <p class="font-medium text-slate-700">
-                  {{ a.data_hora | date: "dd/MM/yyyy" }}
+                  {{ a.data | date: "dd/MM/yyyy" }}
                 </p>
 
                 <p class="text-sm text-slate-500">
-                  {{ a.data_hora | date: "HH:mm" }}
+                  {{ a.hora | date: "HH:mm" }}
                 </p>
               </div>
             </td>
