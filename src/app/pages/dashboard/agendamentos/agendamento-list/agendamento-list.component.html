@@ -136,7 +136,6 @@
         <button
           type="submit"
           class="w-full h-14 rounded-xl bg-[#163B73] text-white font-semibold hover:bg-[#1E4B91] transition shadow-sm"
-          (click)="criar()"
         >
           AGENDAR SERVIÇO
         </button>
@@ -230,7 +229,7 @@
                 </p>
 
                 <p class="text-sm text-slate-500">
-                  {{ a.hora | date: "HH:mm" }}
+                  {{ a.hora }}
                 </p>
               </div>
             </td>

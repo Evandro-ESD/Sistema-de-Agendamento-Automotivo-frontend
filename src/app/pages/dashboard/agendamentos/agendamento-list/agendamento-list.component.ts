@@ -2,7 +2,13 @@ import { CommonModule } from '@angular/common';
 
 import { Component, OnInit, inject } from '@angular/core';
 
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 
 import { AgendamentoService } from '../../../../core/services/agendamento.service';
 
@@ -77,13 +83,13 @@ export class AgendamentoListComponent implements OnInit {
 
     hora: ['', [Validators.required, this.validarHorario]],
 
-    servico_id: ['', Validators.required],
+    servico_id: [{ value: '', disabled: true }, Validators.required],
 
     veiculo_id: ['Veículo Fake', Validators.required],
   });
 
   // Validador de horas
-  validarHorario(control: any) {
+  validarHorario(control: AbstractControl): ValidationErrors | null {
     const [h, m] = control.value?.split(':').map(Number) || [];
     const minutos = h * 60 + m;
     return minutos >= 8 * 60 && minutos <= 17 * 60
@@ -112,20 +118,6 @@ export class AgendamentoListComponent implements OnInit {
     if (this.user?.role === 'admin_oficina') {
       this.form.get('oficina_id')?.disable();
     }
-
-    // Observa mudança da oficina
-    this.form.get('oficina_id')?.valueChanges.subscribe((valor) => {
-      const servicoControl = this.form.get('servico_id');
-
-      if (valor) {
-        servicoControl?.enable();
-      } else {
-        servicoControl?.disable();
-        servicoControl?.setValue('');
-      }
-    });
-
-    console.table(this.lista_oficinas);
   }
 
   carregarVeiculosDoAssociado() {
@@ -170,6 +162,9 @@ export class AgendamentoListComponent implements OnInit {
     this.agendamentoService.listar().subscribe({
       next: (data) => {
         let filtrados = data;
+        console.log('data');
+        console.table(data);
+        console.log('filtrados');
         console.table(filtrados);
 
         // ASSOCIADO
@@ -229,6 +224,14 @@ export class AgendamentoListComponent implements OnInit {
       next: () => {
         this.carregarAgendamentos();
         this.form.reset();
+        this.form.get('servico_id')?.disable();
+        if (this.user?.role === 'admin_oficina') {
+          this.form.patchValue({
+            oficina_id: this.user.oficina_id,
+          });
+
+          this.form.get('oficina_id')?.disable();
+        }
       },
       error: (err) => (this.erro = err.error?.detail || 'Erro ao agendar.'),
     });

@@ -25,7 +25,7 @@ export class AgendamentoService {
   constructor() {
     const stored = this.localStorageService.get<Agendamento>(this.storageKey);
     // this.agendamentos = this.storageKey ? stored : agendamentosMock;
-    this.agendamentos = stored;
+    this.agendamentos = stored ?? [];
 
     // const dados = localStorage.getItem(this.storageKey);
 
@@ -43,12 +43,14 @@ export class AgendamentoService {
   }
 
   listar(): Observable<Agendamento[]> {
-    console.log(this.agendamentos);
+    console.log('this.agendamentos no service');
     console.table(this.agendamentos);
     return of(this.agendamentos).pipe(
       map((lista) =>
         [...lista].sort(
-          (a, b) => new Date(a.data).getTime() - new Date(b.data).getTime(),
+          (a, b) =>
+            new Date(`${a.data}T${a.hora}`).getTime() -
+            new Date(`${b.data}T${b.hora}`).getTime(),
         ),
       ),
       delay(300),
