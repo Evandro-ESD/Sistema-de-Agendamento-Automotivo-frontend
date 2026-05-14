@@ -32,6 +32,13 @@ export const routes: Routes = [
             (m) => m.LoginComponent,
           ),
       },
+      {
+        path: 'login-workshop',
+        loadComponent: () =>
+          import('./pages/public/login/login-workshop/login-workshop.component').then(
+            (m) => m.LoginWorkshopComponent,
+          ),
+      },
 
       {
         path: 'register',

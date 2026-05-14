@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterLink,
     // Se os componentes <app-header>, <app-hero> e <app-footer> forem standalone,
     // importe-os aqui também:
     // AppHeaderComponent, AppHeroComponent, AppFooterComponent
@@ -19,7 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export abstract class LoginComponent implements OnDestroy {
+export class LoginComponent {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
@@ -27,22 +27,20 @@ export abstract class LoginComponent implements OnDestroy {
   loading = false;
   error = '';
 
-  form!: FormGroup;
-  private destroy$ = new Subject<void>();
+  form = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
 
-  abstract expectedRole: string;
-  abstract redirectPath: string;
-  abstract loginTitle: string;
-  abstract welcomeMessage: string;
-  abstract subtitle: string;
-
-  ngOnInit(){
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
+  // Getters para facilitar o acesso no template
+  get email() {
+    return this.form.get('email');
   }
-  
+
+  get password() {
+    return this.form.get('password');
+  }
+
   onSubmit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -54,18 +52,25 @@ export abstract class LoginComponent implements OnDestroy {
 
     const { email, password } = this.form.getRawValue();
 
-    this.auth.login(email!, password!).pipe(takeUntil(this.destroy$))
-    .subscribe({
+    this.auth.login(email!, password!).subscribe({
       next: (res) => {
         this.loading = false;
         console.log('Usuário logado:', res.user);
 
         // Redirecionamento baseado no perfil
-        if (res.user.role !== this.expectedRole) {
-          this.error = `Acesso não permktido. Esta área é exclusiva para ${this.expectedRole}.`;
-          return;
+        switch (res.user.role) {
+          case 'admin_geral':
+            this.router.navigate(['/comando/relatorios']);
+            break;
+          case 'admin_oficina':
+            this.router.navigate(['/comando/agendamentos']);
+            break;
+          case 'associado':
+            this.router.navigate(['/comando/agendamentos']);
+            break;
+          default:
+            this.router.navigate(['/comando']);
         }
-        this.router.navigate([this.redirectPath]);
       },
       error: (err) => {
         this.loading = false;
@@ -73,20 +78,6 @@ export abstract class LoginComponent implements OnDestroy {
         this.error = 'Email ou senha inválidos.';
       },
     });
-  }
-
-  // Getters para facilitar o acesso no template
-  get email() {
-    return this.form.get('email');
-  }
-
-  get password() {
-    return this.form.get('password');
-  }
-
-    ngOnDestroy(){
-      this.destroy$.next();
-      this.destroy$.complete();
   }
 
   // Métodos de login rápido para testes
