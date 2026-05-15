@@ -26,10 +26,10 @@ export const routes: Routes = [
       },
 
       {
-        path: 'login',
+        path: 'login-associate',
         loadComponent: () =>
-          import('./pages/public/login/login.component').then(
-            (m) => m.LoginComponent,
+          import('./pages/public/login/login-associate/login-associate.component').then(
+            (m) => m.LoginAssociateComponent,
           ),
       },
       {
