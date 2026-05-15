@@ -48,7 +48,7 @@ export const usersMock: User[] = [
     role: 'admin_geral',
     created_at: new Date().toISOString(),
   },
-
+  // Usuarios Oficinas
   {
     id: 'u_2',
     nome: 'Rodrigo',
@@ -58,7 +58,16 @@ export const usersMock: User[] = [
     oficina_id: 'of_1',
     created_at: new Date().toISOString(),
   },
-
+  {
+    id: 'u_5',
+    nome: 'Luiz',
+    email: 'Luiz@oficina.com',
+    senha: '123456',
+    role: 'admin_oficina',
+    oficina_id: 'of_2',
+    created_at: new Date().toISOString(),
+  },
+  // Usuarios Associados
   {
     id: 'u_3',
     nome: 'João',
@@ -80,12 +89,28 @@ export const usersMock: User[] = [
   },
 ];
 
+// Serviço de aquecimento, ventilação e ar condicionado
 export const servicosMock: Servico[] = [
   {
     id: 's_1',
     oficina_id: 'of_1',
     nome: 'Troca de óleo',
-    valor: 100,
+    duracao_minutos: 30,
+    ativo: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 's_1',
+    oficina_id: 'of_2',
+    nome: 'Troca de óleo',
+    duracao_minutos: 30,
+    ativo: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 's_1',
+    oficina_id: 'of_3',
+    nome: 'Troca de óleo',
     duracao_minutos: 30,
     ativo: true,
     created_at: new Date().toISOString(),
@@ -94,43 +119,40 @@ export const servicosMock: Servico[] = [
     id: 's_2',
     oficina_id: 'of_1',
     nome: 'Alinhamento',
-    valor: 150,
+    duracao_minutos: 60,
+    ativo: true,
+    created_at: new Date().toISOString(),
+  },
+
+  {
+    id: 's_2',
+    oficina_id: 'of_2',
+    nome: 'Alinhamento',
+    duracao_minutos: 60,
+    ativo: true,
+    created_at: new Date().toISOString(),
+  },
+
+  {
+    id: 's_2',
+    oficina_id: 'of_3',
+    nome: 'Alinhamento',
     duracao_minutos: 60,
     ativo: true,
     created_at: new Date().toISOString(),
   },
   {
-    id: 's_1',
-    oficina_id: 'of_2',
-    nome: 'Troca de óleo',
-    valor: 100,
-    duracao_minutos: 30,
-    ativo: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 's_2',
-    oficina_id: 'of_2',
-    nome: 'Alinhamento',
-    valor: 150,
+    id: 's_3',
+    oficina_id: 'of_4',
+    nome: 'Ar Condicionado',
     duracao_minutos: 60,
     ativo: true,
     created_at: new Date().toISOString(),
   },
   {
-    id: 's_1',
-    oficina_id: 'of_3',
-    nome: 'Troca de óleo',
-    valor: 100,
-    duracao_minutos: 30,
-    ativo: true,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: 's_2',
-    oficina_id: 'of_3',
-    nome: 'Alinhamento',
-    valor: 150,
+    id: 's_4',
+    oficina_id: 'of_4',
+    nome: 'Recarga de gás',
     duracao_minutos: 60,
     ativo: true,
     created_at: new Date().toISOString(),

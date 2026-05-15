@@ -18,12 +18,12 @@ export class AgendamentoService {
 
   private storageKey = 'agendamentos';
 
-  private agendamentos: any[] = [];
+  private agendamentos: Agendamento[] = [];
 
   private localStorageService = inject(LocalStorageService);
 
   constructor() {
-    const stored = this.localStorageService.get<Agendamento>(this.storageKey);
+    const stored = this.localStorageService.get<Agendamento[]>(this.storageKey);
     // this.agendamentos = this.storageKey ? stored : agendamentosMock;
     this.agendamentos = stored ?? [];
 

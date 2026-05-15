@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { oficinasMock } from '../../../mocks/database';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,17 @@ export class HeaderComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  private route = inject(ActivatedRoute);
+
+  oficinas = oficinasMock;
+
+  ngOnInit(): void {
+    console.log('Oficinas: \n', this.oficinas);
+
+    const oficina = this.route.snapshot.queryParamMap.get('o.nome');
+
+    console.log('Of: \n', oficina);
+  }
 
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;

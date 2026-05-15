@@ -31,6 +31,12 @@
       >
         Benefícios
       </a>
+      <a
+        href="#recursos"
+        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
+      >
+        Principais recursos
+      </a>
 
       <div class="relative group">
         <button
@@ -45,53 +51,46 @@
           class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
         >
           <div class="p-3">
-            <a
-              href="#troca-oleo"
-              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
-            >
-              Troca de óleo
-            </a>
+            @for (o of oficinas; track o.id) {
+              <a
+                [routerLink]="['/register']"
+                [queryParams]="{ oficina: o.nome }"
+                class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
+              >
+                {{ o.nome }}
+              </a>
+            }
+          </div>
+        </div>
+      </div>
 
-            <a
-              href="#alinhamento"
-              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
-            >
-              Alinhamento
-            </a>
+      <div class="relative group">
+        <button
+          class="flex items-center gap-2 text-gray-600 hover:text-[#0A2647] transition font-medium"
+        >
+          Onde Estamos
+          <span class="text-xs">▼</span>
+        </button>
 
-            <a
-              href="#balanceamento"
-              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
-            >
-              Balanceamento
-            </a>
-
-            <a
-              href="#freios"
-              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
-            >
-              Freios
-            </a>
-
-            <a
-              href="#revisao"
-              class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
-            >
-              Revisão completa
-            </a>
+        <!-- DROPDOWN -->
+        <div
+          class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
+        >
+          <div class="p-3">
+            @for (o of oficinas; track o.id) {
+              <a
+                href="#"
+                class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
+              >
+                {{ o.nome }}
+              </a>
+            }
           </div>
         </div>
       </div>
 
       <a
-        href="#oficinas"
-        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
-      >
-        Onde estamos
-      </a>
-
-      <a
-        href="#contato"
+        href="#"
         class="text-gray-600 hover:text-[#0A2647] transition font-medium"
       >
         Contato
