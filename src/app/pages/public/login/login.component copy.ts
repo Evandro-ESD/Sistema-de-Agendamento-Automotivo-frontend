@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -11,7 +11,7 @@ import { AuthService } from '../../../core/services/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink,
+
     // Se os componentes <app-header>, <app-hero> e <app-footer> forem standalone,
     // importe-os aqui também:
     // AppHeaderComponent, AppHeroComponent, AppFooterComponent
