@@ -11,4 +11,8 @@ export class FooterComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  zerarLocalStorage() {
+    localStorage.clear();
+  }
 }
