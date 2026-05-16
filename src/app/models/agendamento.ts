@@ -1,8 +1,56 @@
+/**
+ * Status possíveis de um agendamento da oficina.
+ * Controla todo o fluxo desde criação até conclusão.
+ *
+ * @readonly
+ * @enum {string}
+ */
+const StatusAgendamento = {
+  /**
+   * AGENDADO - Estado inicial.
+   * O associado criou o agendamento pelo app/site e está aguardando
+   * a oficina aceitar ou recusar.
+   */
+  AGENDADO: 'AGENDADO',
+
+  /**
+   * CONFIRMADO - Oficina aceitou o serviço.
+   * A oficina visualizou e confirmou que vai atender na data/hora marcada.
+   * Associado é notificado.
+   */
+  CONFIRMADO: 'CONFIRMADO',
+
+  /**
+   * EM_ANDAMENTO - Serviço iniciou na oficina.
+   * O veículo já está no box e o mecânico começou o trabalho.
+   * Dispara cobrança de SLA.
+   */
+  EM_ANDAMENTO: 'EM_ANDAMENTO',
+
+  /**
+   * AGUARDANDO_CONFIRMACAO_ASSOCIADO - Oficina marcou como finalizado.
+   * O serviço foi concluído pela oficina e agora depende do associado.
+   * Ações pendentes do associado:
+   * 1. Confirmar que o serviço foi feito
+   * 2. Assinar documento/OS digital
+   * 3. Validar entrega do veículo
+   */
+  AGUARDANDO_CONFIRMACAO_ASSOCIADO: 'AGUARDANDO_CONFIRMACAO_ASSOCIADO',
+
+  /**
+   * CONCLUIDO - Processo encerrado.
+   * Associado confirmou, assinou e validou.
+   * Agendamento arquivado. Libera faturamento.
+   */
+  CONCLUIDO: 'CONCLUIDO',
+};
+
+Object.freeze(StatusAgendamento); // Impede alteração
 export type AgendamentoStatus =
   | 'AGENDADO'
+  | 'CONFIRMADO'
   | 'EM_ANDAMENTO'
-  | 'FINALIZADO_ASSOCIADO'
-  | 'FINALIZADO_OFICINA'
+  | 'AGUARDANDO_CONFIRMACAO_ASSOCIADO'
   | 'CONCLUIDO'
   | 'CANCELADO';
 
@@ -24,7 +72,11 @@ export interface Agendamento {
 
   observacoes?: string;
 
+  observacoes_oficia?: string;
+
   documento_assinado_url?: string;
+
+  cancelado_por?: 'ASSOCIADO' | 'OFICINA' | 'ADMIN';
 
   created_at: string;
   updated_at: string;
@@ -32,7 +84,11 @@ export interface Agendamento {
 
 export interface AgendamentoCreate {
   oficina_id: string;
+  servico_id: string;
+  veiculo_id: string;
+
   data: string;
   hora: string;
-  servico: string;
+
+  observacoes: string;
 }

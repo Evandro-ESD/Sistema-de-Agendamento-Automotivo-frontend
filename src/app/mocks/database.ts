@@ -12,6 +12,7 @@ export const oficinasMock: Oficina[] = [
     telefone: '21999999999',
     ativa: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
   {
     id: 'of_2',
@@ -20,6 +21,7 @@ export const oficinasMock: Oficina[] = [
     telefone: '21988888888',
     ativa: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
   {
     id: 'of_3',
@@ -28,6 +30,7 @@ export const oficinasMock: Oficina[] = [
     telefone: '21977777777',
     ativa: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
   {
     id: 'of_4',
@@ -36,6 +39,7 @@ export const oficinasMock: Oficina[] = [
     telefone: '21966666666',
     ativa: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
 ];
 
@@ -46,7 +50,10 @@ export const usersMock: User[] = [
     email: 'admin@site.com',
     senha: '123456',
     role: 'admin_geral',
+    plano_id: '',
+    ativo: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
   // Usuarios Oficinas
   {
@@ -56,7 +63,9 @@ export const usersMock: User[] = [
     senha: '123456',
     role: 'admin_oficina',
     oficina_id: 'of_1',
+    ativo: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
   {
     id: 'u_5',
@@ -65,7 +74,9 @@ export const usersMock: User[] = [
     senha: '123456',
     role: 'admin_oficina',
     oficina_id: 'of_2',
+    ativo: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
   // Usuarios Associados
   {
@@ -75,7 +86,9 @@ export const usersMock: User[] = [
     senha: '123456',
     role: 'associado',
     oficina_id: 'of_1',
+    ativo: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
 
   {
@@ -85,7 +98,9 @@ export const usersMock: User[] = [
     senha: '123456',
     role: 'associado',
     oficina_id: 'of_1',
+    ativo: true,
     created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   },
 ];
 
@@ -93,32 +108,40 @@ export const usersMock: User[] = [
 export const servicosMock: Servico[] = [
   {
     id: 's_1',
+    nome: 'Troca de óleo',
+    descricao: '',
+    criado_por_oficina: '',
     oficina_id: 'of_1',
-    nome: 'Troca de óleo',
     duracao_minutos: 30,
     ativo: true,
     created_at: new Date().toISOString(),
   },
   {
     id: 's_1',
+    nome: 'Troca de óleo',
+    descricao: '',
+    criado_por_oficina: '',
     oficina_id: 'of_2',
-    nome: 'Troca de óleo',
     duracao_minutos: 30,
     ativo: true,
     created_at: new Date().toISOString(),
   },
   {
     id: 's_1',
-    oficina_id: 'of_3',
     nome: 'Troca de óleo',
+    descricao: '',
+    criado_por_oficina: '',
+    oficina_id: 'of_3',
     duracao_minutos: 30,
     ativo: true,
     created_at: new Date().toISOString(),
   },
   {
     id: 's_2',
-    oficina_id: 'of_1',
     nome: 'Alinhamento',
+    descricao: '',
+    criado_por_oficina: '',
+    oficina_id: 'of_1',
     duracao_minutos: 60,
     ativo: true,
     created_at: new Date().toISOString(),
@@ -126,8 +149,10 @@ export const servicosMock: Servico[] = [
 
   {
     id: 's_2',
-    oficina_id: 'of_2',
     nome: 'Alinhamento',
+    descricao: '',
+    criado_por_oficina: '',
+    oficina_id: 'of_2',
     duracao_minutos: 60,
     ativo: true,
     created_at: new Date().toISOString(),
@@ -135,24 +160,31 @@ export const servicosMock: Servico[] = [
 
   {
     id: 's_2',
-    oficina_id: 'of_3',
     nome: 'Alinhamento',
+    descricao: '',
+    criado_por_oficina: '',
+    oficina_id: 'of_3',
     duracao_minutos: 60,
     ativo: true,
     created_at: new Date().toISOString(),
   },
   {
     id: 's_3',
-    oficina_id: 'of_4',
     nome: 'Ar Condicionado',
+    descricao: '',
+    criado_por_oficina: '',
+    oficina_id: 'of_4',
     duracao_minutos: 60,
     ativo: true,
     created_at: new Date().toISOString(),
   },
+
   {
     id: 's_4',
-    oficina_id: 'of_4',
     nome: 'Recarga de gás',
+    descricao: '',
+    criado_por_oficina: '',
+    oficina_id: 'of_4',
     duracao_minutos: 60,
     ativo: true,
     created_at: new Date().toISOString(),

@@ -1,10 +1,13 @@
-export interface Servico {
+export interface OficinaServico {
   id: string;
-  nome: string;
-  descricao?: string;
-  criado_por_oficina: string;
   oficina_id: string;
+  servico_id: string;
+
   duracao_minutos: number;
+
+  preco?: number;
+
   ativo: boolean;
+
   created_at: string;
 }

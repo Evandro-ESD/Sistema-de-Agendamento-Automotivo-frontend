@@ -38,7 +38,9 @@ export class AuthService {
       email,
       senha,
       role: 'associado',
+      ativo: true,
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     };
 
     this.mockUsers.push(newUser);
@@ -56,7 +58,9 @@ export class AuthService {
       email: 'admin@site.com',
       senha: '123456',
       role: 'admin_geral',
+      ativo: true,
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
 
     {
@@ -66,7 +70,9 @@ export class AuthService {
       senha: '123456',
       role: 'admin_oficina',
       oficina_id: 'of_1',
+      ativo: true,
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
 
     {
@@ -76,7 +82,9 @@ export class AuthService {
       senha: '123456',
       role: 'associado',
       oficina_id: 'of_1',
+      ativo: true,
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
 
     {
@@ -86,7 +94,9 @@ export class AuthService {
       senha: '123456',
       role: 'associado',
       oficina_id: 'of_1',
+      ativo: true,
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
     {
       id: 'u_5',
@@ -95,7 +105,9 @@ export class AuthService {
       senha: 'gerente123',
       role: 'admin_oficina',
       oficina_id: 'oficina_123',
+      ativo: true,
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
 
     {
@@ -105,7 +117,9 @@ export class AuthService {
       senha: 'associado123',
       role: 'associado',
       oficina_id: 'of_2',
+      ativo: true,
       created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     },
   ];
 
@@ -126,12 +140,14 @@ export class AuthService {
       user: {
         id: user.id,
         nome: user.nome,
-        senha: user.senha,
         email: user.email,
+        senha: user.senha,
         role: user.role,
         oficina_id: user.oficina_id,
         plano_id: user.plano_id,
+        ativo: user.ativo,
         created_at: user.created_at,
+        updated_at: user.updated_at,
       },
     };
 
