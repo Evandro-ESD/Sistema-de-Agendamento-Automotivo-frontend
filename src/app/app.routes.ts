@@ -24,22 +24,6 @@ export const routes: Routes = [
             (m) => m.HomeComponent,
           ),
       },
-
-      {
-        path: 'login-associate',
-        loadComponent: () =>
-          import('./pages/public/login/login-associate/login-associate.component').then(
-            (m) => m.LoginAssociateComponent,
-          ),
-      },
-      {
-        path: 'login-workshop',
-        loadComponent: () =>
-          import('./pages/public/login/login-workshop/login-workshop.component').then(
-            (m) => m.LoginWorkshopComponent,
-          ),
-      },
-
       {
         path: 'register',
         loadComponent: () =>
@@ -48,6 +32,21 @@ export const routes: Routes = [
           ),
       },
     ],
+  },
+
+  {
+    path: 'login-associate',
+    loadComponent: () =>
+      import('./pages/public/login/login-associate/login-associate.component').then(
+        (m) => m.LoginAssociateComponent,
+      ),
+  },
+  {
+    path: 'login-workshop',
+    loadComponent: () =>
+      import('./pages/public/login/login-workshop/login-workshop.component').then(
+        (m) => m.LoginWorkshopComponent,
+      ),
   },
 
   /**

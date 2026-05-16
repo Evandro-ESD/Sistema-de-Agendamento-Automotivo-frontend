@@ -1,106 +1,152 @@
 <div
-  class="min-h-screen bg-linear-to-br from-[#F5F7FA] via-white to-[#EAF4FB] px-4 py-10"
+  class="min-h-screen bg-[#0A2647] flex items-center justify-center px-4 py-10"
 >
-  <section
-    class="bg-white max-w-xl mx-auto rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+  <div
+    class="w-auto max-w-6xl overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-xl"
   >
-    <!-- HEADER -->
-    <div
-      class="bg-[#0A2647] text-white px-8 py-6 flex items-center justify-between"
-    >
-      <div>
-        <h1 class="text-2xl font-bold">Área do Associado</h1>
+    <!-- RIGHT -->
 
-        <p class="text-sm text-slate-300 mt-1">
-          Acesse seus agendamentos e informações
-        </p>
-      </div>
+    <div class="flex items-center justify-center p-6 md:p-12">
+      <section class="w-full max-w-md">
+        <!-- MOBILE LOGO -->
 
-      <div
-        class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-2xl"
-      >
-        👤
-      </div>
-    </div>
+        <div class="lg:hidden mb-10 text-center">
+          <div
+            class="mx-auto w-16 h-16 rounded-xl bg-[#0A2647] flex items-center justify-center text-white text-3xl"
+          >
+            🚘
+          </div>
 
-    <!-- TABS -->
-    <div class="flex bg-slate-100 border-b border-slate-200 px-4 pt-4">
-      <!-- ASSOCIADO -->
-      <a
-        [routerLink]="['/login-associate']"
-        routerLinkActive="bg-white text-[#0A2647] shadow-sm z-20"
-        class="relative flex-1 px-6 py-4 rounded-t-2xl text-center text-slate-500 font-semibold transition-all duration-300"
-      >
-        <div class="flex flex-col items-center">
-          <span class="text-lg leading-tight"> LOGIN ASSOCIADO </span>
+          <h1 class="mt-5 text-3xl font-bold text-[#0A2647]">OFICINA SYSTEM</h1>
 
-          <span class="text-xs text-slate-400 mt-1"> Área do associado </span>
-        </div>
-      </a>
-
-      <!-- OFICINA -->
-      <a
-        [routerLink]="['/login-workshop']"
-        class="relative -ml-2 flex-1 px-6 py-4 rounded-t-2xl text-center text-slate-500 font-semibold bg-slate-200 transition-all duration-300 hover:bg-slate-300"
-      >
-        <div class="flex flex-col items-center">
-          <span class="text-lg leading-tight"> LOGIN OFICINA </span>
-
-          <span class="text-xs text-slate-400 mt-1">
-            Painel administrativo
-          </span>
-        </div>
-      </a>
-    </div>
-
-    <!-- FORM -->
-    <div class="p-8">
-      <div class="mb-8">
-        <h2 class="text-3xl font-bold text-[#0A2647]">Bem-vindo</h2>
-
-        <p class="mt-2 text-slate-500">Faça login na sua conta.</p>
-      </div>
-
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
-        <!-- EMAIL -->
-        <div>
-          <label class="block mb-2 text-sm font-semibold text-slate-700">
-            Email
-          </label>
-
-          <input
-            type="email"
-            formControlName="email"
-            placeholder="Digite seu email"
-            class="w-full px-5 py-4 rounded-2xl border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#0A2647]"
-          />
+          <p class="text-slate-500 mt-2">Plataforma Automotiva</p>
         </div>
 
-        <!-- SENHA -->
-        <div>
-          <label class="block mb-2 text-sm font-semibold text-slate-700">
-            Senha
-          </label>
+        <!-- TOP -->
 
-          <input
-            type="password"
-            formControlName="password"
-            placeholder="Digite sua senha"
-            class="w-full px-5 py-4 rounded-2xl border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#0A2647]"
-          />
+        <div class="space-y-3 mb-8">
+          <h2 class="text-4xl font-bold text-[#0A2647]">Entrar</h2>
+
+          <p class="text-slate-500">
+            Entre com suas credenciais para acessar o sistema.
+          </p>
         </div>
 
-        <!-- BOTÃO -->
-        <button
-          type="submit"
-          [disabled]="form.invalid || loading"
-          class="w-full py-4 rounded-2xl bg-[#0A2647] text-white text-lg font-semibold shadow-lg transition-all duration-300 hover:shadow-2xl"
+        <!-- ERROR -->
+
+        <div
+          *ngIf="error"
+          class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-600"
         >
-          <span *ngIf="!loading"> Entrar </span>
+          {{ error }}
+        </div>
 
-          <span *ngIf="loading"> Entrando... </span>
-        </button>
-      </form>
+        <!-- FORM -->
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+          <!-- EMAIL -->
+
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-slate-600"> E-mail </label>
+
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="Digite seu e-mail"
+              class="w-full h-14 rounded-xl border border-slate-300 bg-white px-4 text-slate-700 outline-none transition focus:border-[#163B73] focus:ring-4 focus:ring-[#163B73]/10"
+            />
+          </div>
+
+          <!-- PASSWORD -->
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium text-slate-600"> Senha </label>
+
+              <a
+                href="#"
+                class="text-sm text-[#163B73] hover:text-[#0A2647] transition"
+              >
+                Esqueceu a senha?
+              </a>
+            </div>
+
+            <input
+              type="password"
+              formControlName="password"
+              placeholder="Digite sua senha"
+              class="w-full h-14 rounded-xl border border-slate-300 bg-white px-4 text-slate-700 outline-none transition focus:border-[#163B73] focus:ring-4 focus:ring-[#163B73]/10"
+            />
+          </div>
+
+          <!-- REMEMBER -->
+
+          <div class="flex items-center justify-between">
+            <!-- LEFT -->
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                class="w-4 h-4 rounded border-slate-300 text-[#163B73]"
+              />
+
+              <span class="text-sm text-slate-600"> Manter conectado </span>
+            </label>
+
+            <!-- RIGHT -->
+
+            <label class="flex items-center gap-3 cursor-pointer">
+              <span class="text-sm text-slate-600"> Exibir senha </span>
+
+              <input
+                type="checkbox"
+                class="w-4 h-4 rounded border-slate-300 text-[#163B73]"
+              />
+            </label>
+          </div>
+
+          <!-- BUTTON -->
+
+          <button
+            type="submit"
+            [disabled]="form.invalid || loading"
+            class="w-full h-14 rounded-xl bg-[#163B73] text-white font-semibold text-lg hover:bg-[#1E4B91] transition shadow-sm disabled:opacity-50"
+          >
+            {{ loading ? "ENTRANDO..." : "ENTRAR" }}
+          </button>
+        </form>
+
+        <!-- DIVIDER -->
+
+        <div class="my-8 flex items-center gap-4">
+          <div class="flex-1 h-px bg-slate-200"></div>
+
+          <span class="text-sm text-slate-400"> OU </span>
+
+          <div class="flex-1 h-px bg-slate-200"></div>
+        </div>
+
+        <!-- REGISTER -->
+
+        <div class="text-center space-y-4">
+          <p class="text-slate-500">Não possui conta?</p>
+
+          <a
+            routerLink="/register"
+            class="inline-flex items-center justify-center w-full h-14 rounded-xl border border-slate-300 bg-white text-[#0A2647] font-semibold hover:bg-slate-50 transition"
+          >
+            CRIAR CONTA
+          </a>
+        </div>
+
+        <!-- FOOTER -->
+
+        <div
+          class="mt-10 pt-6 border-t border-slate-200 text-center text-sm text-slate-400"
+        >
+          © 2026 Oficina System · Plataforma Automotiva
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 </div>
