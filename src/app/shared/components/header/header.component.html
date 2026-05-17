@@ -142,22 +142,17 @@
         </button>
 
         <div *ngIf="servicesOpen" class="pl-4 space-y-2">
-          <a href="#" (click)="closeMenu()" class="block text-gray-600">
-            Oficia 1
-          </a>
-
-          <a href="#" (click)="closeMenu()" class="block text-gray-600">
-            Oficia 2
-          </a>
-
-          <a href="#" (click)="closeMenu()" class="block text-gray-600">
-            Oficia 3
-          </a>
-
-          <a href="#" (click)="closeMenu()" class="block text-gray-600">
-            Oficia 4
-          </a>
-        </div>
+  @for (o of oficinas; track o.id) {
+    <a
+      [routerLink]="['/register']"
+      [queryParams]="{ oficina: o.nome }"
+      (click)="closeMenu()"
+      class="block rounded-lg px-3 py-2 text-gray-600 hover:bg-slate-100 hover:text-[#0A2647] transition"
+    >
+      {{ o.nome }}
+    </a>
+  }
+</div>
       </div>
       <a
         href="#oficinas"
