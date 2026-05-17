@@ -28,6 +28,7 @@ export interface User {
   oficina_id?: string;
   plano_id?: string;
   ativo: boolean;
+  foto?: string;
   created_at: string;
   updated_at: string;
 }

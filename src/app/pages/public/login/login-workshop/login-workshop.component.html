@@ -1,106 +1,129 @@
 <div
-  class="min-h-screen bg-linear-to-br from-[#F5F7FA] via-white to-[#EAF4FB] px-4 py-10"
+  class="min-h-screen bg-[#0A2647] flex items-center justify-center px-4 py-3"
 >
-  <section
-    class="bg-white max-w-xl mx-auto rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+  <div
+    class="w-lg max-w-5xl overflow-hidden rounded-lg bg-white border border-slate-200 shadow-2xl"
   >
-    <!-- HEADER -->
-    <div
-      class="bg-[#0A2647] text-white px-8 py-6 flex items-center justify-between"
-    >
-      <div>
-        <h1 class="text-2xl font-bold">Área da Oficina</h1>
+    <div class="flex items-center justify-center p-6 md:p-12">
+      <section class="w-full max-w-md">
+        <!-- BRAND -->
 
-        <p class="text-sm text-slate-300 mt-1">
-          Gerencie ordens de serviço e agendamentos
-        </p>
-      </div>
+        <div class="mb-10 text-center">
+          <h1 class="text-4xl font-bold text-[#0A2647]">Oficina Inteligente</h1>
 
-      <div
-        class="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-2xl"
-      >
-        🛠️
-      </div>
-    </div>
-
-    <!-- TABS -->
-    <div class="flex bg-slate-100 border-b border-slate-200 px-4 pt-4">
-      <!-- ASSOCIADO -->
-      <a
-        [routerLink]="['/login-associate']"
-        class="relative flex-1 px-6 py-4 rounded-t-2xl text-center text-slate-500 font-semibold bg-slate-200 transition-all duration-300 hover:bg-slate-300"
-      >
-        <div class="flex flex-col items-center">
-          <span class="text-lg leading-tight"> LOGIN ASSOCIADO </span>
-
-          <span class="text-xs text-slate-400 mt-1"> Área do associado </span>
-        </div>
-      </a>
-
-      <!-- OFICINA -->
-      <a
-        [routerLink]="['/login-workshop']"
-        routerLinkActive="bg-white text-[#0A2647] shadow-sm z-20"
-        class="relative -ml-2 flex-1 px-6 py-4 rounded-t-2xl text-center text-slate-500 font-semibold transition-all duration-300"
-      >
-        <div class="flex flex-col items-center">
-          <span class="text-lg leading-tight"> LOGIN OFICINA </span>
-
-          <span class="text-xs text-slate-400 mt-1">
-            Painel administrativo
-          </span>
-        </div>
-      </a>
-    </div>
-
-    <!-- FORM -->
-    <div class="p-8">
-      <div class="mb-8">
-        <h2 class="text-3xl font-bold text-[#0A2647]">Bem-vindo</h2>
-
-        <p class="mt-2 text-slate-500">Faça login no painel da oficina.</p>
-      </div>
-
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
-        <!-- EMAIL -->
-        <div>
-          <label class="block mb-2 text-sm font-semibold text-slate-700">
-            Email
-          </label>
-
-          <input
-            type="email"
-            formControlName="email"
-            placeholder="Digite seu email"
-            class="w-full px-5 py-4 rounded-2xl border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#0A2647]"
-          />
+          <p class="text-slate-500 mt-2">
+            Plataforma inteligente para oficinas automotivas
+          </p>
         </div>
 
-        <!-- SENHA -->
-        <div>
-          <label class="block mb-2 text-sm font-semibold text-slate-700">
-            Senha
-          </label>
+        <!-- TABS -->
 
-          <input
-            type="password"
-            formControlName="password"
-            placeholder="Digite sua senha"
-            class="w-full px-5 py-4 rounded-2xl border border-slate-300 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#0A2647]"
-          />
-        </div>
-
-        <!-- BOTÃO -->
-        <button
-          type="submit"
-          [disabled]="form.invalid || loading"
-          class="w-full py-4 rounded-2xl bg-[#0A2647] text-white text-lg font-semibold shadow-lg transition-all duration-300 hover:shadow-2xl"
+        <div
+          class="rounded-2xl border border-slate-200 bg-slate-100 p-1 shadow-sm mb-8"
         >
-          <span *ngIf="!loading"> Entrar </span>
+          <div class="flex">
+            <!-- ASSOCIADO -->
 
-          <span *ngIf="loading"> Entrando... </span>
-        </button>
-      </form>
+            <button
+              routerLink="/login-associate"
+              class="flex-1 rounded-xl text-slate-500 hover:text-[#0A2647] px-4 py-4 transition"
+            >
+              <div class="flex flex-col items-center">
+                <span class="text-base font-bold tracking-wide">
+                  ASSOCIADO
+                </span>
+
+                <span class="text-xs mt-1"> Sou cliente </span>
+              </div>
+            </button>
+
+            <!-- OFICINA ACTIVE -->
+
+            <button
+              class="flex-1 rounded-xl bg-white shadow-md text-[#0A2647] px-4 py-4"
+            >
+              <div class="flex flex-col items-center">
+                <span class="text-base font-bold tracking-wide"> OFICINA </span>
+
+                <span class="text-xs mt-1"> Parceiro credenciado </span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- TITLE -->
+
+        <div class="space-y-3 mb-8 text-center">
+          <h2 class="text-3xl font-bold text-[#0A2647]">Área da Oficina</h2>
+
+          <p class="text-slate-500">
+            Gerencie serviços, operações e atendimentos.
+          </p>
+        </div>
+
+        <!-- FORM -->
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+          <!-- EMAIL -->
+
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-slate-600"> E-mail </label>
+
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="Digite seu e-mail"
+              class="w-full h-14 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#163B73] focus:ring-4 focus:ring-[#163B73]/10"
+            />
+          </div>
+
+          <!-- PASSWORD -->
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium text-slate-600"> Senha </label>
+
+              <a href="#" class="text-sm text-[#163B73] hover:text-[#0A2647]">
+                Esqueceu a senha?
+              </a>
+            </div>
+
+            <input
+              type="password"
+              formControlName="password"
+              placeholder="Digite sua senha"
+              class="w-full h-14 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#163B73] focus:ring-4 focus:ring-[#163B73]/10"
+            />
+          </div>
+
+          <!-- OPTIONS -->
+
+          <div class="flex justify-end">
+            <label class="flex items-center gap-3 cursor-pointer">
+              <span class="text-sm text-slate-600"> Exibir senha </span>
+
+              <input type="checkbox" class="w-4 h-4" />
+            </label>
+          </div>
+
+          <!-- BUTTON -->
+
+          <button
+            type="submit"
+            class="w-full h-14 rounded-xl bg-[#163B73] text-white font-semibold text-lg hover:bg-[#1E4B91] transition"
+          >
+            ENTRAR COMO OFICINA
+          </button>
+        </form>
+
+        <!-- FOOTER -->
+
+        <div
+          class="mt-10 pt-6 border-t border-slate-200 text-center text-sm text-slate-400"
+        >
+          © 2026 Oficina Inteligente
+        </div>
+      </section>
     </div>
-  </section>
+  </div>
 </div>

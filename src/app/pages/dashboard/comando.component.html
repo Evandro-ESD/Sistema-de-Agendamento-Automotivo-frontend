@@ -16,7 +16,11 @@
         <div
           class="w-11 h-11 rounded-xl bg-[#163b7362] flex items-center justify-center text-white text-lg font-bold"
         >
-          🚘
+          <img
+            src="../../../assets/icons/ExecutiveCar_Black_icon-icons.com_54904.png"
+            alt=""
+            srcset=""
+          />
         </div>
 
         <div>
@@ -62,7 +66,13 @@
         routerLinkActive="bg-[#163b7362] text-white"
         class="flex items-center gap-4 h-13 px-4 rounded-xl text-slate-300 hover:bg-[#163b7362] hover:text-white transition-all duration-300 font-medium"
       >
-        <span class="text-lg">📍</span>
+        <span class="text-lg"
+          ><img
+            src="../../../assets/icons/calendar_office_day_1474.png"
+            alt=""
+            srcset=""
+            class="w-5 h-auto"
+        /></span>
 
         <span>AGENDAMENTOS</span>
       </a>
@@ -164,9 +174,14 @@
         </div>
 
         <div
-          class="w-11 h-11 rounded-xl bg-[#163b7362] text-white flex items-center justify-center font-semibold"
+          class="w-11 h-11 rounded-xl bg-[#163b7362] text-white flex items-center justify-center font-semibold overflow-hidden"
         >
-          {{ user?.nome?.charAt(0) }}
+          @if (user?.foto) {
+            <img [src]="user?.foto" class="w-full h-full object-cover" />
+          } @else {
+            <span>{{ user?.nome?.charAt(0) }}</span>
+          }
+          <img src="../../../assets/icons/russel_dog_animal_15954.png" alt="" />
         </div>
       </div>
     </header>

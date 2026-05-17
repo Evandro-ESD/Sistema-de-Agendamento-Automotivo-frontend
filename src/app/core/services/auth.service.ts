@@ -118,6 +118,8 @@ export class AuthService {
       role: 'associado',
       oficina_id: 'of_2',
       ativo: true,
+      foto: 'assets/icons/russel_dog_animal_15954.png',
+      // foto: '../../../assets/icons/russel_dog_animal_15954.png',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     },

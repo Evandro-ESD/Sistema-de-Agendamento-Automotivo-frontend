@@ -2,37 +2,63 @@
   class="min-h-screen bg-[#0A2647] flex items-center justify-center px-4 py-3"
 >
   <div
-    class="w-auto max-w-5xl overflow-hidden rounded-lg bg-white border border-slate-200 shadow-2xl"
+    class="w-lg max-w-5xl overflow-hidden rounded-lg bg-white border border-slate-200 shadow-2xl"
   >
     <div class="flex items-center justify-center p-6 md:p-12">
       <section class="w-full max-w-md">
         <!-- BRAND -->
 
         <div class="mb-10 text-center">
-          <h1 class="text-4xl font-bold text-[#0A2647]">Auto Gestão</h1>
+          <h1 class="text-4xl font-bold text-[#0A2647]">Oficina Inteligente</h1>
 
           <p class="text-slate-500 mt-2">
             Plataforma inteligente para oficinas automotivas
           </p>
         </div>
 
-        <!-- TOP -->
-
-        <div class="space-y-3 mb-8 text-center">
-          <h2 class="text-4xl font-bold text-[#0A2647]">Entrar</h2>
-
-          <p class="text-slate-500">
-            Entre com suas credenciais para acessar o sistema.
-          </p>
-        </div>
-
-        <!-- ERROR -->
+        <!-- TABS -->
 
         <div
-          *ngIf="error"
-          class="mb-6 rounded-xl border border-red-200 bg-red-50 p-4 text-red-600"
+          class="rounded-2xl border border-slate-200 bg-slate-100 p-1 shadow-sm mb-8"
         >
-          {{ error }}
+          <div class="flex">
+            <!-- ASSOCIADO ACTIVE -->
+
+            <button
+              class="flex-1 rounded-xl bg-white shadow-md text-[#0A2647] px-4 py-4"
+            >
+              <div class="flex flex-col items-center">
+                <span class="text-base font-bold tracking-wide">
+                  ASSOCIADO
+                </span>
+
+                <span class="text-xs mt-1"> Sou cliente </span>
+              </div>
+            </button>
+
+            <!-- OFICINA -->
+
+            <button
+              routerLink="/login-workshop"
+              class="flex-1 rounded-xl text-slate-500 hover:text-[#0A2647] px-4 py-4 transition"
+            >
+              <div class="flex flex-col items-center">
+                <span class="text-base font-bold tracking-wide"> OFICINA </span>
+
+                <span class="text-xs mt-1"> Parceiro credenciado </span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- TITLE -->
+
+        <div class="space-y-3 mb-8 text-center">
+          <h2 class="text-3xl font-bold text-[#0A2647]">Área do Associado</h2>
+
+          <p class="text-slate-500">
+            Acesse seus agendamentos e serviços automotivos.
+          </p>
         </div>
 
         <!-- FORM -->
@@ -47,7 +73,7 @@
               type="email"
               formControlName="email"
               placeholder="Digite seu e-mail"
-              class="w-full h-14 rounded-xl border border-slate-300 bg-white px-4 text-slate-700 outline-none transition focus:border-[#163B73] focus:ring-4 focus:ring-[#163B73]/10"
+              class="w-full h-14 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#163B73] focus:ring-4 focus:ring-[#163B73]/10"
             />
           </div>
 
@@ -57,10 +83,7 @@
             <div class="flex items-center justify-between">
               <label class="text-sm font-medium text-slate-600"> Senha </label>
 
-              <a
-                href="#"
-                class="text-sm text-[#163B73] hover:text-[#0A2647] transition"
-              >
+              <a href="#" class="text-sm text-[#163B73] hover:text-[#0A2647]">
                 Esqueceu a senha?
               </a>
             </div>
@@ -69,20 +92,17 @@
               type="password"
               formControlName="password"
               placeholder="Digite sua senha"
-              class="w-full h-14 rounded-xl border border-slate-300 bg-white px-4 text-slate-700 outline-none transition focus:border-[#163B73] focus:ring-4 focus:ring-[#163B73]/10"
+              class="w-full h-14 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#163B73] focus:ring-4 focus:ring-[#163B73]/10"
             />
           </div>
 
           <!-- OPTIONS -->
 
-          <div class="flex items-center justify-end">
+          <div class="flex justify-end">
             <label class="flex items-center gap-3 cursor-pointer">
               <span class="text-sm text-slate-600"> Exibir senha </span>
 
-              <input
-                type="checkbox"
-                class="w-4 h-4 rounded border-slate-300 text-[#163B73]"
-              />
+              <input type="checkbox" class="w-4 h-4" />
             </label>
           </div>
 
@@ -90,42 +110,18 @@
 
           <button
             type="submit"
-            [disabled]="form.invalid || loading"
-            class="w-full h-14 rounded-xl bg-[#163B73] text-white font-semibold text-lg hover:bg-[#1E4B91] transition shadow-sm disabled:opacity-50"
+            class="w-full h-14 rounded-xl bg-[#163B73] text-white font-semibold text-lg hover:bg-[#1E4B91] transition"
           >
-            {{ loading ? "ENTRANDO..." : "ENTRAR" }}
+            ENTRAR COMO ASSOCIADO
           </button>
         </form>
-
-        <!-- DIVIDER -->
-
-        <div class="my-8 flex items-center gap-4">
-          <div class="flex-1 h-px bg-slate-200"></div>
-
-          <span class="text-sm text-slate-400"> OU </span>
-
-          <div class="flex-1 h-px bg-slate-200"></div>
-        </div>
-
-        <!-- REGISTER -->
-
-        <div class="text-center space-y-4">
-          <p class="text-slate-500">Não possui conta?</p>
-
-          <a
-            routerLink="/register"
-            class="inline-flex items-center justify-center w-full h-14 rounded-xl border border-slate-300 bg-white text-[#0A2647] font-semibold hover:bg-slate-50 transition"
-          >
-            CRIAR CONTA
-          </a>
-        </div>
 
         <!-- FOOTER -->
 
         <div
           class="mt-10 pt-6 border-t border-slate-200 text-center text-sm text-slate-400"
         >
-          © 2026 Auto Gestão · Plataforma Automotiva
+          © 2026 Oficina Inteligente
         </div>
       </section>
     </div>
