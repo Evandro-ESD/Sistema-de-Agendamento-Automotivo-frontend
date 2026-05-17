@@ -13,6 +13,7 @@ import { oficinasMock } from '../../../mocks/database';
 export class HeaderComponent implements OnInit {
   menuOpen = false;
   servicesOpen = false;
+  lacalizacaoOpen = false;
 
   constructor() {}
 
