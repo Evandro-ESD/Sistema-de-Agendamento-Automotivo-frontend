@@ -49,6 +49,20 @@ export const routes: Routes = [
       ),
   },
 
+  {
+    /**
+     * =========================================
+     * PUBLIC oficinas fake
+     * =========================================
+     */
+
+    path: 'oficina1-fake',
+    loadComponent: () =>
+      import('./pages/public/accredited_workshops/oficina_1/oficina_1.component').then(
+        (m) => m.Oficina_1Component,
+      ),
+  },
+
   /**
    * =========================================
    * PRIVATE LAYOUT

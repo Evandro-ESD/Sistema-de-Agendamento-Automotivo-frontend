@@ -1,0 +1,146 @@
+<div class="space-y-6 px-10 py-10 ml-4 mr-4 min-w-96 items-center">
+  <!-- HEADER -->
+
+  <div
+    class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+  >
+    <div>
+      <h1 class="text-3xl font-bold text-[#0A2647]">AGENDAMENTOS</h1>
+
+      <p class="text-slate-500 mt-1">
+        Gerencie serviços, horários e acompanhamentos.
+      </p>
+    </div>
+  </div>
+
+  <!-- FORM -->
+
+  <section
+    *ngIf="user?.role === 'associado'"
+    class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+  >
+    <!-- TOP -->
+
+    <div
+      class="px-6 py-5 border-b border-slate-200 flex items-center justify-between"
+    >
+      <div>
+        <h2 class="text-xl font-semibold text-[#0A2647]">NOVO AGENDAMENTO</h2>
+
+        <p class="text-sm text-slate-500 mt-1">
+          Solicite um serviço para sua oficina credenciada.
+        </p>
+      </div>
+
+      <div
+        class="hidden md:flex w-12 h-12 rounded-xl bg-[#EAF4FB] items-center justify-center text-xl"
+      >
+        <img
+          src="../../../../../assets/icons/calendar_office_day_1474.png"
+          alt="Agendamentos"
+          srcset=""
+        />
+      </div>
+    </div>
+
+    <!-- FORM -->
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="criar()"
+      class="p-6 grid md:grid-cols-2 gap-5"
+    >
+      <!-- OFICINA -->
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-slate-600"> Oficina </label>
+
+        <select formControlName="oficina_id" class="input">
+          <option value="">Selecione uma oficina</option>
+
+          @for (oficina of lista_oficinas; track oficina.id) {
+            <option [value]="oficina.id">
+              {{ oficina.nome }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- DATA -->
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-slate-600"> Data </label>
+
+        <input type="date" formControlName="data" class="input" />
+      </div>
+
+      <!-- HORARIO -->
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-slate-600"> Horário </label>
+
+        <select formControlName="hora" class="input">
+          <option value="">Selecione um horário</option>
+
+          @for (hora of horarios; track hora) {
+            <option [value]="hora">
+              {{ hora }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- SERVICO -->
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-slate-600"> Serviço </label>
+
+        <select formControlName="servico_id" class="input">
+          <option value="">Selecione um serviço</option>
+
+          @for (serv of servicosDisponiveis; track serv.id) {
+            <option [value]="serv.id">
+              {{ serv.nome }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- VEICULO -->
+
+      <div class="space-y-2">
+        <label class="text-sm font-medium text-slate-600"> Veículo </label>
+        <input formControlName="veiculo_id" type="text" class="input" />
+        <!-- <select formControlName="veiculo_id" class="input">
+          <option value="">Selecione um veículo</option>
+
+          @for (veiculo of veiculosDoAssociado; track veiculo.id) {
+            <option [value]="veiculo.id">
+              {{ veiculo.modelo }} - {{ veiculo.placa }}
+            </option>
+          }
+        </select> -->
+      </div>
+
+      <!-- BUTTON -->
+
+      <div class="md:col-span-2 pt-2">
+        <button
+          type="submit"
+          class="w-full h-14 rounded-xl bg-[#163B73] text-white font-semibold hover:bg-[#1E4B91] transition shadow-sm"
+        >
+          AGENDAR SERVIÇO
+        </button>
+      </div>
+
+      <!-- ERROR -->
+
+      <div
+        *ngIf="erro"
+        class="md:col-span-2 bg-red-50 border border-red-200 text-red-600 rounded-xl p-4"
+      >
+        {{ erro }}
+      </div>
+    </form>
+  </section>
+</div>
