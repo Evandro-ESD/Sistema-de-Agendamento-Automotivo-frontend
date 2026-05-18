@@ -1,0 +1,17 @@
+<div class="relative" (mouseenter)="open.set(true)" (mouseleave)="open.set(false)">
+  <button class="flex itens-center gap-2">
+    {{item().label}}
+  </button>
+
+  @if(open()){
+  <div class="absolute top-full left-0 mt-2 w-60 rounded-2x1 bg-white shadow-xl border">
+    @for (child of item.children; track child.label){
+    <a [routerLink]="child.route">
+      {{child.label}}
+    </a>
+    }
+
+  </div>
+  }
+
+</div>
