@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { oficinasMock } from '../../../mocks/database';
+import { oficinasMock } from '../../../../../mocks/database';
 
 @Component({
   selector: 'app-header',
