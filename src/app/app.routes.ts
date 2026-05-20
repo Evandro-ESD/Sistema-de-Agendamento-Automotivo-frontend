@@ -62,6 +62,16 @@ export const routes: Routes = [
         (m) => m.Oficina_1Component,
       ),
   },
+  /**
+   * ENDEREÇOS GENÉRIO PARA OFICINAS "ONDE ESTAMOS"
+   */
+  {
+    path: 'onde-estamos',
+    loadComponent: () =>
+      import('./pages/public/accredited_workshops/PagesAdressWorkShops/ondeEstamosGenerico/ondeEstamosGenerico.component').then(
+        (m) => m.OndeEstamosGenericoComponent,
+      ),
+  },
 
   /**
    * =========================================

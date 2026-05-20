@@ -48,6 +48,7 @@
 
       <!-- DROPDOWN -->
       <app-dropdown title="Agende seu serviço" [items]="menuDropdown" />
+      <app-dropdown title="Onde estamos" [items]="menuDropdownContact" />
 
       <a
         href="#"
@@ -76,7 +77,6 @@
   </div>
 
   <!-- MOBILE MENU -->
-  <!-- MOBILE MENU -->
   @if (menuOpen()) {
     <div
       class="lg:hidden border-t border-slate-200 bg-white px-6 py-5 shadow-sm"
@@ -99,6 +99,9 @@
         <!-- DROPDOWN -->
         <div class="px-4 py-3">
           <app-dropdown title="Agende seu serviço" [items]="menuDropdown" />
+        </div>
+        <div class="px-4 py-3">
+          <app-dropdown title="Onde estamos" [items]="menuDropdownContact" />
         </div>
 
         <a

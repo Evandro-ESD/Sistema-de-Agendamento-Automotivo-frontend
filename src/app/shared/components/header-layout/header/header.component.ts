@@ -31,4 +31,13 @@ export class HeaderComponent {
     route: '/oficina1-fake',
     icon: '🔧',
   }));
+
+  menuDropdownContact: DropdownMenuItem[] = this.oficinasMock.map(
+    (oficina) => ({
+      label: oficina.nome,
+      // route: `/oficina/${oficina.id}`,
+      route: '/onde-estamos',
+      icon: '🔧',
+    }),
+  );
 }
