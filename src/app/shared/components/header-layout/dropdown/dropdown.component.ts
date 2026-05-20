@@ -1,39 +1,68 @@
-import { ChangeDetectionStrategy, Component, signal, computed, input } from '@angular/core';
-import { Router, RouterLink } from "@angular/router";
-import { MenuItem } from '../models/menu-item.interface';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  input,
+  signal,
+} from '@angular/core';
+
+import { RouterLink } from '@angular/router';
+
+export interface DropdownMenuItem {
+  label: string;
+  route?: string;
+  icon?: string;
+}
 
 @Component({
   selector: 'app-dropdown',
+  standalone: true,
   imports: [RouterLink],
   templateUrl: './dropdown.component.html',
-  styleUrl: './dropdown.component.css'
+  styleUrl: './dropdown.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DropdownComponent {
+  items = input.required<DropdownMenuItem[]>();
 
+  title = input.required<string>();
 
-  item = input.required<MenuItem>()
+  open = signal(false);
 
-  open = signal(false)
+  mobile = signal(false);
 
-  hasChildren =  computed(() => {
-    return !!this.item().children?.length
-  })
-  constructor(private readonly router: Router){
-    this.router.events.subscribe(() => {
-      this.close()
-    })
+  constructor() {
+    this.checkViewport();
   }
 
-  openMenu(): void{
-    this.open.set(true)
+  @HostListener('window:resize')
+  checkViewport(): void {
+    this.mobile.set(window.innerWidth < 1024);
   }
-  close(): void{
-    this.open.set(false)
+
+  toggleMenu(): void {
+    this.open.update((value) => !value);
   }
-  toggle(): void{
-    this.open.update((value) => !value)
+
+  openDesktop(): void {
+    if (!this.mobile()) {
+      this.open.set(true);
+    }
   }
-  trackByLabel(_: number, item: MenuItem): string{
-    return item.label
+
+  closeDesktop(): void {
+    if (!this.mobile()) {
+      this.open.set(false);
+    }
+  }
+
+  closeMobile(): void {
+    if (this.mobile()) {
+      this.open.set(false);
+    }
+  }
+
+  trackByLabel(_: number, item: DropdownMenuItem): string {
+    return item.label;
   }
 }

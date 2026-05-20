@@ -1,17 +1,56 @@
-<div class="relative" (mouseenter)="open.set(true)" (mouseleave)="open.set(false)">
-  <button class="flex itens-center gap-2">
-    {{item().label}}
+<div
+  class="relative"
+  (mouseenter)="openDesktop()"
+  (mouseleave)="closeDesktop()"
+>
+  <!-- BUTTON -->
+  <button
+    (click)="toggleMenu()"
+    class="w-full lg:w-auto flex items-center justify-between gap-3 text-gray-700 hover:text-[#0A2647] transition font-semibold"
+  >
+    <span>
+      {{ title() }}
+    </span>
+
+    <span
+      class="text-xs transition-transform duration-200"
+      [class.rotate-180]="open()"
+    >
+      ▼
+    </span>
   </button>
 
-  @if(open()){
-  <div class="absolute top-full left-0 mt-2 w-60 rounded-2x1 bg-white shadow-xl border">
-    @for (child of item.children; track child.label){
-    <a [routerLink]="child.route">
-      {{child.label}}
-    </a>
-    }
+  <!-- MENU -->
+  @if (open()) {
+    <div
+      class="lg:absolute lg:top-full lg:left-0 lg:w-85 relative w-full bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden z-50"
+    >
+      <!-- TOP BORDER -->
+      <div class="h-1 bg-[#F28C00]"></div>
 
-  </div>
+      <!-- ITEMS -->
+      <div class="flex flex-col">
+        @for (item of items(); track trackByLabel($index, item)) {
+          <a
+            [routerLink]="item.route"
+            (click)="closeMobile()"
+            class="flex items-center justify-between px-5 h-16 border-b border-slate-200 hover:bg-slate-50 transition"
+          >
+            <!-- LEFT -->
+            <div class="flex items-center gap-4">
+              @if (item.icon) {
+                <span class="text-lg opacity-70">
+                  {{ item.icon }}
+                </span>
+              }
+
+              <span class="text-gray-700 font-medium">
+                {{ item.label }}
+              </span>
+            </div>
+          </a>
+        }
+      </div>
+    </div>
   }
-
 </div>

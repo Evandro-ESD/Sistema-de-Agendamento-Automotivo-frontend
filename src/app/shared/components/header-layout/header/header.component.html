@@ -1,41 +1,44 @@
 <header
-  class="fixed top-0 left-0 right-0 z-50
-  bg-white/95 backdrop-blur border-b border-slate-200
-  shadow-sm h-auto"
+  class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm"
 >
   <div class="h-14 max-w-7xl mx-auto px-6 flex items-center justify-between">
-    <!-- MOBILE BUTTON -->
-    <button
-      (click)="menuOpen = !menuOpen"
-      class="lg:hidden w-10 h-10 rounded-xl
-      border border-slate-200
-      flex items-center justify-center
-      text-[#0A2647] hover:bg-slate-100 transition"
-    >
-      {{ menuOpen ? "✕" : "☰" }}
-    </button>
+    <!-- LEFT -->
+    <div class="flex items-center gap-4">
+      <!-- MOBILE BUTTON -->
+      <button
+        (click)="toggleMenu()"
+        class="lg:hidden w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center text-[#0A2647] hover:bg-slate-100 transition"
+      >
+        {{ menuOpen() ? "✕" : "☰" }}
+      </button>
 
-    <!-- LOGO -->
-    <a routerLink="/" class="flex items-center gap-3">
-      <img src="assets/logos/logo.png" alt="Logo" class="h-11 object-contain" />
+      <!-- LOGO -->
+      <a routerLink="/" class="flex items-center gap-3">
+        <img
+          src="assets/logos/logo.png"
+          alt="Logo"
+          class="h-11 object-contain"
+        />
 
-      <div class="hidden sm:flex flex-col">
-        <span class="text-[#0A2647] font-bold text-lg leading-none">
-          Oficina Inteligente
-        </span>
+        <div class="hidden sm:flex flex-col">
+          <span class="text-[#0A2647] font-bold text-lg leading-none">
+            Oficina Inteligente
+          </span>
 
-        <span class="text-xs text-gray-500"> Plataforma Automotiva </span>
-      </div>
-    </a>
+          <span class="text-xs text-gray-500"> Plataforma Automotiva </span>
+        </div>
+      </a>
+    </div>
 
     <!-- NAV DESKTOP -->
-    <nav class="hidden lg:flex items-center gap-8">
+    <nav class="hidden lg:flex items-center content-center gap-4 m-4">
       <a
         href="#beneficios"
         class="text-gray-600 hover:text-[#0A2647] transition font-medium"
       >
         Benefícios
       </a>
+
       <a
         href="#recursos"
         class="text-gray-600 hover:text-[#0A2647] transition font-medium"
@@ -43,56 +46,8 @@
         Principais recursos
       </a>
 
-      <div class="relative group">
-        <button
-          class="flex items-center gap-2 text-gray-600 hover:text-[#0A2647] transition font-medium"
-        >
-          Agende seu serviço
-          <span class="text-xs">▼</span>
-        </button>
-
-        <!-- DROPDOWN -->
-        <div
-          class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
-        >
-          <div class="p-3">
-            @for (o of oficinas; track o.id) {
-              <a
-                [routerLink]="['/register']"
-                [queryParams]="{ oficina: o.nome }"
-                class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
-              >
-                {{ o.nome }}
-              </a>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="relative group">
-        <button
-          class="flex items-center gap-2 text-gray-600 hover:text-[#0A2647] transition font-medium"
-        >
-          Onde Estamos
-          <span class="text-xs">▼</span>
-        </button>
-
-        <!-- DROPDOWN -->
-        <div
-          class="absolute top-full left-0 mt-3 w-64 bg-white rounded-2xl shadow-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50"
-        >
-          <div class="p-3">
-            @for (o of oficinas; track o.id) {
-              <a
-                href="#"
-                class="block px-4 py-3 rounded-xl hover:bg-slate-100 text-gray-700"
-              >
-                {{ o.nome }}
-              </a>
-            }
-          </div>
-        </div>
-      </div>
+      <!-- DROPDOWN -->
+      <app-dropdown title="Agende seu serviço" [items]="menuDropdown" />
 
       <a
         href="#"
@@ -121,99 +76,55 @@
   </div>
 
   <!-- MOBILE MENU -->
-  @if (menuOpen) {
+  <!-- MOBILE MENU -->
+  @if (menuOpen()) {
     <div
-      class="lg:hidden fixed top-20 left-0 w-full bg-white border-t border-slate-200 shadow-xl z-50"
+      class="lg:hidden border-t border-slate-200 bg-white px-6 py-5 shadow-sm"
     >
-      <div class="px-6 py-5 space-y-4">
+      <nav class="flex flex-col gap-2">
         <a
           href="#beneficios"
-          (click)="closeMenu()"
-          class="block text-gray-700 font-medium hover:text-[#0A2647]"
+          class="px-4 py-3 rounded-xl text-gray-700 hover:bg-slate-100 transition"
         >
           Benefícios
         </a>
 
-        <div class="space-y-2">
-          <button
-            (click)="servicesOpen = !servicesOpen"
-            class="w-full flex items-center justify-between text-gray-700 font-medium"
-          >
-            <span>Agende seu serviço</span>
+        <a
+          href="#recursos"
+          class="px-4 py-3 rounded-xl text-gray-700 hover:bg-slate-100 transition"
+        >
+          Principais recursos
+        </a>
 
-            <span>
-              {{ servicesOpen ? "▲" : "▼" }}
-            </span>
-          </button>
-          @if (servicesOpen) {
-            <div class="pl-4 space-y-2">
-              @for (o of oficinas; track o.id) {
-                <a
-                  [routerLink]="['/register']"
-                  [queryParams]="{ oficina: o.nome }"
-                  (click)="closeMenu()"
-                  class="block rounded-lg px-3 py-2 text-gray-600 hover:bg-slate-100 hover:text-[#0A2647] transition"
-                >
-                  {{ o.nome }}
-                </a>
-              }
-            </div>
-          }
-        </div>
-
-        <div class="space-y-2">
-          <button
-            (click)="lacalizacaoOpen = !lacalizacaoOpen"
-            class="w-full flex items-center justify-between text-gray-700 font-medium"
-          >
-            <span>Onde Estamos</span>
-
-            <span>
-              {{ lacalizacaoOpen ? "▲" : "▼" }}
-            </span>
-          </button>
-          @if (lacalizacaoOpen) {
-            <div class="pl-4 space-y-2">
-              @for (o of oficinas; track o.id) {
-                <a
-                  [routerLink]="['/']"
-                  [queryParams]="{ oficina: o.nome }"
-                  (click)="closeMenu()"
-                  class="block rounded-lg px-3 py-2 text-gray-600 hover:bg-slate-100 hover:text-[#0A2647] transition"
-                >
-                  {{ o.nome }}
-                </a>
-              }
-            </div>
-          }
+        <!-- DROPDOWN -->
+        <div class="px-4 py-3">
+          <app-dropdown title="Agende seu serviço" [items]="menuDropdown" />
         </div>
 
         <a
-          href="#contato"
-          (click)="closeMenu()"
-          class="block text-gray-700 font-medium hover:text-[#0A2647]"
+          href="#"
+          class="px-4 py-3 rounded-xl text-gray-700 hover:bg-slate-100 transition"
         >
           Contato
         </a>
 
-        <div class="pt-4 flex flex-col gap-3">
+        <!-- MOBILE ACTIONS -->
+        <div class="flex flex-col gap-3 pt-4">
           <a
             routerLink="/login-associate"
-            (click)="closeMenu()"
-            class="h-11 flex items-center justify-center rounded-xl border border-slate-300 text-[#0A2647] font-medium"
+            class="h-11 flex items-center justify-center rounded-xl border border-slate-300 text-[#0A2647] font-medium hover:bg-slate-100 transition"
           >
             Entrar
           </a>
 
           <a
             routerLink="/register"
-            (click)="closeMenu()"
-            class="h-11 flex items-center justify-center rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold"
+            class="h-11 flex items-center justify-center rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold hover:brightness-105 transition"
           >
             Credenciar Oficina
           </a>
         </div>
-      </div>
+      </nav>
     </div>
   }
 </header>
