@@ -58,8 +58,8 @@ export const routes: Routes = [
 
     path: 'agendamento-online/:id',
     loadComponent: () =>
-      import('./pages/public/accredited_workshops/oficina_1/oficina_1.component').then(
-        (m) => m.Oficina_1Component,
+      import('./pages/public/accredited_workshops/oficinas/oficinas.component').then(
+        (m) => m.OficinasComponent,
       ),
   },
   /**

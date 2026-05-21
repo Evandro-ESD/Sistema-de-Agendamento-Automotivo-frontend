@@ -1,258 +1,132 @@
-import { CommonModule } from '@angular/common';
-
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 
 import {
-  AbstractControl,
-  FormBuilder,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+  Agendamento,
+  STATUS_AGENDAMENTO,
+} from '../../../../models/agendamento';
 
 import { AgendamentoService } from '../../../../core/services/agendamento.service';
-
-import { oficinasMock, servicosMock, veiculosMock } from '../../../../mocks';
-
 import { AuthService } from '../../../../core/services/auth.service';
-import { OficinaService } from '../../../../core/services/oficina.service';
+
+import { CommonModule } from '@angular/common';
+import { LocalStorageService } from '../../../../core/services/localStorage.service';
+
+type AgendamentoView = Agendamento & {
+  servico_nome?: string;
+  oficina_nome?: string;
+  veiculo_nome?: string;
+  nome_cliente?: string;
+  email_cliente?: string;
+  telefone_cliente?: string;
+};
 
 @Component({
   selector: 'app-agendamento-list',
-
   standalone: true,
-
-  imports: [CommonModule, ReactiveFormsModule],
-
+  imports: [CommonModule],
   templateUrl: './agendamento-list.component.html',
 })
 export class AgendamentoListComponent implements OnInit {
-  private agendamentoService = inject(AgendamentoService);
+  private readonly agendamentoService = inject(AgendamentoService);
+  private readonly authService = inject(AuthService);
 
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+  readonly user = this.authService.currentUser();
 
-  // user = JSON.parse(localStorage.getItem('user') || '{}');
-  user = this.authService.currentUser();
-  // agendamentos: Agendamento[] = [];
-  agendamentos: any[] = [];
+  readonly STATUS = STATUS_AGENDAMENTO;
 
-  lista_oficinas = oficinasMock;
+  private readonly localStorageService = inject(LocalStorageService);
 
-  servicosDisponiveis: OficinaService[] = [];
+  agendamentos = signal<AgendamentoView[]>([]);
 
-  veiculosDoAssociado: any[] = [];
+  loading = signal(false);
+  erro = signal('');
 
-  // oficinas: Oficina[] = [];
+  totalAgendamentos = computed(() => this.agendamentos().length);
 
-  erro = '';
-
-  loading = false;
-
-  horarios = [
-    '08:00',
-    '09:00',
-    '10:00',
-    '11:00',
-    '12:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-  ];
-  servicos = [
-    'Troca de óleo',
-    'Alinhamento',
-    'Balanceamento',
-    'Troca de pneus',
-    'Revisão',
-    'Freios',
-    'Suspensão',
-    'Diagnóstico',
-  ];
-
-  form = this.fb.nonNullable.group({
-    oficina_id: ['', Validators.required],
-
-    data: ['', Validators.required],
-
-    hora: ['', [Validators.required, this.validarHorario]],
-
-    servico_id: [{ value: '', disabled: true }, Validators.required],
-
-    veiculo_id: ['Veículo Fake', Validators.required],
+  proximosAgendamentos = computed(() => {
+    return this.agendamentos()
+      .filter((a) => a.status !== STATUS_AGENDAMENTO.CONCLUIDO)
+      .slice(0, 3);
   });
 
-  // Validador de horas
-  validarHorario(control: AbstractControl): ValidationErrors | null {
-    const [h, m] = control.value?.split(':').map(Number) || [];
-    const minutos = h * 60 + m;
-    return minutos >= 8 * 60 && minutos <= 17 * 60
-      ? null
-      : { horarioInvalido: true };
-  }
-
-  ngOnInit() {
-    this.configurarOficinas();
+  ngOnInit(): void {
     this.carregarAgendamentos();
-    this.carregarVeiculosDoAssociado();
-    // Quando a oficina mudar, carrega os serviços dela
-    this.form.get('oficina_id')?.valueChanges.subscribe((oficinaServicoId) => {
-      if (oficinaServicoId) {
-        this.servicosDisponiveis = servicosMock.filter(
-          (s) => s.id === oficinaServicoId && s.ativo,
+
+    this.agendamentos().map((a) => {
+      console.log('Agendamentos:\n:', a.pre_cadastro_id);
+    });
+    this.agendamentos().forEach((a) => {
+      console.log(a.status);
+    });
+  }
+
+  carregarAgendamentos(): void {
+    this.loading.set(true);
+
+    this.erro.set('');
+
+    try {
+      const data =
+        this.localStorageService.getArray<AgendamentoView>('agendamentos');
+
+      let filtrados = data;
+
+      // ASSOCIADO
+      if (this.user?.role === 'associado') {
+        filtrados = data.filter((ag) => ag.associado_id === this.user?.id);
+      }
+
+      // ADMIN OFICINA
+      else if (this.user?.role === 'admin_oficina') {
+        filtrados = data.filter(
+          (ag) => ag.oficina_id === this.user?.oficina_id,
         );
-        this.form.get('servico_id')?.enable();
-      } else {
-        this.servicosDisponiveis = [];
-        this.form.get('servico_id')?.disable();
       }
-    });
 
-    // Se for admin_oficina desabilita oficina_id
-    if (this.user?.role === 'admin_oficina') {
-      this.form.get('oficina_id')?.disable();
+      this.agendamentos.set(filtrados);
+
+      this.loading.set(false);
+    } catch {
+      this.erro.set('Erro ao carregar agendamentos');
+
+      this.loading.set(false);
     }
   }
 
-  carregarVeiculosDoAssociado() {
-    if (this.user?.role === 'associado') {
-      this.veiculosDoAssociado = veiculosMock.filter(
-        (v) => v.associado_id === this.user!.id,
-      );
-      if (this.veiculosDoAssociado.length === 1) {
-        this.form.patchValue({ veiculo_id: this.veiculosDoAssociado[0].id });
-      }
-    }
-  }
-
-  configurarOficinas() {
-    // ADMIN GERAL
-    if (this.user?.role === 'admin_geral') {
-      this.lista_oficinas = oficinasMock;
-    }
-
-    // GERENTE
-    else if (this.user?.role === 'admin_oficina') {
-      this.lista_oficinas = oficinasMock.filter(
-        (o) => o.id === this.user?.oficina_id,
-      );
-
-      this.form.patchValue({
-        oficina_id: this.user?.oficina_id,
-      });
-    }
-
-    // ASSOCIADO
-    else {
-      this.lista_oficinas = oficinasMock;
-    }
-  }
-
-  carregarAgendamentos() {
-    this.loading = true;
-
-    this.erro = '';
-
-    this.agendamentoService.listar().subscribe({
-      next: (data) => {
-        let filtrados = data;
-        console.log('data');
-        console.table(data);
-        console.log('filtrados');
-        console.table(filtrados);
-
-        // ASSOCIADO
-        if (this.user?.role === 'associado') {
-          filtrados = data.filter((ag) => ag.associado_id === this.user?.id);
-        }
-
-        // GERENTE DA OFICINA
-        else if (this.user?.role === 'admin_oficina') {
-          filtrados = data.filter(
-            (ag) => ag.oficina_id === this.user?.oficina_id,
-          );
-        }
-
-        // ADMIN GERAL vê tudo
-
-        this.agendamentos = filtrados.map((ag) => ({
-          ...ag,
-
-          servico_nome:
-            servicosMock.find((s) => s.id === ag.oficina_servico_id)?.nome ||
-            ag.oficina_servico_id,
-
-          oficina_nome: oficinasMock.find((o) => o.id === ag.oficina_id)?.nome,
-        }));
-
-        this.loading = false;
-      },
-
-      error: (err) => {
-        console.error(err);
-
-        this.erro = 'Erro ao carregar agendamentos';
-
-        this.loading = false;
-      },
+  cancelar(id: string): void {
+    this.agendamentoService.cancelar(id).subscribe(() => {
+      this.carregarAgendamentos();
     });
   }
-
-  criar() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    const { oficina_id, data, hora, servico_id, veiculo_id } =
-      this.form.getRawValue();
-    const payload = {
-      oficina_id,
-      data,
-      hora,
-      servico_id,
-      veiculo_id,
-      associado_id: this.user!.id,
-    };
-    this.agendamentoService.criar(payload).subscribe({
-      next: () => {
+  confirmar(id: string): void {
+    this.agendamentoService
+      .atualizarStatus(id, STATUS_AGENDAMENTO.CONFIRMADO)
+      .subscribe(() => {
         this.carregarAgendamentos();
-        this.form.reset();
-        this.form.get('servico_id')?.disable();
-        if (this.user?.role === 'admin_oficina') {
-          this.form.patchValue({
-            oficina_id: this.user.oficina_id,
-          });
-
-          this.form.get('oficina_id')?.disable();
-        }
-      },
-      error: (err) => (this.erro = err.error?.detail || 'Erro ao agendar.'),
-    });
+      });
   }
 
-  cancelar(id: string) {
+  iniciarServico(id: string): void {
     this.agendamentoService
-      .cancelar(id)
-      .subscribe(() => this.carregarAgendamentos());
+      .atualizarStatus(id, STATUS_AGENDAMENTO.EM_ANDAMENTO)
+      .subscribe(() => {
+        this.carregarAgendamentos();
+      });
   }
 
-  finalizar(id: string, status: string) {
+  finalizarServico(id: string): void {
     this.agendamentoService
-      .atualizarStatus(id, status)
-      .subscribe(() => this.carregarAgendamentos());
+      .atualizarStatus(id, STATUS_AGENDAMENTO.AGUARDANDO_CONFIRMACAO_ASSOCIADO)
+      .subscribe(() => {
+        this.carregarAgendamentos();
+      });
   }
 
-  onFileChange(event: Event, id: string) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) this.agendamentoService.enviarDocumento(id, file).subscribe();
-  }
-
-  uploadDocumento(id: string, file: File) {
+  confirmarConclusao(id: string): void {
     this.agendamentoService
-      .enviarDocumento(id, file)
-      .subscribe(() => this.carregarAgendamentos());
+      .atualizarStatus(id, STATUS_AGENDAMENTO.CONCLUIDO)
+      .subscribe(() => {
+        this.carregarAgendamentos();
+      });
   }
 }

@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AgendamentoService } from '../../../../core/services/agendamento.service';
 import { LocalStorageService } from '../../../../core/services/localStorage.service';
@@ -10,13 +8,17 @@ import { Oficina } from '../../../../models/oficina';
 import { OficinaServicoDetalhado } from '../../../../models/oficina-servico-detalhado';
 
 @Component({
-  selector: 'app-oficina_1',
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './oficina_1.component.html',
-  styleUrls: ['./oficina_1.component.css'],
+  selector: 'app-oficinas',
+  templateUrl: './oficinas.component.html',
+  styleUrls: ['./oficinas.component.css'],
 })
-export class Oficina_1Component implements OnInit {
+export class OficinasComponent implements OnInit {
   constructor() {}
+
+  nomeCliente = signal('');
+  telefoneCliente = signal('');
+  emailCliente = signal('');
+  placaVeiculo = signal('');
 
   ngOnInit(): void {
     if (!this.oficinaId) return;
@@ -56,7 +58,15 @@ export class Oficina_1Component implements OnInit {
   loadingServices = signal(false);
   selectedDate = signal('');
   selectedHour = signal('');
-  step = signal<'oficina' | 'servico' | 'data' | 'confirmacao'>('oficina');
+  step = signal<
+    | 'oficina'
+    | 'servico'
+    | 'data'
+    | 'identificação_rapida'
+    | 'pre_agendamento'
+    | 'pre_cadastro'
+    | 'aguardando_confirmacao'
+  >('oficina');
   oficinaServicoService = inject(OficinaServicoService);
   agendamentoService = inject(AgendamentoService);
   localStorageService = inject(LocalStorageService);
@@ -73,9 +83,16 @@ export class Oficina_1Component implements OnInit {
       this.step.set('servico');
       return;
     }
-
-    if (this.step() === 'confirmacao') {
+    if (this.step() === 'identificação_rapida') {
       this.step.set('data');
+      return;
+    }
+
+    if (this.step() === 'pre_agendamento') {
+      this.step.set('identificação_rapida');
+    }
+    if (this.step() === 'pre_cadastro') {
+      this.step.set('pre_agendamento');
     }
   }
 
@@ -140,29 +157,47 @@ export class Oficina_1Component implements OnInit {
     if (!oficina || !servico) {
       return;
     }
-    // 6. Criar agendamento
-    this.agendamentoService
-      .criar({
-        associado_id: 'assoc_1',
 
-        oficina_id: oficina.id,
+    const novoAgendamento = {
+      id: crypto.randomUUID(),
 
-        oficina_servico_id: servico.servico_id,
+      associado_id: 'assoc_1',
 
-        veiculo_id: 'veic_1',
+      oficina_id: oficina.id,
 
-        data: this.selectedDate(),
+      oficina_servico_id: servico.servico_id,
 
-        hora: this.selectedHour(),
+      veiculo_id: 'veic_1',
 
-        observacoes: '',
-      })
-      .subscribe({
-        next: () => {
-          alert('Agendamento criado!');
+      oficina_nome: oficina.nome,
 
-          this.step.set('confirmacao');
-        },
-      });
+      servico_nome: servico.nome,
+
+      nome_cliente: this.nomeCliente(),
+
+      telefone_cliente: this.telefoneCliente(),
+
+      email_cliente: this.emailCliente(),
+
+      veiculo_nome: this.placaVeiculo(),
+
+      data: this.selectedDate(),
+
+      hora: this.selectedHour(),
+
+      status: 'AGENDADO',
+
+      observacoes: '',
+
+      created_at: new Date().toISOString(),
+
+      updated_at: new Date().toISOString(),
+    };
+
+    this.localStorageService.pushItem('agendamentos', novoAgendamento);
+
+    alert('Agendamento criado!');
+
+    this.step.set('pre_agendamento');
   }
 }

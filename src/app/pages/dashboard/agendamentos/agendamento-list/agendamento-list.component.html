@@ -1,354 +1,234 @@
-<div class="space-y-6">
-  <!-- HEADER -->
-
-  <div
-    class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+@if (agendamentos().length > 0) {
+  <section
+    class="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm"
   >
-    <div>
-      <h1 class="text-3xl font-bold text-[#0A2647]">AGENDAMENTOS</h1>
+    <!-- HEADER -->
 
-      <p class="text-slate-500 mt-1">
-        Gerencie serviços, horários e acompanhamentos.
+    <div class="px-6 py-6 bg-[#0A2647] text-white border-b border-[#163B73]">
+      <h2 class="text-2xl font-bold">Solicitações e serviços</h2>
+
+      <p class="text-sm text-slate-300 mt-1">
+        Histórico operacional dos atendimentos.
       </p>
     </div>
 
-    <!-- STATUS CARD -->
+    <!-- ITEMS -->
 
-    <div
-      class="bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-sm min-w-56"
-    >
-      <p class="text-sm text-slate-500">Total de agendamentos</p>
-
-      <h2 class="text-3xl font-bold text-[#0A2647]">
-        {{ agendamentos.length }}
-      </h2>
-    </div>
-  </div>
-
-  <!-- FORM -->
-
-  <section
-    *ngIf="user?.role === 'associado'"
-    class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
-  >
-    <!-- TOP -->
-
-    <div
-      class="px-6 py-5 border-b border-slate-200 flex items-center justify-between"
-    >
-      <div>
-        <h2 class="text-xl font-semibold text-[#0A2647]">NOVO AGENDAMENTO</h2>
-
-        <p class="text-sm text-slate-500 mt-1">
-          Solicite um serviço para sua oficina credenciada.
-        </p>
-      </div>
-
-      <div
-        class="hidden md:flex w-12 h-12 rounded-xl bg-[#EAF4FB] items-center justify-center text-xl"
-      >
-        <img
-          src="../../../../../assets/icons/calendar_office_day_1474.png"
-          alt="Agendamentos"
-          srcset=""
-        />
-      </div>
-    </div>
-
-    <!-- FORM -->
-
-    <form
-      [formGroup]="form"
-      (ngSubmit)="criar()"
-      class="p-6 grid md:grid-cols-2 gap-5"
-    >
-      <!-- OFICINA -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Oficina </label>
-
-        <select formControlName="oficina_id" class="input">
-          <option value="">Selecione uma oficina</option>
-
-          @for (oficina of lista_oficinas; track oficina.id) {
-            <option [value]="oficina.id">
-              {{ oficina.nome }}
-            </option>
-          }
-        </select>
-      </div>
-
-      <!-- DATA -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Data </label>
-
-        <input type="date" formControlName="data" class="input" />
-      </div>
-
-      <!-- HORARIO -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Horário </label>
-
-        <select formControlName="hora" class="input">
-          <option value="">Selecione um horário</option>
-
-          @for (hora of horarios; track hora) {
-            <option [value]="hora">
-              {{ hora }}
-            </option>
-          }
-        </select>
-      </div>
-
-      <!-- SERVICO -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Serviço </label>
-
-        <select formControlName="servico_id" class="input">
-          <option value="">Selecione um serviço</option>
-
-          @for (serv of servicosDisponiveis; track serv) {
-            <option [value]="serv">
-              {{ serv }}
-            </option>
-          }
-        </select>
-      </div>
-
-      <!-- VEICULO -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Veículo </label>
-        <input formControlName="veiculo_id" type="text" class="input" />
-        <!-- <select formControlName="veiculo_id" class="input">
-          <option value="">Selecione um veículo</option>
-
-          @for (veiculo of veiculosDoAssociado; track veiculo.id) {
-            <option [value]="veiculo.id">
-              {{ veiculo.modelo }} - {{ veiculo.placa }}
-            </option>
-          }
-        </select> -->
-      </div>
-
-      <!-- BUTTON -->
-
-      <div class="md:col-span-2 pt-2">
-        <button
-          type="submit"
-          class="w-full h-14 rounded-xl bg-[#163B73] text-white font-semibold hover:bg-[#1E4B91] transition shadow-sm"
+    <div class="divide-y divide-slate-100">
+      @for (a of agendamentos(); track a.id) {
+        <article
+          class="p-5 md:p-6 hover:bg-slate-50 transition-all duration-200"
         >
-          AGENDAR SERVIÇO
-        </button>
-      </div>
+          <div class="flex flex-col gap-6">
+            <!-- TOP -->
 
-      <!-- ERROR -->
+            <div
+              class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5"
+            >
+              <!-- LEFT -->
 
-      <div
-        *ngIf="erro"
-        class="md:col-span-2 bg-red-50 border border-red-200 text-red-600 rounded-xl p-4"
-      >
-        {{ erro }}
-      </div>
-    </form>
-  </section>
+              <div class="space-y-5 flex-1">
+                <!-- TITULO -->
 
-  <!-- TABLE -->
+                <div
+                  class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4"
+                >
+                  <div class="space-y-1">
+                    <h3 class="text-2xl font-bold text-[#0A2647] leading-tight">
+                      {{ a.servico_nome }}
+                    </h3>
 
-  <section
-    class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
-  >
-    <!-- TOP -->
+                    <p class="text-slate-500 font-medium">
+                      {{ a.oficina_nome }}
+                    </p>
+                  </div>
 
-    <div
-      class="px-6 py-5 border-b border-slate-200 flex items-center justify-between"
-    >
-      <div>
-        <h2 class="text-xl font-semibold text-[#0A2647]">
-          LISTA DE AGENDAMENTOS
-        </h2>
+                  <!-- TIPO CLIENTE -->
 
-        <p class="text-sm text-slate-500 mt-1">
-          Histórico e acompanhamento dos serviços.
-        </p>
-      </div>
+                  <span
+                    class="w-fit px-4 py-2 rounded-xl text-xs font-semibold tracking-wide"
+                    [ngClass]="{
+                      'bg-amber-100 text-amber-700':
+                        a.tipo_cliente === 'VISITANTE',
+
+                      'bg-blue-100 text-blue-700':
+                        a.tipo_cliente === 'ASSOCIADO',
+                    }"
+                  >
+                    {{ a.tipo_cliente }}
+                  </span>
+                </div>
+
+                <!-- INFO GRID -->
+
+                <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                  <div
+                    class="bg-slate-50 border border-slate-200 rounded-2xl p-4"
+                  >
+                    <p class="text-xs uppercase tracking-wide text-slate-400">
+                      Cliente
+                    </p>
+
+                    <p class="mt-1 font-semibold text-slate-700">
+                      {{ a.nome_cliente }}
+                    </p>
+                  </div>
+
+                  <div
+                    class="bg-slate-50 border border-slate-200 rounded-2xl p-4"
+                  >
+                    <p class="text-xs uppercase tracking-wide text-slate-400">
+                      Telefone
+                    </p>
+
+                    <p class="mt-1 font-semibold text-slate-700">
+                      {{ a.telefone_cliente }}
+                    </p>
+                  </div>
+
+                  <div
+                    class="bg-slate-50 border border-slate-200 rounded-2xl p-4"
+                  >
+                    <p class="text-xs uppercase tracking-wide text-slate-400">
+                      E-mail
+                    </p>
+
+                    <p class="mt-1 font-semibold text-slate-700 break-all">
+                      {{ a.email_cliente }}
+                    </p>
+                  </div>
+
+                  <div
+                    class="bg-slate-50 border border-slate-200 rounded-2xl p-4"
+                  >
+                    <p class="text-xs uppercase tracking-wide text-slate-400">
+                      Veículo
+                    </p>
+
+                    <p class="mt-1 font-semibold text-slate-700">
+                      {{ a.veiculo_nome || "Não informado" }}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- DATA -->
+
+                <div class="flex flex-wrap gap-3">
+                  <div
+                    class="inline-flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-xl text-sm text-slate-700"
+                  >
+                    <span>📅</span>
+
+                    <span>
+                      {{ a.data | date: "dd/MM/yyyy" }}
+                    </span>
+                  </div>
+
+                  <div
+                    class="inline-flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-xl text-sm text-slate-700"
+                  >
+                    <span>🕒</span>
+
+                    <span>
+                      {{ a.hora }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- STATUS -->
+
+              <div class="flex flex-col gap-4 lg:items-end lg:min-w-64">
+                <span
+                  class="inline-flex items-center justify-center px-5 py-3 rounded-2xl text-sm font-semibold"
+                  [ngClass]="{
+                    'bg-blue-100 text-blue-700': a.status === STATUS.AGENDADO,
+
+                    'bg-emerald-100 text-emerald-700':
+                      a.status === STATUS.CONFIRMADO,
+
+                    'bg-amber-100 text-amber-700':
+                      a.status === STATUS.EM_ANDAMENTO,
+
+                    'bg-purple-100 text-purple-700':
+                      a.status === STATUS.AGUARDANDO_CONFIRMACAO_ASSOCIADO,
+
+                    'bg-green-100 text-green-700':
+                      a.status === STATUS.CONCLUIDO,
+                  }"
+                >
+                  {{ a.status }}
+                </span>
+
+                <!-- ACTIONS -->
+
+                <div class="flex flex-wrap gap-3 w-full">
+                  <!-- OFICINA -->
+
+                  @if (
+                    user?.role === "admin_oficina" &&
+                    a.status === STATUS.AGENDADO
+                  ) {
+                    <button
+                      (click)="confirmar(a.id)"
+                      class="flex-1 basis-50 h-12 rounded-2xl bg-[#163B73] text-white text-sm font-semibold hover:bg-[#1E4B91] transition"
+                    >
+                      Confirmar
+                    </button>
+                  }
+
+                  @if (
+                    user?.role === "admin_oficina" &&
+                    a.status === STATUS.CONFIRMADO
+                  ) {
+                    <button
+                      (click)="iniciarServico(a.id)"
+                      class="flex-1 basis-50 h-12 rounded-2xl bg-amber-500 text-white text-sm font-semibold hover:brightness-105 transition"
+                    >
+                      Iniciar serviço
+                    </button>
+                  }
+
+                  @if (
+                    user?.role === "admin_oficina" &&
+                    a.status === STATUS.EM_ANDAMENTO
+                  ) {
+                    <button
+                      (click)="finalizarServico(a.id)"
+                      class="flex-1 basis-50 h-12 rounded-2xl bg-green-600 text-white text-sm font-semibold hover:bg-green-700 transition"
+                    >
+                      Finalizar
+                    </button>
+                  }
+
+                  <!-- ASSOCIADO -->
+
+                  @if (
+                    user?.role === "associado" &&
+                    a.status === STATUS.AGUARDANDO_CONFIRMACAO_ASSOCIADO
+                  ) {
+                    <button
+                      (click)="confirmarConclusao(a.id)"
+                      class="flex-1 basis-50 h-12 rounded-2xl bg-[#163B73] text-white text-sm font-semibold hover:bg-[#1E4B91] transition"
+                    >
+                      Confirmar conclusão
+                    </button>
+                  }
+
+                  @if (a.status === STATUS.AGENDADO) {
+                    <button
+                      (click)="cancelar(a.id)"
+                      class="flex-1 basis-50 h-12 rounded-2xl border border-slate-300 bg-white text-slate-700 text-sm font-semibold hover:bg-slate-100 transition"
+                    >
+                      Cancelar
+                    </button>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      }
     </div>
-
-    <!-- TABLE -->
-
-    <div class="overflow-x-auto">
-      <table class="w-full">
-        <!-- HEAD -->
-
-        <thead class="bg-slate-50 border-b border-slate-200">
-          <tr>
-            <th
-              class="text-left px-6 py-4 text-sm font-semibold text-slate-600"
-            >
-              Data/Hora
-            </th>
-
-            <th
-              class="text-left px-6 py-4 text-sm font-semibold text-slate-600"
-            >
-              Serviço
-            </th>
-
-            <th
-              class="text-left px-6 py-4 text-sm font-semibold text-slate-600"
-            >
-              Oficina
-            </th>
-
-            <th
-              class="text-left px-6 py-4 text-sm font-semibold text-slate-600"
-            >
-              Status
-            </th>
-
-            <th
-              class="text-left px-6 py-4 text-sm font-semibold text-slate-600"
-            >
-              Ações
-            </th>
-          </tr>
-        </thead>
-
-        <!-- BODY -->
-
-        <tbody>
-          <tr
-            *ngFor="let a of agendamentos"
-            class="border-t border-slate-100 hover:bg-slate-50 transition"
-          >
-            <!-- DATA -->
-
-            <td class="px-6 py-5">
-              <div class="space-y-1">
-                <p class="font-medium text-slate-700">
-                  {{ a.data | date: "dd/MM/yyyy" }}
-                </p>
-
-                <p class="text-sm text-slate-500">
-                  {{ a.hora }}
-                </p>
-              </div>
-            </td>
-
-            <!-- SERVICO -->
-
-            <td class="px-6 py-5">
-              <p class="font-medium text-slate-700">
-                {{ a.servico_nome }}
-              </p>
-            </td>
-
-            <!-- OFICINA -->
-
-            <td class="px-6 py-5">
-              <p class="text-slate-600">
-                {{ a.oficina_nome }}
-              </p>
-            </td>
-
-            <!-- STATUS -->
-
-            <td class="px-6 py-5">
-              <span
-                class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium"
-                [ngClass]="{
-                  'bg-blue-100 text-blue-700': a.status === 'AGENDADO',
-
-                  'bg-amber-100 text-amber-700': a.status === 'EM_ANDAMENTO',
-
-                  'bg-green-100 text-green-700':
-                    a.status === 'FINALIZADO_ASSOCIADO' ||
-                    a.status === 'FINALIZADO_OFICINA',
-
-                  'bg-red-100 text-red-700': a.status === 'CANCELADO',
-                }"
-              >
-                {{ a.status }}
-              </span>
-            </td>
-
-            <!-- ACOES -->
-
-            <td class="px-6 py-5">
-              <div class="flex flex-wrap gap-2">
-                <!-- CANCELAR -->
-
-                <button
-                  *ngIf="a.status === 'AGENDADO'"
-                  (click)="cancelar(a.id)"
-                  class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition text-sm font-medium"
-                >
-                  Cancelar
-                </button>
-
-                <!-- FINALIZAR ASSOCIADO -->
-
-                <button
-                  *ngIf="
-                    user?.role === 'associado' && a.status === 'EM_ANDAMENTO'
-                  "
-                  (click)="finalizar(a.id, 'FINALIZADO_ASSOCIADO')"
-                  class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition text-sm font-medium"
-                >
-                  Finalizar
-                </button>
-
-                <!-- FINALIZAR OFICINA -->
-
-                <button
-                  *ngIf="
-                    user?.role === 'admin_oficina' &&
-                    a.status === 'EM_ANDAMENTO'
-                  "
-                  (click)="finalizar(a.id, 'FINALIZADO_OFICINA')"
-                  class="px-4 py-2 rounded-lg bg-[#163B73] text-white hover:bg-[#1E4B91] transition text-sm font-medium"
-                >
-                  Concluir
-                </button>
-
-                <!-- PDF -->
-
-                <input
-                  *ngIf="
-                    user?.role === 'admin_oficina' &&
-                    a.status === 'FINALIZADO_OFICINA'
-                  "
-                  type="file"
-                  accept="application/pdf"
-                  (change)="onFileChange($event, a.id)"
-                  class="text-sm border border-slate-200 rounded-lg p-2 bg-white"
-                />
-              </div>
-            </td>
-          </tr>
-
-          <!-- EMPTY -->
-
-          <tr *ngIf="agendamentos.length === 0">
-            <td colspan="5" class="px-6 py-16 text-center">
-              <div class="space-y-3">
-                <div class="text-5xl">📅</div>
-
-                <h3 class="text-lg font-semibold text-slate-700">
-                  Nenhum agendamento encontrado
-                </h3>
-
-                <p class="text-slate-500">
-                  Os serviços agendados aparecerão aqui.
-                </p>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </section>
-</div>
+}

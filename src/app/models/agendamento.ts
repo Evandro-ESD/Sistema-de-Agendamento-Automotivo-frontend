@@ -49,10 +49,21 @@ Object.freeze(STATUS_AGENDAMENTO); // Impede alteração
 export type AgendamentoStatus =
   (typeof STATUS_AGENDAMENTO)[keyof typeof STATUS_AGENDAMENTO];
 
+export const TIPO_CLIENTE = {
+  VISITANTE: 'VISITANTE',
+  ASSOCIADO: 'ASSOCIADO',
+} as const;
+
+export type TipoCliente = (typeof TIPO_CLIENTE)[keyof typeof TIPO_CLIENTE];
+
 export interface Agendamento {
   id: string;
 
-  associado_id: string;
+  tipo_cliente?: 'VISITANTE' | 'ASSOCIADO'; // retirar ?
+
+  associado_id?: string;
+
+  pre_cadastro_id?: string;
 
   oficina_id: string;
 

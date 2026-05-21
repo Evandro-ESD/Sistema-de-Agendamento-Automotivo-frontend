@@ -1,0 +1,310 @@
+<section
+  class="max-w-3xl mx-auto my-1 px-4 py-10 shadow-amber-100 shadow-2xl border-4 border-l-amber-200 border-r-neutral-50 border-t-neutral-50 border-b-neutral-50"
+>
+  <!-- HEADER -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-[#0A2647]">Agendar Serviço</h1>
+
+    <p class="text-gray-500 mt-2">
+      Escolha a oficina, selecione o serviço e finalize seu agendamento.
+    </p>
+  </div>
+
+  <!-- BOTÃO VOLTAR -->
+  <div class="flex items-center gap-3 mb-6">
+    @if (step() !== "servico") {
+      <button
+        type="button"
+        (click)="voltarStep()"
+        class="h-11 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 transition"
+      >
+        ← Voltar
+      </button>
+    }
+  </div>
+
+  <!-- STEP 1 -->
+  @if (selectedOficina(); as oficina) {
+    <div
+      class="p-5 rounded-2xl border border-[#0A2647] bg-[#0A2647] text-white"
+    >
+      <p class="text-sm text-slate-200 mb-1">Oficina selecionada</p>
+
+      <h2 class="text-xl font-bold">
+        {{ oficina.nome }}
+      </h2>
+    </div>
+  }
+
+  <!-- STEP 2 -->
+  @if (step() === "servico") {
+    <section class="mt-8">
+      <h2 class="text-xl font-bold text-[#0A2647] mb-4">Escolha o serviço</h2>
+
+      <div class="grid gap-4">
+        @for (servico of servicosDisponiveis(); track servico.id) {
+          <button
+            type="button"
+            (click)="selectServico(servico)"
+            class="w-full p-5 rounded-2xl border border-slate-200 bg-white hover:border-[#0A2647] hover:shadow-md transition text-left"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-semibold text-[#0A2647]">
+                  {{ servico.nome }}
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-1">
+                  Duração:
+                  {{ servico.duracao_minutos }} min
+                </p>
+              </div>
+
+              <div class="text-lg font-bold text-[#D4AF37]">
+                R$ {{ servico.preco }}
+              </div>
+            </div>
+          </button>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- STEP 3 -->
+  @if (step() === "data") {
+    <section
+      class="max-w-3xl mx-auto mt-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
+    >
+      <h2 class="text-xl font-bold text-[#0A2647] mb-6">
+        Escolha data e horário
+      </h2>
+
+      <!-- testando button para passar o step -->
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Data
+          </label>
+
+          <input
+            type="date"
+            (change)="selectedDate.set($any($event.target).value)"
+            class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Horário
+          </label>
+
+          <input
+            type="time"
+            (change)="selectedHour.set($any($event.target).value)"
+            class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
+          />
+        </div>
+        <button
+          type="button"
+          (click)="step.set('identificação_rapida')"
+          class="mt-6 h-12 px-6 rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold hover:brightness-105 transition"
+        >
+          Confirmar horário
+        </button>
+      </div>
+    </section>
+  }
+
+  <!-- STEP 3/5 — Dados do cliente -->
+  @if (step() === "identificação_rapida") {
+    <section
+      class="max-w-3xl mx-auto mt-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
+    >
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Nome
+        </label>
+
+        <input
+          type="text"
+          [value]="nomeCliente()"
+          (input)="nomeCliente.set($any($event.target).value)"
+          class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
+        />
+      </div>
+      <div>
+        <label class="block mt-1 text-sm font-medium text-gray-700 mb-2">
+          Telefone
+        </label>
+
+        <input
+          type="tel"
+          [value]="telefoneCliente()"
+          (input)="telefoneCliente.set($any($event.target).value)"
+          class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
+          placeholder="Telefone/WhatsApp"
+        />
+      </div>
+      <div>
+        <label class="block mt-1 text-sm font-medium text-gray-700 mb-2">
+          Email
+        </label>
+
+        <input
+          type="email"
+          [value]="emailCliente()"
+          (input)="emailCliente.set($any($event.target).value)"
+          class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
+          placeholder="email@email.com"
+        />
+      </div>
+      <div>
+        <label class="block mt-1 text-sm font-medium text-gray-700 mb-2">
+          Placa
+        </label>
+
+        <input
+          type="text"
+          [value]="placaVeiculo()"
+          (input)="placaVeiculo.set($any($event.target).value)"
+          class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
+          placeholder="CAR2026"
+        />
+      </div>
+
+      <button
+        (click)="criarAgendamento()"
+        class="mt-6 h-12 px-6 rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold hover:brightness-105 transition"
+      >
+        Confirmar agendamento
+      </button>
+    </section>
+  }
+
+  <!-- STEP 4 — Pré-agendamento -->
+  @if (step() === "pre_agendamento") {
+    <section
+      class="max-w-3xl mt-8 p-6 rounded-2xl border border-amber-200 bg-amber-50"
+    >
+      <div class="flex items-start gap-4">
+        <div
+          class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center text-2xl"
+        >
+          📋
+        </div>
+
+        <div class="flex-1">
+          <h2 class="text-xl font-bold text-[#0A2647]">
+            Pré-agendamento enviado
+          </h2>
+
+          <p class="text-gray-700 mt-2">
+            Sua solicitação foi enviada para análise da oficina.
+          </p>
+
+          <p class="text-gray-600 mt-4 leading-relaxed">
+            Agora precisamos de algumas informações rápidas para acompanhar seu
+            atendimento e enviar atualizações.
+          </p>
+
+          <button
+            type="button"
+            (click)="step.set('pre_cadastro')"
+            class="mt-6 h-12 px-6 rounded-xl bg-[#0A2647] text-white font-semibold hover:brightness-110 transition"
+          >
+            Continuar cadastro rápido
+          </button>
+        </div>
+      </div>
+    </section>
+  }
+</section>
+
+@if (step() === "pre_cadastro") {
+  <section
+    class="max-w-3xl mx-auto mt-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
+  >
+    <h2 class="text-xl font-bold text-[#0A2647] mb-2">Cadastro rápido</h2>
+
+    <p class="text-gray-500 mb-6">Receba atualizações do seu atendimento.</p>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-2"> Nome completo </label>
+
+        <input
+          type="text"
+          class="w-full h-12 rounded-xl border border-slate-300 px-4"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-2"> Email </label>
+
+        <input
+          type="email"
+          class="w-full h-12 rounded-xl border border-slate-300 px-4"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-2"> WhatsApp </label>
+
+        <input
+          type="tel"
+          class="w-full h-12 rounded-xl border border-slate-300 px-4"
+        />
+      </div>
+    </div>
+
+    <button
+      type="button"
+      (click)="step.set('aguardando_confirmacao')"
+      class="mt-6 h-12 px-6 rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold hover:brightness-105 transition"
+    >
+      Receber confirmação
+    </button>
+  </section>
+}
+
+@if (step() === "aguardando_confirmacao") {
+  <section class="mt-8 p-6 rounded-2xl border border-green-200 bg-green-50">
+    <div class="flex items-start gap-4">
+      <div
+        class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl"
+      >
+        ✅
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold text-green-700">Tudo certo!</h2>
+
+        <p class="text-green-700 mt-2">
+          Seu pré-agendamento foi enviado para a oficina.
+        </p>
+
+        <p class="text-gray-600 mt-4 leading-relaxed">
+          Você receberá atualizações por WhatsApp e email assim que a oficina
+          confirmar o atendimento.
+        </p>
+
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <a
+            routerLink="/"
+            class="h-11 px-5 rounded-xl bg-[#0A2647] text-white font-medium flex items-center justify-center hover:brightness-110 transition"
+          >
+            Voltar para início
+          </a>
+
+          <a
+            routerLink="/login-associate"
+            class="h-11 px-5 rounded-xl border border-slate-300 bg-white text-[#0A2647] font-medium flex items-center justify-center hover:bg-slate-100 transition"
+          >
+            Já tenho conta
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+}
