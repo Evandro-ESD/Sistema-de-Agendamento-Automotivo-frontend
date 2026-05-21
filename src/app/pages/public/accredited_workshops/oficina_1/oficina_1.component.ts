@@ -74,11 +74,6 @@ export class Oficina_1Component implements OnInit {
       return;
     }
 
-    if (this.step() === 'servico') {
-      this.step.set('oficina');
-      return;
-    }
-
     if (this.step() === 'confirmacao') {
       this.step.set('data');
     }
