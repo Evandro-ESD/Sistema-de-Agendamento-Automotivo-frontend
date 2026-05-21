@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AgendamentoService } from '../../../../core/services/agendamento.service';
-import { AuthService } from '../../../../core/services/auth.service';
 import { LocalStorageService } from '../../../../core/services/localStorage.service';
 import { OficinaServicoService } from '../../../../core/services/oficina-servico.service';
 import { oficinasMock } from '../../../../mocks';
@@ -19,43 +18,36 @@ import { OficinaServicoDetalhado } from '../../../../models/oficina-servico-deta
 export class Oficina_1Component implements OnInit {
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    if (!this.oficinaId) return;
+
+    const oficina = this.oficinas().find((o) => o.id === this.oficinaId);
+    console.log(oficina);
+
+    this.selecionarOficina(oficina!);
+
+    if (!oficina) return;
+
+    this.selectedOficina.set(oficina);
+
+    this.loadingServices.set(true);
+
+    this.oficinaServicoService
+      .listarDetalhadoPorOficina(this.oficinaId)
+      .subscribe({
+        next: (servicos) => {
+          this.servicosDisponiveis.set(servicos);
+
+          this.loadingServices.set(false);
+
+          this.step.set('servico');
+        },
+      });
+  }
 
   private readonly route = inject(ActivatedRoute);
 
   oficinaId = this.route.snapshot.paramMap.get('id');
-
-  authService = inject(AuthService);
-  fb = inject(FormBuilder);
-
-  user = this.authService.currentUser();
-  // agendamentos: Agendamento[] = [];
-  agendamentos: any[] = [];
-
-  lista_oficinas = oficinasMock;
-
-  veiculosDoAssociado: any[] = [];
-  erro = '';
-
-  horarios = [];
-
-  form = this.fb.nonNullable.group({
-    oficina_id: ['', Validators.required],
-
-    data: ['', Validators.required],
-
-    hora: ['', [Validators.required]],
-
-    servico_id: [{ value: '', disabled: true }, Validators.required],
-
-    veiculo_id: ['Veículo Fake', Validators.required],
-  });
-
-  criar() {}
-
-  // ***************************************************
-
-  // ******************************************************
 
   oficinas = signal(oficinasMock);
   servicosDisponiveis = signal<OficinaServicoDetalhado[]>([]);
@@ -68,6 +60,50 @@ export class Oficina_1Component implements OnInit {
   oficinaServicoService = inject(OficinaServicoService);
   agendamentoService = inject(AgendamentoService);
   localStorageService = inject(LocalStorageService);
+
+  oficinaEscolhida = computed(() => {
+    const lista = this.oficinas();
+    const encontrada = lista.find((o) => o.id === this.oficinaId);
+    return encontrada ? encontrada.nome : 'Oficina não encontrada';
+  });
+
+  // Voltar etapas step
+  voltarStep(): void {
+    if (this.step() === 'data') {
+      this.step.set('servico');
+      return;
+    }
+
+    if (this.step() === 'servico') {
+      this.step.set('oficina');
+      return;
+    }
+
+    if (this.step() === 'confirmacao') {
+      this.step.set('data');
+    }
+  }
+
+  // Para carregar a oficina selecionada no menu "Agende seu serviço"
+  selecionarOficina(oficina: Oficina): void {
+    this.oficinaId = oficina.id;
+
+    this.selectedOficina.set(oficina);
+
+    this.loadingServices.set(true);
+
+    this.oficinaServicoService.listarDetalhadoPorOficina(oficina.id).subscribe({
+      next: (servicos) => {
+        this.servicosDisponiveis.set(servicos);
+
+        this.loadingServices.set(false);
+
+        this.step.set('servico');
+      },
+    });
+  }
+
+  //
 
   // 2. Carregar serviços da oficina
   onOficinaChange(event: Event): void {

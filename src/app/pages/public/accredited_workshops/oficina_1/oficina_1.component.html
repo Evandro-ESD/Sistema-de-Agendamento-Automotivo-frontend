@@ -1,4 +1,6 @@
-<section class="max-w-3xl mx-auto px-4 py-10">
+<section
+  class="max-w-3xl mx-auto my-1 px-4 py-10 shadow-amber-100 shadow-2xl border-4 border-l-amber-200 border-r-neutral-50 border-t-neutral-50 border-b-neutral-50"
+>
   <!-- HEADER -->
   <div class="mb-8">
     <h1 class="text-3xl font-bold text-[#0A2647]">Agendar Serviço</h1>
@@ -8,30 +10,35 @@
     </p>
   </div>
 
-  <!-- STEP 1 -->
-  <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
-    <label class="block text-sm font-semibold text-[#0A2647] mb-3">
-      Oficina
-    </label>
+  <div class="flex items-center gap-3 mb-6">
+    @if (step() !== "oficina") {
+      <button
+        type="button"
+        (click)="voltarStep()"
+        class="h-11 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 transition"
+      >
+        ← Voltar
+      </button>
+    }
 
-    <select
-      (change)="onOficinaChange($event)"
-      class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
-    >
-      <option value="">Selecione uma oficina</option>
-
-      @for (oficina of oficinas(); track oficina.id) {
-        <option [value]="oficina.id">
-          {{ oficina.nome }}
-        </option>
-      }
-    </select>
+    <p class="text-sm text-gray-500">
+      Etapa:
+      <span class="font-semibold text-[#0A2647]">
+        {{ step() }}
+      </span>
+    </p>
   </div>
 
-  <!-- LOADING -->
-  @if (loadingServices()) {
-    <div class="mt-6 p-4 rounded-2xl bg-slate-100 text-slate-600">
-      Carregando serviços...
+  <!-- STEP 1 -->
+  @if (selectedOficina(); as oficina) {
+    <div
+      class="p-5 rounded-2xl border border-[#0A2647] bg-[#0A2647] text-white"
+    >
+      <p class="text-sm text-slate-200 mb-1">Oficina selecionada</p>
+
+      <h2 class="text-xl font-bold">
+        {{ oficina.nome }}
+      </h2>
     </div>
   }
 
