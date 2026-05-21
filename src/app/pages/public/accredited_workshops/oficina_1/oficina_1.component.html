@@ -1,146 +1,128 @@
-<div class="flex-1 bg-amber-50 space-y-6 px-10 py-10 m-auto min-w-96 max-w-3xl">
+<section class="max-w-3xl mx-auto px-4 py-10">
   <!-- HEADER -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-[#0A2647]">Agendar Serviço</h1>
 
-  <div
-    class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-  >
-    <div>
-      <h1 class="text-3xl font-bold text-[#0A2647]">AGENDAMENTOS</h1>
-
-      <p class="text-slate-500 mt-1">
-        Gerencie serviços, horários e acompanhamentos.
-      </p>
-    </div>
+    <p class="text-gray-500 mt-2">
+      Escolha a oficina, selecione o serviço e finalize seu agendamento.
+    </p>
   </div>
 
-  <!-- FORM -->
+  <!-- STEP 1 -->
+  <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+    <label class="block text-sm font-semibold text-[#0A2647] mb-3">
+      Oficina
+    </label>
 
-  <section
-    *ngIf="user?.role === 'associado'"
-    class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
-  >
-    <!-- TOP -->
-
-    <div
-      class="px-6 py-5 border-b border-slate-200 flex items-center justify-between"
+    <select
+      (change)="onOficinaChange($event)"
+      class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
     >
-      <div>
-        <h2 class="text-xl font-semibold text-[#0A2647]">NOVO AGENDAMENTO</h2>
+      <option value="">Selecione uma oficina</option>
 
-        <p class="text-sm text-slate-500 mt-1">
-          Solicite um serviço para sua oficina credenciada.
-        </p>
-      </div>
+      @for (oficina of oficinas(); track oficina.id) {
+        <option [value]="oficina.id">
+          {{ oficina.nome }}
+        </option>
+      }
+    </select>
+  </div>
 
-      <div
-        class="hidden md:flex w-12 h-12 rounded-xl bg-[#EAF4FB] items-center justify-center text-xl"
-      >
-        <img
-          src="../../../../../assets/icons/calendar_office_day_1474.png"
-          alt="Agendamentos"
-          srcset=""
-        />
-      </div>
+  <!-- LOADING -->
+  @if (loadingServices()) {
+    <div class="mt-6 p-4 rounded-2xl bg-slate-100 text-slate-600">
+      Carregando serviços...
     </div>
+  }
 
-    <!-- FORM -->
+  <!-- STEP 2 -->
+  @if (step() === "servico") {
+    <section class="mt-8">
+      <h2 class="text-xl font-bold text-[#0A2647] mb-4">Escolha o serviço</h2>
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="criar()"
-      class="p-6 grid md:grid-cols-2 gap-5"
+      <div class="grid gap-4">
+        @for (servico of servicosDisponiveis(); track servico.id) {
+          <button
+            type="button"
+            (click)="selectServico(servico)"
+            class="w-full p-5 rounded-2xl border border-slate-200 bg-white hover:border-[#0A2647] hover:shadow-md transition text-left"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-semibold text-[#0A2647]">
+                  {{ servico.nome }}
+                </h3>
+
+                <p class="text-sm text-gray-500 mt-1">
+                  Duração:
+                  {{ servico.duracao_minutos }} min
+                </p>
+              </div>
+
+              <div class="text-lg font-bold text-[#D4AF37]">
+                R$ {{ servico.preco }}
+              </div>
+            </div>
+          </button>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- STEP 3 -->
+  @if (step() === "data") {
+    <section
+      class="mt-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm"
     >
-      <!-- OFICINA -->
+      <h2 class="text-xl font-bold text-[#0A2647] mb-6">
+        Escolha data e horário
+      </h2>
 
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Oficina </label>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Data
+          </label>
 
-        <select formControlName="oficina_id" class="input">
-          <option value="">Selecione uma oficina</option>
+          <input
+            type="date"
+            (change)="selectedDate.set($any($event.target).value)"
+            class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
+          />
+        </div>
 
-          @for (oficina of lista_oficinas; track oficina.id) {
-            <option [value]="oficina.id">
-              {{ oficina.nome }}
-            </option>
-          }
-        </select>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Horário
+          </label>
+
+          <input
+            type="time"
+            (change)="selectedHour.set($any($event.target).value)"
+            class="w-full h-12 rounded-xl border border-slate-300 px-4 outline-none focus:border-[#0A2647]"
+          />
+        </div>
       </div>
 
-      <!-- DATA -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Data </label>
-
-        <input type="date" formControlName="data" class="input" />
-      </div>
-
-      <!-- HORARIO -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Horário </label>
-
-        <select formControlName="hora" class="input">
-          <option value="">Selecione um horário</option>
-
-          @for (hora of horarios; track hora) {
-            <option [value]="hora">
-              {{ hora }}
-            </option>
-          }
-        </select>
-      </div>
-
-      <!-- SERVICO -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Serviço </label>
-
-        <select formControlName="servico_id" class="input">
-          <option value="">Selecione um serviço</option>
-
-          @for (serv of servicosDisponiveis; track serv.id) {
-            <option [value]="serv.id">
-              {{ serv.nome }}
-            </option>
-          }
-        </select>
-      </div>
-
-      <!-- VEICULO -->
-
-      <div class="space-y-2">
-        <label class="text-sm font-medium text-slate-600"> Veículo </label>
-        <input formControlName="veiculo_id" type="text" class="input" />
-        <!-- <select formControlName="veiculo_id" class="input">
-          <option value="">Selecione um veículo</option>
-
-          @for (veiculo of veiculosDoAssociado; track veiculo.id) {
-            <option [value]="veiculo.id">
-              {{ veiculo.modelo }} - {{ veiculo.placa }}
-            </option>
-          }
-        </select> -->
-      </div>
-
-      <!-- BUTTON -->
-
-      <div class="md:col-span-2 pt-2">
-        <button
-          type="submit"
-          class="w-full h-14 rounded-xl bg-[#163B73] text-white font-semibold hover:bg-[#1E4B91] transition shadow-sm"
-        >
-          AGENDAR SERVIÇO
-        </button>
-      </div>
-
-      <!-- ERROR -->
-
-      <div
-        *ngIf="erro"
-        class="md:col-span-2 bg-red-50 border border-red-200 text-red-600 rounded-xl p-4"
+      <button
+        (click)="criarAgendamento()"
+        class="mt-6 h-12 px-6 rounded-xl bg-[#D4AF37] text-[#0A2647] font-semibold hover:brightness-105 transition"
       >
-        {{ erro }}
-      </div>
-    </form>
-  </section>
-</div>
+        Confirmar agendamento
+      </button>
+    </section>
+  }
+
+  <!-- STEP 4 -->
+  @if (step() === "confirmacao") {
+    <section class="mt-8 p-6 rounded-2xl border border-green-200 bg-green-50">
+      <h2 class="text-xl font-bold text-green-700">
+        Agendamento criado com sucesso
+      </h2>
+
+      <p class="text-green-600 mt-2">
+        Sua solicitação foi enviada para a oficina.
+      </p>
+    </section>
+  }
+</section>

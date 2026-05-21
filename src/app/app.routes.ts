@@ -56,7 +56,7 @@ export const routes: Routes = [
      * =========================================
      */
 
-    path: 'oficina1-fake',
+    path: 'agendamento-online/:id',
     loadComponent: () =>
       import('./pages/public/accredited_workshops/oficina_1/oficina_1.component').then(
         (m) => m.Oficina_1Component,
@@ -66,7 +66,7 @@ export const routes: Routes = [
    * ENDEREÇOS GENÉRIO PARA OFICINAS "ONDE ESTAMOS"
    */
   {
-    path: 'onde-estamos',
+    path: 'agendamento-online/localizacao/:id',
     loadComponent: () =>
       import('./pages/public/accredited_workshops/PagesAdressWorkShops/ondeEstamosGenerico/ondeEstamosGenerico.component').then(
         (m) => m.OndeEstamosGenericoComponent,

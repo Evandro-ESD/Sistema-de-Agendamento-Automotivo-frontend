@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WORKSHOPS_MOCK } from '../../../../mocks/workshops.mock';
+import { WORKSHOPS_MOCK } from '../../../../mocks/oficinas-card.mock';
 import { WorkshopCardComponent } from '../../../../shared/components/workshop-card/workshop-card.component';
 
 @Component({

@@ -12,14 +12,10 @@ import {
 
 import { AgendamentoService } from '../../../../core/services/agendamento.service';
 
-import {
-  oficinasMock,
-  servicosMock,
-  veiculosMock,
-} from '../../../../mocks/database';
+import { oficinasMock, servicosMock, veiculosMock } from '../../../../mocks';
 
 import { AuthService } from '../../../../core/services/auth.service';
-import { Servico } from '../../../../models/servico';
+import { OficinaService } from '../../../../core/services/oficina.service';
 
 @Component({
   selector: 'app-agendamento-list',
@@ -43,7 +39,7 @@ export class AgendamentoListComponent implements OnInit {
 
   lista_oficinas = oficinasMock;
 
-  servicosDisponiveis: Servico[] = [];
+  servicosDisponiveis: OficinaService[] = [];
 
   veiculosDoAssociado: any[] = [];
 
@@ -102,10 +98,10 @@ export class AgendamentoListComponent implements OnInit {
     this.carregarAgendamentos();
     this.carregarVeiculosDoAssociado();
     // Quando a oficina mudar, carrega os serviços dela
-    this.form.get('oficina_id')?.valueChanges.subscribe((oficinaId) => {
-      if (oficinaId) {
+    this.form.get('oficina_id')?.valueChanges.subscribe((oficinaServicoId) => {
+      if (oficinaServicoId) {
         this.servicosDisponiveis = servicosMock.filter(
-          (s) => s.oficina_id === oficinaId && s.ativo,
+          (s) => s.id === oficinaServicoId && s.ativo,
         );
         this.form.get('servico_id')?.enable();
       } else {
@@ -185,8 +181,8 @@ export class AgendamentoListComponent implements OnInit {
           ...ag,
 
           servico_nome:
-            servicosMock.find((s) => s.id === ag.servico_id)?.nome ||
-            ag.servico_id,
+            servicosMock.find((s) => s.id === ag.oficina_servico_id)?.nome ||
+            ag.oficina_servico_id,
 
           oficina_nome: oficinasMock.find((o) => o.id === ag.oficina_id)?.nome,
         }));

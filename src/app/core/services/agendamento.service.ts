@@ -72,7 +72,7 @@ export class AgendamentoService {
       id: crypto.randomUUID(),
       associado_id: dados.associado_id!,
       oficina_id: dados.oficina_id!,
-      servico_id: dados.servico_id!,
+      oficina_servico_id: dados.oficina_servico_id!,
       veiculo_id: dados.veiculo_id!,
       data: dados.data!,
       hora: dados.hora!,

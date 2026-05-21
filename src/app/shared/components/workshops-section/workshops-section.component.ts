@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { WORKSHOPS_MOCK } from '../../../mocks/workshops.mock';
+import { WORKSHOPS_MOCK } from '../../../mocks/oficinas-card.mock';
 import { WorkshopCardComponent } from '../workshop-card/workshop-card.component';
 
 @Component({

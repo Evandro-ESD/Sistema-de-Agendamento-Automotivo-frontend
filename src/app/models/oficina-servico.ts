@@ -5,9 +5,10 @@ export interface OficinaServico {
 
   duracao_minutos: number;
 
-  preco?: number;
+  preco: number;
 
   ativo: boolean;
 
   created_at: string;
+  updated_at: string;
 }

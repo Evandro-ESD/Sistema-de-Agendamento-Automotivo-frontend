@@ -1,10 +1,11 @@
 import {
   agendamentosMock,
+  oficinaServicoMock,
   oficinasMock,
   servicosMock,
-  usersMock,
   veiculosMock,
-} from '../mocks/database';
+} from '../mocks';
+import { usersMock } from '../mocks/users.mock';
 
 export function seedDatabase() {
   if (!localStorage.getItem('oficinas')) {
@@ -15,6 +16,13 @@ export function seedDatabase() {
   }
   if (!localStorage.getItem('servicos')) {
     localStorage.setItem('servicos', JSON.stringify(servicosMock));
+  }
+  // NOVO
+  if (!localStorage.getItem('oficina_servicos')) {
+    localStorage.setItem(
+      'oficina_servicos',
+      JSON.stringify(oficinaServicoMock),
+    );
   }
   if (!localStorage.getItem('veiculos')) {
     localStorage.setItem('veiculos', JSON.stringify(veiculosMock));

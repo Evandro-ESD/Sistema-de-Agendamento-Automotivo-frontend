@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { WORKSHOPS_MOCK } from '../../../../mocks/workshops.mock';
+import { WORKSHOPS_MOCK } from '../../../../mocks/oficinas-card.mock';
 
 @Component({
   selector: 'app-services-section',

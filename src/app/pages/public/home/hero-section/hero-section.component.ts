@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
-import { WORKSHOPS_MOCK } from '../../../../mocks/workshops.mock';
+import { WORKSHOPS_MOCK } from '../../../../mocks/oficinas-card.mock';
 
 @Component({
   selector: 'app-hero-section',

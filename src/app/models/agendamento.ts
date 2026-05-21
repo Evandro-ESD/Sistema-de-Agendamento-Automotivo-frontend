@@ -5,7 +5,7 @@
  * @readonly
  * @enum {string}
  */
-const StatusAgendamento = {
+export const STATUS_AGENDAMENTO = {
   /**
    * AGENDADO - Estado inicial.
    * O associado criou o agendamento pelo app/site e está aguardando
@@ -45,46 +45,43 @@ const StatusAgendamento = {
   CONCLUIDO: 'CONCLUIDO',
 };
 
-Object.freeze(StatusAgendamento); // Impede alteração
+Object.freeze(STATUS_AGENDAMENTO); // Impede alteração
 export type AgendamentoStatus =
-  | 'AGENDADO'
-  | 'CONFIRMADO'
-  | 'EM_ANDAMENTO'
-  | 'AGUARDANDO_CONFIRMACAO_ASSOCIADO'
-  | 'CONCLUIDO'
-  | 'CANCELADO';
+  (typeof STATUS_AGENDAMENTO)[keyof typeof STATUS_AGENDAMENTO];
 
 export interface Agendamento {
   id: string;
 
   associado_id: string;
+
   oficina_id: string;
 
-  servico_id: string;
+  oficina_servico_id: string;
 
   veiculo_id: string;
 
-  // data_hora: string;
-  data: string; // YYYY-MM-DD
-  hora: string; // HH:MM:SS
-  // servico: string;
+  data: string;
+
+  hora: string;
+
   status: AgendamentoStatus;
 
   observacoes?: string;
 
-  observacoes_oficia?: string;
+  observacoes_oficina?: string;
 
   documento_assinado_url?: string;
 
   cancelado_por?: 'ASSOCIADO' | 'OFICINA' | 'ADMIN';
 
   created_at: string;
+
   updated_at: string;
 }
 
 export interface AgendamentoCreate {
   oficina_id: string;
-  servico_id: string;
+  oficina_servico_id: string;
   veiculo_id: string;
 
   data: string;

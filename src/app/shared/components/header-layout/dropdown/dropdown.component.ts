@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   HostListener,
+  inject,
   input,
   signal,
 } from '@angular/core';
@@ -23,6 +25,8 @@ export interface DropdownMenuItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DropdownComponent {
+  private elementRef = inject(ElementRef);
+
   items = input.required<DropdownMenuItem[]>();
 
   title = input.required<string>();
@@ -38,6 +42,19 @@ export class DropdownComponent {
   @HostListener('window:resize')
   checkViewport(): void {
     this.mobile.set(window.innerWidth < 1024);
+  }
+
+  // ========================================
+  // CLICK OUTSIDE
+  // ========================================
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+
+    if (!clickedInside) {
+      this.open.set(false);
+    }
   }
 
   toggleMenu(): void {

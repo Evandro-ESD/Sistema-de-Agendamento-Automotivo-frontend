@@ -34,14 +34,14 @@
     <nav class="hidden lg:flex items-center content-center gap-4 m-4">
       <a
         href="#beneficios"
-        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
+        class="text-gray-700 font-semibold hover:text-[#0A2647] transition"
       >
         Benefícios
       </a>
 
       <a
         href="#recursos"
-        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
+        class="text-gray-700 hover:text-[#0A2647] transition font-medium"
       >
         Principais recursos
       </a>
@@ -50,10 +50,7 @@
       <app-dropdown title="Agende seu serviço" [items]="menuDropdown" />
       <app-dropdown title="Onde estamos" [items]="menuDropdownContact" />
 
-      <a
-        href="#"
-        class="text-gray-600 hover:text-[#0A2647] transition font-medium"
-      >
+      <a class="text-gray-700 hover:text-[#0A2647] transition font-medium">
         Contato
       </a>
     </nav>
@@ -84,14 +81,16 @@
       <nav class="flex flex-col gap-2">
         <a
           href="#beneficios"
-          class="px-4 py-3 rounded-xl text-gray-700 hover:bg-slate-100 transition"
+          class="px-4 py-3 rounded-xl text-gray-700 hover:text-[#0A2647] font-semibold hover:bg-slate-100 transition"
+          (click)="closeMenu()"
         >
           Benefícios
         </a>
 
         <a
           href="#recursos"
-          class="px-4 py-3 rounded-xl text-gray-700 hover:bg-slate-100 transition"
+          class="px-4 py-3 rounded-xl text-gray-700 hover:text-[#0A2647] font-semibold hover:bg-slate-100 transition"
+          (click)="closeMenu()"
         >
           Principais recursos
         </a>
@@ -105,8 +104,7 @@
         </div>
 
         <a
-          href="#"
-          class="px-4 py-3 rounded-xl text-gray-700 hover:bg-slate-100 transition"
+          class="px-4 py-3 rounded-xl text-gray-700 hover:text-[#0A2647] font-semibold hover:bg-slate-100 transition"
         >
           Contato
         </a>

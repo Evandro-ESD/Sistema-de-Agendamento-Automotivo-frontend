@@ -110,9 +110,9 @@
         <select formControlName="servico_id" class="input">
           <option value="">Selecione um serviço</option>
 
-          @for (serv of servicosDisponiveis; track serv.id) {
-            <option [value]="serv.id">
-              {{ serv.nome }}
+          @for (serv of servicosDisponiveis; track serv) {
+            <option [value]="serv">
+              {{ serv }}
             </option>
           }
         </select>
